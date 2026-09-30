@@ -1,0 +1,217 @@
+@use '../abstracts/variables' as *;
+
+/* 
+    hero-1-start
+*/
+.sb-hero-1 {
+    &-area {
+        padding-top: 180px;
+        padding-bottom: 180px;
+        position: relative;
+        z-index: 1;
+    }
+    &-content {
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+    }
+
+    &-title {
+        font-size: 68px;
+        line-height: 1.0588;
+        letter-spacing: -1%;
+        margin-bottom: 20px;
+
+        @media #{$xl} {
+            font-size: 60px;
+        }
+
+        @media #{$lg} {
+            font-size: 55px;
+        }
+
+        @media #{$md} {
+            font-size: 50px;
+        }
+
+        @media #{$xs} {
+            font-size: 40px;
+        }
+
+        @media #{$sm} {
+            font-size: 45px;
+        }
+        
+        &-box {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            transform: translateZ(0);
+            border-radius: 100px;
+            font-size: 60px;
+            padding: 11px 25px;
+          
+            animation: skH7text 5s linear infinite;
+
+            @media #{$xl} {
+                font-size: 55px;
+            }
+
+            @media #{$lg} {
+                font-size: 50px;
+            }
+
+            @media #{$md} {
+                font-size: 45px;
+            }
+
+            @media #{$xs} {
+                font-size: 35px;
+            }
+
+            @media #{$sm} {
+                font-size: 40px;
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 100px;
+                background: linear-gradient(150deg, rgba(255, 255, 255, 0) 60%, rgb(229 15 242 / 50%) 77%, rgb(255, 255, 255) 86%);
+                padding: 2px;
+                z-index: -1;
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+            }
+
+            &-text {
+                background: linear-gradient(92.58deg, #6342F5 2.16%, #FFFFFF 51.13%, #E50FF2 97.84%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+                animation: skH7text2 5s linear infinite;
+            }
+        }
+    }
+    
+    &-disc {
+        margin-bottom: 35px;
+    }
+
+    &-bottom {
+        text-align: center;
+        margin-top: 80px;
+    }
+
+    
+    &-img {
+        width: 59%;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 8px solid rgb(255 255 255 / 12%);
+        display: inline-block;
+        margin-right: -200px;
+        @media #{$md,$xs} {
+            margin-right: 0px;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+    
+    
+    &-robot {
+        width: 31%;
+        position: absolute;
+        bottom: 38px;
+        left: 150px;
+        transform: rotate(-6deg);
+
+        @media #{$md,$xs} {
+            left: 0px;
+        }
+    }
+
+    &-bg-dot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: -2;
+    }
+
+    &-bg-clr {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: -4;
+    }
+
+    &-bg-clr-2 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: -3;
+        text-align: center;
+    }
+
+    &-bg-clr-3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: -2;
+
+        @media #{$xxxl,$xxl,$xl,$lg,$md,$xs} {
+            height: 100%;
+        }
+
+        img {
+            @media #{$xxxl,$xxl,$xl,$lg,$md,$xs} {
+                height: 100%;
+            }
+        }
+    }
+}
+
+@keyframes skH7text {
+    0% {
+        transform: perspective(1200px) scale(1) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(1200px) scale(1.04) rotateY(28.1965deg);
+    }
+    100% {
+        transform: perspective(1200px) scale(1) rotateY(0deg);
+    }
+}
+
+@keyframes skH7text2 {
+    0% {
+        transform: perspective(1200px) scale(1) rotateX(0deg);
+    }
+    50% {
+        transform: perspective(1200px) scale(1.07) rotateX(25deg);
+    }
+    100% {
+        transform: perspective(1200px) scale(1) rotateX(0deg);
+    }
+}
+/* 
+    hero-1-end
+*/

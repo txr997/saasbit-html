@@ -1,0 +1,218 @@
+@use '../abstracts/variables' as *;
+
+/*
+    services-1-start
+*/
+.sb-services-1 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        margin: 0 40px;
+        padding: 128px 0 127px;
+        background-color: #120F2C;
+        border-radius: 30px;
+        z-index: 1;
+
+        @media #{$xxl,$xl,$lg} {
+            margin: 0 24px;
+            padding: 100px 0;
+        }
+
+        @media #{$md,$xs} {
+            margin: 0 12px;
+            padding: 70px 0;
+            border-radius: 20px;
+        }
+    }
+
+
+    &-bg-noise-1 {
+        width: 28%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+    
+    &-bg-noise-2 {
+        text-align: right;
+        width: 21%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: -1;
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        z-index: -2;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-sec-title {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 52px;
+
+        .sb-sec-title-1 {
+            color: #fff;
+        }
+
+        @media #{$md,$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-wrap {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        @media #{$md} {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media #{$xs} {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /*
+        card
+    */
+    &-card {
+        position: relative;
+        min-height: 324px;
+        padding: 43px 48px 53px;
+        border-radius: 16px;
+        background-color: #120F2C;
+        border: 1px solid rgb(255 255 255 / 10%);
+        overflow: hidden;
+
+        @media #{$xxl,$xl,$lg} {
+            padding: 36px 32px 40px;
+        }
+
+        @media #{$md,$xs} {
+            min-height: 0;
+            padding: 30px 26px 36px;
+        }
+
+        &-glow {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            opacity: .3;
+            line-height: 0;
+            z-index: 0;
+            pointer-events: none;
+            transition: var(--sb-cube-1);
+        }
+
+        &-shine {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 65%;
+            z-index: 0;
+            opacity: 0;
+            line-height: 0;
+            pointer-events: none;
+            transition: var(--sb-cube-1);
+        }
+
+        &:hover {
+            z-index: 2;
+            box-shadow: 20px 24px 32px rgb(0 0 0 / 45%);
+
+            .sb-services-1-card-glow {
+                opacity: 1;
+            }
+
+            .sb-services-1-card-shine {
+                opacity: 1;
+            }
+        }
+
+        &-icon {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            margin-bottom: 40px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 30px;
+            background: radial-gradient(circle, rgb(99 66 245 / 60%) 0%, rgba(18, 15, 44, 0) 70%);
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                padding: 5px;
+                background: linear-gradient(135deg, #B30FC7 0%, rgb(99 66 245 / 0%) 45%, rgb(99 66 245 / 0%) 55%, #6342F5 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+                animation: wa-rotated 10s linear infinite;
+            }
+
+            @media #{$md,$xs} {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 28px;
+                font-size: 26px;
+            }
+        }
+
+        /* stagger the icon ring rotation per card */
+        @for $i from 2 through 6 {
+            &:nth-child(#{$i}) &-icon::before {
+                animation-delay: -#{($i - 1) * 1.5}s;
+            }
+        }
+
+        &-content {
+            position: relative;
+            z-index: 1;
+
+            .title {
+                margin-bottom: 16px;
+                font-size: 24px;
+                line-height: 32px;
+                color: #fff;
+
+                @media #{$xxl,$xl,$lg} {
+                    font-size: 22px;
+                }
+
+                @media #{$xs} {
+                    font-size: 20px;
+                }
+            }
+
+            .disc {
+                margin-bottom: 0;
+                color: rgb(255 255 255 / 80%);
+            }
+        }
+    }
+}
+
+/*
+    services-1-end
+*/

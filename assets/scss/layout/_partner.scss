@@ -1,0 +1,134 @@
+@use '../abstracts/variables' as *;
+
+/*
+    partner-1-start
+*/
+.sb-partner-1 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding-bottom: 20px;
+        padding-top: 148px;
+        margin-top: -250px;
+
+        @media #{$lg,$md,$xs} {
+            margin-top: -220px;
+        }
+    }
+
+    &-bg-shape {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: -1;
+
+        @media #{$lg,$md,$xs} {
+            height: 100%;
+        }
+    }
+
+    &-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 24px;
+
+        @media #{$lg,$md,$xs} {
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        &-line {
+            flex: 1 1 auto;
+            height: 1px;
+            background: linear-gradient(90deg, #3a278f00 0%, #6342F5 100%);
+
+            &:last-child {
+                background: linear-gradient(90deg, #6342F5 0%, #3a278f00 100%);
+            }
+
+            @media #{$xs} {
+                display: none;
+            }
+        }
+
+        &-text {
+            flex-shrink: 0;
+            font-size: 20px;
+            line-height: 1.4;
+            font-weight: 500;
+            color: rgb(255 255 255 / 80%);
+            white-space: nowrap;
+
+            @media #{$lg,$md,$xs} {
+                font-size: 16px;
+                flex-shrink: unset;
+                white-space: wrap;
+            }
+
+            span {
+                color: #fff;
+            }
+        }
+    }
+
+    &-marquee {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        
+        &::after {
+            content: "";
+            width: 10%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(90deg, #050221, transparent);
+        }
+        
+        &::before {
+            content: "";
+            width: 10%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: linear-gradient(-90deg, #050221, transparent);
+            z-index: 1;
+        }
+
+        &-wrap {
+            display: flex;
+            align-items: center;
+            gap: 120px;
+            margin-right: 120px;
+
+            @media #{$lg,$md,$xs} {
+                gap: 60px;
+            }
+        }
+
+        &-item {
+            flex-shrink: 0;
+            opacity: .72;
+
+            img {
+                display: block;
+                height: 28px;
+                width: auto;
+
+                @media #{$lg,$md,$xs} {
+                    height: 22px;
+                }
+            }
+        }
+    }
+}
+
+/*
+    partner-1-end
+*/

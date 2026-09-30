@@ -1,0 +1,39 @@
+@use '../abstracts/variables' as *;
+
+/* 
+    home-page-css-start
+*/
+
+.sb-home-1 {
+    background-color: #050221;
+}
+
+
+
+
+
+.ag-home-3 {
+    background-color: #F5F5F5;
+
+
+    .wa-back-to-top {
+        background-color: var(--ag-clr-h-1);
+
+        &:hover svg * {
+            fill: var(--ag-clr-h-1);
+        }
+    }
+
+    @media #{$over,$xxxl,$xxl} {
+        &::-webkit-scrollbar-thumb {
+            background: var(--ag-clr-gd-3);
+        }
+    }
+}
+
+
+
+
+/* 
+    home-page-css-end
+*/
