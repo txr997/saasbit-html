@@ -1,0 +1,481 @@
+@use '../abstracts/variables' as *;
+
+/*
+    testimonial-1-start
+*/
+.sb-testimonial-1 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        padding: 128px 0;
+        background-color: #0f0b29;
+
+        @media #{$xxl,$xl} {
+            padding: 100px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0 90px;
+        }
+
+        @media #{$md} {
+            padding: 90px 0 80px;
+        }
+
+        @media #{$xs} {
+            padding: 70px 0 60px;
+        }
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* glow lines on the top and bottom edge */
+        &::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -4px;
+            width: min(1400px, 100%);
+            height: 8px;
+            transform: translateX(-50%);
+            background: radial-gradient(50% 50% at 50% 50%, #fff 0%, #6a00ff00 100%);
+            z-index: 3;
+            opacity: .5;
+        }
+
+
+    }
+
+    &-bg {
+        position: absolute;
+        top: -68px;
+        left: 50%;
+        width: 1936px;
+        height: 1452px;
+        margin-left: -968px;
+        mix-blend-mode: screen;
+        pointer-events: none;
+        z-index: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            object-fit: cover;
+        }
+    }
+
+    &-sec-title {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 40px;
+
+        @media #{$xs} {
+            margin-bottom: 30px;
+        }
+    }
+
+    /*
+        three tinted columns of cards, the marquee js runs each one up or down
+    */
+    &-wrap {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        height: 808px;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            height: 760px;
+        }
+
+        @media #{$xl} {
+            height: 720px;
+        }
+
+        /* third column drops out, two columns of 460px stay */
+        @media #{$lg,$md} {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            height: 700px;
+        }
+
+        @media #{$md} {
+            height: 660px;
+        }
+
+        /* single 456px column, same as the design column */
+        @media #{$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            max-width: 456px;
+            height: 600px;
+            margin: 0 auto;
+        }
+
+        /* cards fade out into the section color at the top and bottom */
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 224px;
+            pointer-events: none;
+            z-index: 2;
+
+            @media #{$lg,$md} {
+                height: 160px;
+            }
+
+            @media #{$xs} {
+                height: 120px;
+            }
+        }
+
+        &::before {
+            top: 0;
+            background: linear-gradient(180deg, rgb(15 11 42), rgba(18, 15, 44, 0));
+        }
+
+        &::after {
+            bottom: 0;
+            background: linear-gradient(0deg, rgb(15 11 41 ), rgb(18 15 44 / 0%));
+        }
+
+        .item-row {
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            background-color: rgb(255 255 255 / 6%);
+            backdrop-filter: blur(92px);
+            -webkit-backdrop-filter: blur(92px);
+
+            @media #{$xl} {
+                padding: 0 16px;
+            }
+
+            @media #{$xs} {
+                padding: 0 16px;
+            }
+
+            /* each column starts at its own point of the loop, like the design */
+            .item-inner {
+                flex-shrink: 0;
+                margin-top: -147px;
+            }
+
+            /* middle column runs top to bottom, so its stack is pinned to the bottom edge */
+            &:nth-child(2) {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+
+                .item-inner {
+                    margin-top: 0;
+                    margin-bottom: -1019px;
+                }
+
+                @media #{$xs} {
+                    display: none;
+                }
+            }
+
+            &:nth-child(3) {
+                .item-inner {
+                    margin-top: -67px;
+                }
+
+                @media #{$lg,$md,$xs} {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &-item {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        /* padding (not margin) so the marquee loop height includes the gap after the last card */
+        padding-bottom: 20px;
+        will-change: transform;
+
+        &-single {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 40px;
+            background-color: rgb(255 255 255 / 12%);
+            border-radius: 10px;
+
+            @media #{$xxl} {
+                padding: 32px;
+            }
+
+            @media #{$xl} {
+                padding: 28px;
+            }
+
+            @media #{$lg} {
+                padding: 36px;
+            }
+
+            @media #{$md} {
+                padding: 28px;
+            }
+
+            @media #{$sm} {
+                padding: 32px;
+            }
+
+            @media #{$xs} {
+                padding: 24px;
+            }
+
+            .rating {
+                display: flex;
+                gap: 2px;
+
+                i {
+                    width: 18px;
+                    font-size: 16px;
+                    line-height: 18px;
+                    text-align: center;
+                    color: #fa9145;
+                }
+            }
+
+            .comment {
+                min-height: 140px;
+                font-family: var(--sb-font-2);
+                font-size: 18px;
+                line-height: 28px;
+                opacity: 1;
+
+                @media #{$xl} {
+                    min-height: 0;
+                    font-size: 17px;
+                    line-height: 27px;
+                }
+
+                @media #{$md,$xs} {
+                    min-height: 0;
+                    font-size: 16px;
+                    line-height: 26px;
+                }
+
+                @media #{$lg} {
+                    min-height: 0;
+                }
+            }
+
+            .author {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 16px;
+
+                &-img {
+                    flex-shrink: 0;
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                    box-shadow: 0 0 0 3px rgb(255 255 255 / 75%);
+
+                    @media #{$xs} {
+                        width: 48px;
+                        height: 48px;
+                    }
+                }
+
+                &-info {
+                    min-width: 0;
+                }
+
+                &-name {
+                    font-size: 18px;
+                    line-height: 28px;
+
+                    @media #{$xs} {
+                        font-size: 16px;
+                        line-height: 24px;
+                    }
+                }
+
+                &-bio {
+                    font-family: var(--sb-font-2);
+                    font-size: 15px;
+                    line-height: 22px;
+                    opacity: 60%;
+
+                    @media #{$xs} {
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+        bottom bar: stacked faces, line of text and the rating
+    */
+    &-bottom {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        margin-top: 30px;
+
+
+        @media #{$lg} {
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        @media #{$md} {
+            flex-wrap: wrap;
+            gap: 24px 28px;
+            margin-top: 30px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        &-author {
+            position: relative;
+            flex-shrink: 0;
+            width: 199px;
+            height: 56px;
+            overflow: hidden;
+            border-radius: 100px;
+            border: 1px solid rgb(255 255 255 / 30%);
+            background-color: #110f20;
+            box-shadow: inset 0 0 12px #6342f5;
+
+            /* faces run through the pill (wa_marquee), so both ends are cut like the design */
+            .wa_marquee {
+                position: absolute;
+                top: 5px;
+                left: 0;
+                width: 100%;
+            }
+
+            .author-list {
+                display: inline-flex;
+                gap: 3px;
+                padding-right: 3px;
+                vertical-align: top;
+            }
+
+            .single-author {
+                position: relative;
+                flex-shrink: 0;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 50%;
+                    box-shadow: inset 0 0 4px #000;
+                }
+            }
+        }
+
+        &-disc {
+            margin-right: 160px;
+            font-size: 18px;
+            line-height: 30px;
+            white-space: nowrap;
+            opacity: 1;
+
+            @media #{$xl} {
+                margin-right: 100px;
+            }
+
+            @media #{$lg} {
+                margin-right: 40px;
+            }
+
+            @media #{$md} {
+                margin-right: 0;
+            }
+
+            @media #{$xs} {
+                margin-right: 0;
+                font-size: 16px;
+                line-height: 26px;
+                text-align: center;
+                white-space: normal;
+            }
+        }
+
+        &-rating {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .item-icon {
+                flex-shrink: 0;
+                width: 36px;
+                height: 36px;
+
+                svg {
+                    display: block;
+                    max-width: none;
+                    margin: -3px;
+                }
+            }
+
+            .rating-top {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                height: 12px;
+            }
+
+            .rating-icon {
+                display: flex;
+                gap: 2px;
+                margin: 0;
+
+                i {
+                    width: 12px;
+                    font-size: 12px;
+                    line-height: 12px;
+                    text-align: center;
+                    color: #fa9145;
+                }
+            }
+
+            .rating-point {
+                font-family: var(--sb-font-1);
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 12px;
+                color: #fff;
+            }
+
+            .rating-text {
+                margin-top: 8px;
+                font-size: 14px;
+                line-height: 10px;
+                opacity: 80%;
+            }
+        }
+    }
+}
+
+/*
+    testimonial-1-end
+*/

@@ -1,0 +1,343 @@
+@use '../abstracts/variables' as *;
+
+/*
+    footer-1-start
+*/
+.sk-footer-3 {
+    /* top part sits under the cta card, so the cta overlaps it like the design */
+    &-area {
+        position: relative;
+        overflow: hidden;
+        margin-top: -207px;
+        padding: 327px 0 25px;
+        background-color: #0f0b29;
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 618px;
+            background: url("../img/footer/f1-bg-img.png") center bottom / cover no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media #{$xs} {
+            padding-bottom: 30px;
+        }
+    }
+
+    &-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 100px;
+        margin-bottom: 100px;
+
+        @media #{$xxl} {
+            gap: 60px;
+            justify-content: space-between;
+        }
+
+        @media #{$xl} {
+            gap: 40px;
+            justify-content: space-between;
+        }
+
+        @media #{$lg} {
+            gap: 48px;
+            justify-content: space-between;
+            margin-bottom: 80px;
+        }
+
+        @media #{$md} {
+            gap: 50px 40px;
+            margin-bottom: 70px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+    }
+
+    &-content {
+        max-width: 436px;
+        margin-right: 1px;
+
+        .logo-elm {
+            display: inline-block;
+            margin-bottom: 33px;
+
+            img {
+                height: 48px;
+            }
+        }
+
+        .disc {
+            margin-bottom: 32px;
+            font-family: var(--sb-font-1);
+            font-size: 18px;
+            line-height: 28px;
+            color: #fff;
+            opacity: 80%;
+        }
+
+        @media #{$xxl,$xl,$lg,$md,$xs} {
+            margin-right: 0;
+        }
+
+        @media #{$xl} {
+            max-width: 340px;
+        }
+
+        @media #{$lg,$md} {
+            max-width: 100%;
+        }
+
+        @media #{$xs} {
+            .logo-elm {
+                margin-bottom: 28px;
+            }
+
+            .disc {
+                margin-bottom: 28px;
+            }
+        }
+    }
+
+    &-social {
+        display: inline-flex;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .single-logo {
+            width: 44px;
+            height: 44px;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            background-color: #262436;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            transition: var(--sb-cube-1);
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 8px;
+                padding: 2px;
+                background: linear-gradient(140deg, rgb(255 255 255 / 45%) 0%, rgb(255 255 255 / 0%) 35%, rgb(255 255 255 / 0%) 66%, rgb(255 255 255 / 45%) 100%);
+                z-index: -1;
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+                transition: var(--sb-cube-1);
+            }
+
+            &:hover {
+                background: linear-gradient(315deg, #5030e0 39%, #e50ff2 100%);
+
+                &::before {
+                    background: linear-gradient(140deg, #fff 0%, rgb(255 255 255 / 0%) 35%, rgb(255 255 255 / 0%) 66%, #fff 100%);
+                }
+            }
+        }
+    }
+
+    &-widget {
+        /* link columns keep the design widths so the newsletter lines up */
+        &:nth-child(2) {
+            min-width: 111px;
+        }
+
+        &:nth-child(3) {
+            min-width: 168px;
+        }
+
+        .widget-title {
+            margin-bottom: 20px;
+            font-family: var(--sb-font-2);
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            color: var(--sb-clr-pr-1);
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            list-style: none;
+
+            li {
+                a {
+                    font-family: var(--sb-font-1);
+                    color: #fff;
+                    font-weight: 500;
+                    font-size: 18px;
+                    opacity: .8;
+                    line-height: 27px;
+                    display: inline !important;
+                    background-position-y: 0px;
+                    background-repeat: no-repeat;
+                    background-size: 0 100%;
+                    backface-visibility: hidden;
+                    -webkit-backface-visibility: hidden;
+                    background-image: linear-gradient(transparent calc(100% - 1px), currentColor 2px);
+                    -webkit-transition: var(--sb-cube-1);
+                    transition: var(--sb-cube-1);
+
+                    &:hover {
+                        opacity: 1;
+                        color: var(--sb-clr-sd-1);
+                        background-size: 100% 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    &-newsletter {
+        max-width: 368px;
+        /* text sits 54px under the widget title in the design */
+        margin-top: 54px;
+
+        .disc {
+            margin-bottom: 15px;
+            font-family: var(--sb-font-1);
+            font-size: 18px;
+            line-height: 22px;
+            color: #fff;
+            opacity: .8;
+        }
+
+        &-form {
+            .form-input {
+                width: 100%;
+                height: 52px;
+                padding-left: 24px;
+                padding-right: 56px;
+                background: rgb(255 255 255 / 8%);
+                border: 1px solid rgb(255 255 255 / 20%);
+                box-shadow: inset 0px -4px 4px rgb(255 255 255 / 7%);
+                backdrop-filter: blur(4px);
+                border-radius: 10px;
+                font-family: var(--sb-font-1);
+                font-size: 16px;
+                color: rgb(255 255 255 / 60%);
+
+                &::placeholder {
+                    color: rgb(255 255 255 / 60%);
+                }
+            }
+
+            .input-btn {
+                width: 40px;
+                height: 40px;
+                background: var(--sb-clr-pr-1);
+                border-radius: 7px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 16px;
+                position: absolute;
+                right: 6px;
+                top: 6px;
+                transition: var(--sb-cube-1);
+
+                &:hover {
+                    background: var(--sb-clr-sd-1);
+
+                    i {
+                        animation: jackInTheBox2 .5s;
+                    }
+                }
+            }
+        }
+    }
+
+    &-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px 20px;
+        flex-wrap: wrap;
+        padding-top: 22px;
+        border-top: 1px solid rgb(255 255 255 / 20%);
+
+        @media #{$xs} {
+            justify-content: center;
+            text-align: center;
+        }
+
+        &-link {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+
+            a {
+                font-family: var(--sb-font-1);
+                color: #fff;
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 28px;
+                letter-spacing: -.02em;
+                opacity: 72%;
+                transition: var(--sb-cube-1);
+
+                &:hover {
+                    color: var(--sb-clr-sd-1);
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    &-copyright {
+        margin: 0;
+        font-family: var(--sb-font-1);
+        font-size: 18px;
+        line-height: 28px;
+        color: rgb(255 255 255 / 64%);
+        opacity: 1;
+
+        a {
+            color: #fff;
+            transition: var(--sb-cube-1);
+
+            &:hover {
+                color: var(--sb-clr-sd-1);
+            }
+        }
+    }
+
+    /* the design has no big background word under the footer */
+    &-big-title-overflow {
+        display: none;
+    }
+}
+
+/*
+    footer-1-end
+*/

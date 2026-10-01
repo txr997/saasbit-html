@@ -22,10 +22,16 @@
             padding-top: 90px;
         }
 
+        /* phones: 1200 * .3 = 360px ring, fits a 360px screen */
         @media #{$xs} {
-            --sb-k: .4;
+            --sb-k: .3;
             padding-top: 70px;
             padding-bottom: 60px;
+        }
+
+        /* 1200 * .46 = 552px ring, fits from 576px up */
+        @media #{$sm} {
+            --sb-k: .46;
         }
 
         @media #{$xxl,$xl} {
@@ -41,6 +47,11 @@
         z-index: 0;
         mix-blend-mode: screen;
         pointer-events: none;
+        animation: sb-step-1-hue 6s linear infinite;
+
+        @media #{$md,$xs} {
+            display: none;
+        }
 
         img {
             max-width: none;
@@ -77,6 +88,17 @@
             display: flex;
             flex-direction: column;
             height: auto;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: radial-gradient(50% 50% at 50% 60%, #FFFFFF 0%, rgba(106, 0, 255, 0) 100%);
+            z-index: 1;
         }
     }
 
@@ -143,11 +165,12 @@
         margin-left: calc(-600px * var(--sb-k));
         width: calc(1200px * var(--sb-k));
         height: calc(491px * var(--sb-k));
-        overflow: hidden;
 
+        /* in the flow here, so the lower half of the turning logos is cut off instead of landing on the text */
         @media #{$xs} {
             position: relative;
             order: 1;
+            overflow: hidden;
         }
 
         &-img {
@@ -175,6 +198,17 @@
             height: max(40px, calc(68px * var(--sb-k)));
             transform: translate(-50%, -50%);
 
+            /* 26 logos on a 360px ring sit ~39px apart, so they can't stay at 40px */
+            @media #{$xs} {
+                width: 30px;
+                height: 30px;
+            }
+
+            @media #{$sm} {
+                width: 40px;
+                height: 40px;
+            }
+
             img {
                 width: 100%;
                 height: 100%;
@@ -186,28 +220,29 @@
         }
     }
 
-    /* tinted, blurred crescent over each side of the ring, nudged off-centre like the design */
+    /* tinted, blurred crescent over each side of the ring — exact figma outlines, placed from the ring's top-left */
     &-shape {
         position: absolute;
-        width: 1206px;
-        height: 1206px;
-        top: calc(555px * var(--sb-k) - 603px);
+        width: 284px;
+        height: 371px;
         background-color: rgb(99 66 245 / 37%);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         pointer-events: none;
-        /* ring band (603px outer / 446px inner radius) from 46° round to the bottom, with 17px rounded corners at the cut */
-        clip-path: path("M 935.83 281.59 L 1024.36 196.10 A 17 17 0 0 1 1048.73 196.88 A 603 603 0 0 1 1196.84 707.71 L 1042.22 680.45 A 446 446 0 0 0 934.98 305.17 A 17 17 0 0 1 935.83 281.59 Z");
+        transform-origin: 0 0;
 
-        &.is-right {
-            left: calc(50% + 23px * var(--sb-k) - 603px);
-            transform: translateY(calc(-12px * var(--sb-k))) rotate(3deg) scale(var(--sb-k));
+        &.is-left {
+            left: calc(-20px * var(--sb-k));
+            top: calc(173px * var(--sb-k));
+            transform: scale(var(--sb-k));
+            clip-path: path("M194.45 7.3C188 0.48 177.22 0.16 170.58 6.8C81.81 95.57 22.94 209.86 2.23 333.69C0.68 342.95 7.2 351.54 16.5 352.83L132.15 368.84C141.45 370.13 150 363.62 151.63 354.38C167.53 264.51 210.26 181.55 274.19 116.42C280.76 109.72 281.09 98.98 274.64 92.16L194.45 7.3Z");
         }
 
-        /* left crescent is the right one mirrored */
-        &.is-left {
-            left: calc(50% - 23px * var(--sb-k) - 603px);
-            transform: translateY(calc(-12px * var(--sb-k))) rotate(-3deg) scale(calc(var(--sb-k) * -1), var(--sb-k));
+        &.is-right {
+            left: calc(934px * var(--sb-k));
+            top: calc(167px * var(--sb-k));
+            transform: scale(var(--sb-k));
+            clip-path: path("M268.08 350.61C277.36 349.2 283.77 340.52 282.1 331.28C259.74 207.74 199.37 94.24 109.43 6.65C102.7 0.1 91.93 0.56 85.57 7.47L6.51 93.37C0.15 100.28 0.62 111.02 7.28 117.63C72.06 181.91 115.89 264.3 132.98 353.94C134.74 363.17 143.37 369.56 152.66 368.15L268.08 350.61Z");
         }
     }
 }

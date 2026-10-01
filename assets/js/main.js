@@ -56,6 +56,285 @@ function waTitleSplit() {
 }
 
 
+/*
+	preloader-1 — starts right away and follows the real loading of the page:
+	the counter climbs with the images that are loaded, jumps to 100 on window
+	load, then the panel slides up on a curved edge
+*/
+function sbPreloaderInit() {
+
+	var loader = document.querySelector(".sb-preloader-1");
+	if (!loader) return null;
+
+	// reduced motion: no show, just lift the cover once the page is loaded
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		return {
+			done: function () {
+				loader.remove();
+				afterPreloader();
+			}
+		};
+	}
+
+	var count = loader.querySelector(".count");
+	var bar = loader.querySelector(".bar span");
+	var words = loader.querySelectorAll(".word");
+	var curve = loader.querySelector(".curve path");
+	var num = { val: 0 };
+	var current = 0;
+	var exited = false;
+	var startTime = Date.now();
+	var minTime = 1200; // so the counter never just flashes by on a fast load
+
+	gsap.set(words, { yPercent: 110, opacity: 1 });
+	gsap.set(words[0], { yPercent: 0 });
+	gsap.from(loader.querySelectorAll(".js-in"), {
+		y: 30,
+		opacity: 0,
+		duration: .8,
+		ease: "power3.out",
+		stagger: .1
+	});
+
+	function showWord(i) {
+		if (i === current) return;
+		gsap.to(words[current], { yPercent: -110, duration: .5, ease: "power3.inOut" });
+		gsap.fromTo(words[i], { yPercent: 110 }, { yPercent: 0, duration: .5, ease: "power3.inOut" });
+		current = i;
+	}
+
+	// counter, progress line and word follow one value
+	function render() {
+		count.textContent = Math.round(num.val);
+		gsap.set(bar, { scaleX: num.val / 100 });
+		showWord(Math.min(words.length - 1, Math.floor(num.val / (100 / words.length))));
+	}
+
+	function setProgress(p) {
+		gsap.to(num, {
+			val: p,
+			duration: .7,
+			ease: "power1.out",
+			overwrite: true,
+			onUpdate: render,
+			onComplete: p >= 100 ? finish : null
+		});
+	}
+
+	// at 100: wait for the minimum time, then leave
+	function finish() {
+		var wait = Math.max(0, minTime - (Date.now() - startTime)) / 1000;
+		gsap.delayedCall(wait, exit);
+	}
+
+	// content lifts away, then the whole panel leaves with a curved bottom edge
+	function exit() {
+		if (exited) return;
+		exited = true;
+
+		var curveH = window.innerHeight * .14;
+		var tl = gsap.timeline();
+
+		tl.to(loader.querySelectorAll(".top, .middle, .bottom"), {
+			y: -40,
+			opacity: 0,
+			duration: .5,
+			ease: "power2.in",
+			stagger: .06
+		});
+		tl.to(loader, {
+			y: -(window.innerHeight + curveH),
+			duration: 1.1,
+			ease: "power4.inOut"
+		}, .4);
+		tl.to(curve, { attr: { d: "M0 0H1440Q720 0 0 0Z" }, duration: 1.1, ease: "power2.in" }, .4);
+
+		// hold the intro back until the panel is mostly gone
+		tl.call(afterPreloader, null, .9);
+		tl.call(function () {
+			loader.remove();
+		}, null, 1.6);
+	}
+
+	// progress from the images that load right away (lazy ones do not hold the page)
+	var imgs = Array.prototype.filter.call(document.images, function (img) {
+		return img.loading !== "lazy" && !loader.contains(img);
+	});
+	var loaded = 0;
+
+	function imgDone() {
+		loaded++;
+		setProgress(Math.min(90, (loaded / imgs.length) * 90));
+	}
+
+	imgs.forEach(function (img) {
+		if (img.complete) {
+			loaded++;
+		} else {
+			img.addEventListener("load", imgDone);
+			img.addEventListener("error", imgDone);
+		}
+	});
+	setProgress(imgs.length ? Math.min(90, (loaded / imgs.length) * 90) : 10);
+
+	return {
+		done: function () {
+			setProgress(100);
+		}
+	};
+}
+
+var sbPreloader = sbPreloaderInit();
+
+
+/*
+	wa_title_ani_2 (on .sb-sec-title-1) — word cascade: every word rises out of its own mask, sharpens
+	from a blur and "ignites" from brand purple to white. The words are split and
+	parked before the preloader lifts, then played when the title scrolls in.
+*/
+var sbTitleItems = [];
+
+function sbTitleSplit() {
+	if (getComputedStyle(document.body).direction === "rtl") return;
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+	if (!$(".wa_title_ani_2").length) return;
+
+	gsap.registerPlugin(SplitText);
+
+	$(".wa_title_ani_2").each(function (index, el) {
+
+		var split = new SplitText(el, {
+			type: "words",
+			wordsClass: "sb-split-word"
+		});
+
+		// wrap each word in a mask so it rises from behind a clean edge
+		split.words.forEach(function (word) {
+			var mask = document.createElement("span");
+			mask.className = "sb-split-mask";
+			word.parentNode.insertBefore(mask, word);
+			mask.appendChild(word);
+		});
+
+		gsap.set(split.words, {
+			yPercent: 115,
+			rotate: 6,
+			opacity: 0,
+			filter: "blur(10px)",
+			color: "#8b72ff",
+			transformOrigin: "0% 100%"
+		});
+
+		sbTitleItems.push({ el: el, words: split.words });
+	});
+}
+
+/*
+	hero-1 opening — parked before the preloader lifts, played right after:
+	pill opens from its centre, the title words rise out of their masks, the
+	"Chatbot" capsule fades in and wipes its text, then copy and buttons float up.
+*/
+var sbHero = null;
+
+function sbHeroPark() {
+	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+	var title = document.querySelector(".sb-hero-1-title");
+	if (!title) return;
+
+	var hero = {
+		pill: document.querySelector(".sb-hero-1-content .sb-subtitle-1"),
+		title: title,
+		box: title.querySelector(".sb-hero-1-title-box"),
+		boxText: title.querySelector(".sb-hero-1-title-box-text"),
+		disc: document.querySelector(".sb-hero-1-disc"),
+		btns: document.querySelector(".sb-hero-1-content .btn-wrap"),
+		img: document.querySelector(".sb-hero-1-img"),
+		robot: document.querySelector(".sb-hero-1-robot"),
+		words: []
+	};
+
+	// the plain words of the title become masked words, the capsule stays as it is
+	Array.prototype.slice.call(title.childNodes).forEach(function (node) {
+		if (node.nodeType !== 3) return;
+
+		var frag = document.createDocumentFragment();
+		node.textContent.split(/(\s+)/).forEach(function (part) {
+			if (!part) return;
+			if (!part.trim()) {
+				frag.appendChild(document.createTextNode(" "));
+				return;
+			}
+
+			var mask = document.createElement("span");
+			var word = document.createElement("span");
+			mask.className = "sb-split-mask";
+			word.className = "sb-split-word";
+			word.textContent = part;
+			mask.appendChild(word);
+			frag.appendChild(mask);
+			hero.words.push(word);
+		});
+		title.replaceChild(frag, node);
+	});
+
+	gsap.set(hero.words, {
+		yPercent: 115,
+		rotate: 6,
+		opacity: 0,
+		filter: "blur(10px)",
+		color: "#8b72ff",
+		transformOrigin: "0% 100%"
+	});
+	gsap.set(hero.pill, { opacity: 0, y: 20, clipPath: "inset(0% 50% 0% 50% round 100px)" });
+	gsap.set(hero.box, { opacity: 0, filter: "blur(12px)" });
+	gsap.set(hero.boxText, { clipPath: "inset(0% 100% 0% 0%)" });
+	gsap.set([hero.disc, hero.btns], { opacity: 0, y: 28, filter: "blur(6px)" });
+	gsap.set(hero.img, { autoAlpha: 0, y: 90 });
+	// the robot is never faded: half see-through it would show the dashboard behind it
+	gsap.set(hero.robot, { visibility: "hidden", y: 90 });
+
+	sbHero = hero;
+}
+
+function sbHeroPlay() {
+	if (!sbHero) return;
+	var hero = sbHero;
+
+	gsap.timeline({
+		defaults: { ease: "power3.out" },
+		onComplete: function () {
+			// hand everything back to the stylesheet once it has settled
+			gsap.set([hero.pill, hero.box, hero.boxText, hero.disc, hero.btns, hero.img, hero.robot].concat(hero.words), { clearProps: "all" });
+		}
+	})
+		.to(hero.pill, {
+			opacity: 1,
+			y: 0,
+			clipPath: "inset(0% 0% 0% 0% round 100px)",
+			duration: 1
+		}, 0)
+		.to(hero.words, {
+			yPercent: 0,
+			rotate: 0,
+			opacity: 1,
+			filter: "blur(0px)",
+			color: "#fff",
+			duration: 1.1,
+			ease: "power4.out",
+			stagger: .08
+		}, .15)
+		.to(hero.box, { opacity: 1, filter: "blur(0px)", duration: .8 }, .55)
+		.to(hero.boxText, { clipPath: "inset(0% 0% 0% 0%)", duration: .9, ease: "power2.inOut" }, .65)
+		.to(hero.disc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .8)
+		.to(hero.btns, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .95)
+		// the image block and the robot slide up once the copy has settled
+		.to(hero.img, { autoAlpha: 1, y: 0, duration: 1.3, ease: "power4.out" }, ">-.5")
+		// the robot waits until the image has landed, so the two never cross mid-slide
+		.set(hero.robot, { visibility: "visible" }, ">-.5")
+		.to(hero.robot, { y: 0, duration: 1.1, ease: "power3.out" }, "<");
+}
+
 window.addEventListener("load", function(){
 
 	// drop any scroll position gsap/the browser remembered, then measure the
@@ -66,22 +345,12 @@ window.addEventListener("load", function(){
 
 	// park the headline lines while the curtain is still up
 	waTitleSplit();
+	sbTitleSplit();
+	sbHeroPark();
 
-	if (document.querySelectorAll(".ot-preloader-1").length) {
-		const loader = document.querySelector(".ot-preloader-1");
-		
-		setTimeout(() => {
-			loader.classList.add("loaded");
-		});
-
-		// hold the intro back until the curtain has finished lifting
-		// (matches the .55s fade in scss/components/_preloader.scss)
-		setTimeout(function () {
-			afterPreloader();
-		}, 550);
-		setTimeout(function () {
-			loader.remove();
-		}, 1500);
+	if (sbPreloader) {
+		// the real page load is done: let the counter finish
+		sbPreloader.done();
 
 	} else {
 		afterPreloader();
@@ -96,7 +365,53 @@ window.addEventListener("load", function(){
 */
 function afterPreloader() {
 
+	// hero color glow settles in from wide + hidden once the preloader is gone
+	gsap.fromTo(".sb-hero-1-bg-clr img, .sb-hero-1-bg-clr-3 img", {
+		scaleX: 1,
+		opacity: 0
+	}, {
+		scaleX: 1,
+		opacity: 1,
+		duration: 1.5,
+		delay: .3,
+		ease: "power2.out"
+	});
+
+
+
+	// partner title: the left line comes in from the left, the right one from the right
+	if (document.querySelector(".sb-partner-1-title")) {
+		var sb_partner_lines = document.querySelectorAll(".sb-partner-1-title-line");
+		var sb_partner_trigger = {
+			trigger: ".sb-partner-1-title",
+			start: "top 90%"
+		};
+
+		gsap.fromTo(sb_partner_lines[0], {
+			clipPath: "inset(0% 100% 0% 0%)",
+			xPercent: -25
+		}, {
+			clipPath: "inset(0% 0% 0% 0%)",
+			xPercent: 0,
+			duration: 1.5,
+			ease: "power3.out",
+			scrollTrigger: sb_partner_trigger
+		});
+
+		gsap.fromTo(sb_partner_lines[1], {
+			clipPath: "inset(0% 0% 0% 100%)",
+			xPercent: 25
+		}, {
+			clipPath: "inset(0% 0% 0% 0%)",
+			xPercent: 0,
+			duration: 1.5,
+			ease: "power3.out",
+			scrollTrigger: sb_partner_trigger
+		});
+	}
+
 	// the hero opens only now, so its reveal is not spent behind the curtain
+	sbHeroPlay();
 	ot_hero1_intro();
 	ot_hero2_intro();
 	ot_hero3_intro();
@@ -120,6 +435,28 @@ function afterPreloader() {
 				ease: "power3.out",
 				stagger: .1,
 				delay: wa_title_item.delay
+			});
+		});
+
+		// sb-sec-title-1 — word cascade, parked by sbTitleSplit()
+		sbTitleItems.forEach(function (sb_title_item) {
+			gsap.to(sb_title_item.words, {
+				scrollTrigger: {
+					trigger: sb_title_item.el,
+					start: "top 86%",
+				},
+				yPercent: 0,
+				rotate: 0,
+				opacity: 1,
+				filter: "blur(0px)",
+				color: "#fff",
+				duration: 1.1,
+				ease: "power4.out",
+				stagger: .07,
+				// back to the plain stylesheet once settled
+				onComplete: function () {
+					gsap.set(sb_title_item.words, { clearProps: "filter,color,transform,opacity" });
+				}
 			});
 		});
 
@@ -173,6 +510,21 @@ function afterPageLoad() {
 	after-page-load-start
 */
 }
+
+
+// bottom glow of the hero: hidden at first, fades in smoothly after 40% of
+// the hero has scrolled by, and back out when scrolling up again
+gsap.to(".sb-hero-1-bg-clr-2", {
+	opacity: 1,
+	duration: 1.2,
+	ease: "power2.out",
+	scrollTrigger: {
+		trigger: ".sb-hero-1-area",
+		start: "top+=20% top",
+		toggleActions: "play none none reverse",
+		markers: false,
+	}
+});
 
 // clip animation
 const waClipAnimation = {

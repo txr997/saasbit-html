@@ -45,8 +45,12 @@
             height: 1px;
             background: linear-gradient(90deg, #3a278f00 0%, #6342F5 100%);
 
+            /* drawn in from its outer edge when the title scrolls into view (afterPreloader in main.js) */
+            clip-path: inset(0% 100% 0% 0%);
+
             &:last-child {
                 background: linear-gradient(90deg, #6342F5 0%, #3a278f00 100%);
+                clip-path: inset(0% 0% 0% 100%);
             }
 
             @media #{$xs} {

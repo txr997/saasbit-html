@@ -2,113 +2,203 @@
 
 /*
     preloader-1-start
+    gsap in main.js runs the counter, the word swap and the curved slide-up exit
 */
 
-@keyframes ot-preloader-1-spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes ot-preloader-1-spin-back {
-    to {
-        transform: rotate(-360deg);
-    }
-}
-
-@keyframes ot-preloader-1-pulse {
+@keyframes sb-preloader-1-blink {
     0%,
     100% {
-        opacity: .35;
-        transform: scale(.9);
+        opacity: 1;
     }
 
     50% {
-        opacity: .85;
-        transform: scale(1.15);
+        opacity: .25;
     }
 }
 
-.ot-preloader-1 {
+.sb-preloader-1 {
     position: fixed;
     inset: 0;
     z-index: 99999;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #030F2B;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity .55s ease, visibility .55s ease;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 48px 56px;
+    background-color: #050221;
+    color: #fff;
+    will-change: transform;
 
-    &:is(.loaded) {
-        opacity: 0;
-        visibility: hidden;
+    @media #{$md} {
+        padding: 32px 36px 48px;
+    }
+
+    @media #{$xs} {
+        padding: 24px 22px 40px;
+    }
+
+    /* glow behind the counter */
+    &::before {
+        content: "";
+        position: absolute;
+        left: -10%;
+        bottom: -30%;
+        width: 70vw;
+        height: 70vw;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgb(99 66 245 / 40%), rgb(229 15 242 / 10%) 55%, rgb(5 2 33 / 0%));
         pointer-events: none;
     }
 
-    &-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 24px;
+    /* curved bottom edge that shows while the panel slides up */
+    .curve {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        display: block;
+        width: 100%;
+        height: 14vh;
+        fill: #050221;
+        pointer-events: none;
     }
 
-    /* the brand mark sits inside two counter-turning orbits */
-    .logo-elm {
+    .top,
+    .middle,
+    .bottom {
         position: relative;
         z-index: 1;
-        width: 120px;
-        height: 120px;
+    }
+
+    .top {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 20px;
 
-        img {
-            width: 34px;
+        .logo-elm img {
+            display: block;
+            width: 132px;
 
-            /* the mark ships dark, the preloader is dark too */
-            filter: brightness(0) invert(1);
-        }
-
-        /* the soft signal behind the mark */
-        &::before {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 64px;
-            height: 64px;
-            margin: -32px 0 0 -32px;
-            border-radius: 50%;
-            z-index: -1;
-            background: radial-gradient(circle, rgb(19 92 253 / 55%) 0%, rgb(19 92 253 / 0%) 70%);
-            animation: ot-preloader-1-pulse 1.8s ease-in-out infinite;
-        }
-
-        .ring {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            border-radius: 50%;
-
-            /* outer dashed orbit */
-            width: 120px;
-            height: 120px;
-            margin: -60px 0 0 -60px;
-            border: 1px dashed rgb(255 255 255 / 16%);
-            animation: ot-preloader-1-spin 9s linear infinite;
-
-            /* inner arc in the two brand colours */
-            &:is(.has-v2) {
-                width: 92px;
-                height: 92px;
-                margin: -46px 0 0 -46px;
-                border: 2px solid transparent;
-                border-top-color: var(--ot-clr-pr-1);
-                border-right-color: var(--ot-clr-sd-1);
-                animation: ot-preloader-1-spin-back 1.4s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+            @media #{$xs} {
+                width: 108px;
             }
+        }
+
+        .label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-family: var(--sb-font-1);
+            font-size: 12px;
+            line-height: 1.4;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: rgb(255 255 255 / 60%);
+
+            &::before {
+                content: "";
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--sb-clr-sd-1);
+                animation: sb-preloader-1-blink 1.2s ease-in-out infinite;
+            }
+
+            @media #{$xs} {
+                font-size: 10px;
+                letter-spacing: .14em;
+            }
+        }
+    }
+
+    /* the word that swaps while the counter climbs */
+    .words {
+        position: relative;
+        height: 1.15em;
+        overflow: hidden;
+        font-family: var(--sb-font-2);
+        font-size: clamp(44px, 8vw, 132px);
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -.03em;
+
+        .word {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+
+            span {
+                color: var(--sb-clr-sd-1);
+            }
+
+            /* only the first word shows before the script takes over, so they never pile up */
+            &:not(:first-child) {
+                opacity: 0;
+            }
+        }
+    }
+
+    .bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .counter {
+        display: flex;
+        align-items: flex-start;
+        font-family: var(--sb-font-2);
+        font-size: clamp(96px, 19vw, 300px);
+        font-weight: 600;
+        line-height: .8;
+        letter-spacing: -.05em;
+
+        .percent {
+            margin: .06em 0 0 .06em;
+            font-size: .24em;
+            letter-spacing: 0;
+            background: linear-gradient(135deg, var(--sb-clr-pr-1), var(--sb-clr-sd-1));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    .note {
+        max-width: 230px;
+        margin: 0 0 6px;
+        font-family: var(--sb-font-1);
+        font-size: 14px;
+        line-height: 1.6;
+        text-align: right;
+        color: rgb(255 255 255 / 60%);
+
+        @media #{$xs} {
+            display: none;
+        }
+    }
+
+    /* progress line on the bottom edge */
+    .bar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        width: 100%;
+        height: 4px;
+        background-color: rgb(255 255 255 / 10%);
+
+        span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--sb-clr-pr-1), var(--sb-clr-sd-1));
+            transform: scaleX(0);
+            transform-origin: left;
         }
     }
 }

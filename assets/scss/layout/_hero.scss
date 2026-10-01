@@ -151,6 +151,45 @@
         left: 0;
         width: 100%;
         z-index: -2;
+
+        /* every dot drifts on its own path, speed and delay, so they never move together */
+        path {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: sbHero1DotA 7s ease-in-out infinite;
+
+            &:nth-child(3n+2) {
+                animation-name: sbHero1DotB;
+                animation-duration: 9s;
+            }
+
+            &:nth-child(3n) {
+                animation-name: sbHero1DotC;
+                animation-duration: 11s;
+            }
+
+            &:nth-child(4n+1) {
+                animation-delay: -3s;
+            }
+
+            &:nth-child(5n+2) {
+                animation-delay: -6s;
+            }
+
+            &:nth-child(7n+3) {
+                animation-delay: -9s;
+            }
+
+            &:nth-child(2n) {
+                animation-direction: alternate-reverse;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            path {
+                animation: none;
+            }
+        }
     }
 
     &-bg-clr {
@@ -159,6 +198,12 @@
         left: 0;
         width: 100%;
         z-index: -4;
+
+        /* starts wide and hidden, the preloader's exit (afterPreloader in main.js) eases it in */
+        img {
+            transform: scaleX(2);
+            opacity: 0;
+        }
     }
 
     &-bg-clr-2 {
@@ -168,6 +213,8 @@
         width: 100%;
         z-index: -3;
         text-align: center;
+        /* fades in once 40% of the hero has scrolled by (afterPreloader in main.js) */
+        opacity: 0;
     }
 
     &-bg-clr-3 {
@@ -182,10 +229,67 @@
         }
 
         img {
+            /* hidden from the start so it is not seen behind the preloader, eased in by afterPreloader in main.js */
+            opacity: 0;
+
             @media #{$xxxl,$xxl,$xl,$lg,$md,$xs} {
                 height: 100%;
             }
         }
+    }
+}
+
+@keyframes sbHero1DotA {
+    0%,
+    100% {
+        opacity: .35;
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        opacity: 1;
+        transform: translate(16px, -26px) scale(1.8);
+    }
+
+    66% {
+        opacity: .6;
+        transform: translate(-14px, -10px) scale(1.2);
+    }
+}
+
+@keyframes sbHero1DotB {
+    0%,
+    100% {
+        opacity: .5;
+        transform: translate(0, 0) scale(1);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-22px, 18px) scale(1.6);
+    }
+
+    75% {
+        opacity: .3;
+        transform: translate(12px, 28px) scale(1);
+    }
+}
+
+@keyframes sbHero1DotC {
+    0%,
+    100% {
+        opacity: .8;
+        transform: translate(0, 0) scale(1.2);
+    }
+
+    30% {
+        opacity: .3;
+        transform: translate(28px, 12px) scale(1);
+    }
+
+    65% {
+        opacity: 1;
+        transform: translate(-18px, -22px) scale(2);
     }
 }
 

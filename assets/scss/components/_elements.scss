@@ -42,6 +42,22 @@
     will-change: transform;
 }
 
+/* word cascade of .sb-sec-title-1 (sbTitleSplit in main.js): each word sits in a mask */
+.sb-split-mask {
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+
+    /* room for descenders and side bearings, taken straight back out of the layout */
+    padding: 0 .06em .15em;
+    margin: 0 -.06em -.15em;
+}
+
+.sb-split-word {
+    display: inline-block;
+    will-change: transform, filter;
+}
+
 
 /* 
     elements-end

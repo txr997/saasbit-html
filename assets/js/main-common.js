@@ -191,7 +191,7 @@ if ($(".wa_marquee_down_top").length) {
     gsap.to([waMarqueeTop, waMarqueeClone], {
       y: `-${waMarqueeTotalHeight}px`,
       ease: "none",
-      duration: 20,
+      duration: 40,
       repeat: -1,
       modifiers: {
         y: gsap.utils.unitize((waY) => parseFloat(waY) % waMarqueeTotalHeight),
@@ -212,7 +212,7 @@ if ($(".wa_marquee_top_down").length) {
 	gsap.to(".wa_marquee_top_down", {
 	  y: `${waMarqueeTopDownHeight}px`, 
 	  ease: "none",
-	  duration: 20,
+	  duration: 40,
 	  repeat: -1,
 	  modifiers: {
 		y: gsap.utils.unitize(waY => parseFloat(waY) % waMarqueeTopDownHeight)
