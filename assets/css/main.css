@@ -2145,7 +2145,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   z-index: 4;
   width: 35px;
   height: 40px;
-  background-color: var(--ot-clr-pr-1);
+  background-color: var(--sb-clr-pr-1);
   transition: 0.3s;
   display: flex;
   align-items: center;
@@ -2173,7 +2173,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   mix-blend-mode: difference;
 }
 .wa-back-to-top:hover svg * {
-  fill: var(--ot-clr-pr-1);
+  fill: var(--sb-clr-pr-1);
 }
 .wa-back-to-top:is(.active) {
   bottom: 2.5%;
@@ -2638,6 +2638,13 @@ input:focus::placeholder, textarea:focus::placeholder {
     height: 100%;
   }
 }
+.sb-hero-1-bg-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -4;
+}
 
 @keyframes sbHero1DotA {
   0%, 100% {
@@ -2714,7 +2721,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   z-index: 1;
   padding-bottom: 20px;
   padding-top: 148px;
-  margin-top: -250px;
+  margin-top: -255px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .sb-partner-1-area {
@@ -2738,7 +2745,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .sb-partner-1-title {
@@ -2767,7 +2774,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   font-size: 20px;
   line-height: 1.4;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.64);
   white-space: nowrap;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
@@ -2926,6 +2933,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   background-color: #120F2C;
   border-radius: 20px;
   padding: 32px 35px 36px;
+  z-index: -1;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .sb-features-1-card-1 {
@@ -3040,6 +3048,13 @@ input:focus::placeholder, textarea:focus::placeholder {
 .sb-features-1-card-1-img img {
   width: 100%;
   display: block;
+}
+.sb-features-1-card-1-bg-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: -3;
 }
 .sb-features-1 {
   /*
@@ -4672,7 +4687,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   width: 52px;
   height: 52px;
   border-radius: 10px;
-  border-bottom: 2px solid rgb(99, 66, 245);
+  border-bottom: 2px solid rgb(105, 72, 251);
   background: radial-gradient(circle at 50% 100%, #6342F5 0%, rgba(99, 66, 245, 0) 70%), rgba(255, 255, 255, 0.06);
   font-size: 28px;
   color: #fff;
@@ -4948,7 +4963,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   left: 0;
   width: 100%;
   height: 8px;
-  background: radial-gradient(50% 50% at 50% 60%, #FFFFFF 0%, rgba(106, 0, 255, 0) 100%);
+  background: radial-gradient(50% 50% at 50% 50%, #fff 0%, rgba(218, 191, 255, 0.75) 25%, rgba(181, 128, 255, 0.5) 50%, rgba(143, 64, 255, 0.25) 75%, rgba(106, 0, 255, 0) 100%);
   z-index: 1;
 }
 .sb-apps-1 {
@@ -5145,9 +5160,9 @@ input:focus::placeholder, textarea:focus::placeholder {
   height: 8px;
   /* --glow-x: 0 → 1 spreads the line out from the centre (set by js on scroll) */
   transform: translateX(-50%) scaleX(var(--glow-x, 1));
-  background: radial-gradient(50% 50% at 50% 50%, #fff 0%, rgba(106, 0, 255, 0) 100%);
+  /* figma fades #fff → #6a00ff@0 without premultiplying, so the in-between stops keep the lavender tint */
+  background: radial-gradient(50% 50% at 50% 50%, #fff 0%, rgba(218, 191, 255, 0.75) 25%, rgba(181, 128, 255, 0.5) 50%, rgba(143, 64, 255, 0.25) 75%, rgba(106, 0, 255, 0) 100%);
   z-index: 3;
-  opacity: 0.5;
 }
 .sb-testimonial-1-bg {
   position: absolute;

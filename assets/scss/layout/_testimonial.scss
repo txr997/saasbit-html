@@ -41,9 +41,9 @@
             height: 8px;
             /* --glow-x: 0 → 1 spreads the line out from the centre (set by js on scroll) */
             transform: translateX(-50%) scaleX(var(--glow-x, 1));
-            background: radial-gradient(50% 50% at 50% 50%, #fff 0%, #6a00ff00 100%);
+            /* figma fades #fff → #6a00ff@0 without premultiplying, so the in-between stops keep the lavender tint */
+            background: radial-gradient(50% 50% at 50% 50%, #fff 0%, rgb(218 191 255 / 75%) 25%, rgb(181 128 255 / 50%) 50%, rgb(143 64 255 / 25%) 75%, rgb(106 0 255 / 0%) 100%);
             z-index: 3;
-            opacity: .5;
         }
 
 

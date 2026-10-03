@@ -237,6 +237,14 @@
             }
         }
     }
+
+    &-bg-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: -4;
+    }
 }
 
 @keyframes sbHero1DotA {
