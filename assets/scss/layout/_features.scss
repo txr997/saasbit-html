@@ -161,6 +161,9 @@
             position: relative;
 
             .bar {
+                --sweep: 100%;
+                position: relative;
+                overflow: hidden;
                 display: block;
                 height: 46px;
                 border-radius: 8px;
@@ -170,6 +173,16 @@
                 @media #{$xs} {
                     height: 36px;
                 }
+
+                /* sheen that sweeps across the toolbar on reveal */
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 16%) 50%, rgb(255 255 255 / 0%) 100%);
+                    transform: translateX(var(--sweep));
+                    pointer-events: none;
+                }
             }
 
             .tag-img {
@@ -178,6 +191,8 @@
         }
 
         &-img {
+            --scan: 0%;
+            --scan-o: 0;
             position: relative;
             margin-top: 14px;
             border-radius: 10px;
@@ -185,6 +200,20 @@
             line-height: 0;
             background: linear-gradient(313deg, rgb(255 255 255 / 6%) 0%, rgb(18 15 44 / 0%) 100%);
             border: 1px solid rgb(255 255 255 / 10%);
+
+            /* scan line that draws the chat panel in, top to bottom */
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: var(--scan);
+                height: 2px;
+                background: linear-gradient(90deg, rgb(99 66 245 / 0%) 0%, #8B6DFF 50%, rgb(99 66 245 / 0%) 100%);
+                box-shadow: 0 0 14px 2px rgb(99 66 245 / 70%);
+                opacity: var(--scan-o);
+                pointer-events: none;
+            }
 
             img {
                 width: 100%;
@@ -268,6 +297,7 @@
                 top: 42.3%;
                 width: 83.1%;
                 z-index: 3;
+                animation: sb-features-1-shape-1 5.5s ease-out infinite;
             }
 
             .shape-2 {
@@ -275,6 +305,7 @@
                 top: 38.8%;
                 width: 73.6%;
                 z-index: 2;
+                animation: sb-features-1-shape-2 5.5s ease-out infinite;
             }
 
             .shape-3 {
@@ -282,10 +313,21 @@
                 top: 35.3%;
                 width: 65.7%;
                 z-index: 1;
+                animation: sb-features-1-shape-3 5.5s ease-out infinite;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .shape {
+                    animation: none;
+                }
             }
 
             /* arc linking the three badges */
             .icon-line {
+                /* --a is how far the arc has been drawn out from the centre (deg), feathered edge */
+                --a: 100deg;
+                -webkit-mask-image: conic-gradient(from 0deg at 50% 100%, #000 var(--a), transparent calc(var(--a) + 10deg) calc(350deg - var(--a)), #000 calc(360deg - var(--a)));
+                mask-image: conic-gradient(from 0deg at 50% 100%, #000 var(--a), transparent calc(var(--a) + 10deg) calc(350deg - var(--a)), #000 calc(360deg - var(--a)));
                 position: absolute;
                 left: 28.2%;
                 top: 13.1%;
@@ -392,6 +434,39 @@
             transform: translateY(-50%);
             width: 100%;
             z-index: -1;
+
+            img {
+                display: block;
+            }
+
+            /* data ping — a ring that spreads out from the centre and fades */
+            &::before {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 57.7%;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                border: 1px solid rgb(139 109 255 / 70%);
+                box-shadow: 0 0 18px rgb(99 66 245 / 35%), inset 0 0 18px rgb(99 66 245 / 25%);
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+                animation: sb-features-1-ping 3.6s ease-out infinite;
+                pointer-events: none;
+            }
+
+            /* signal travelling along the bracket lines of the shape */
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                -webkit-mask: url("../img/features/f1-c3-bg-shape.png") center / 100% 100% no-repeat;
+                mask: url("../img/features/f1-c3-bg-shape.png") center / 100% 100% no-repeat;
+                background: linear-gradient(90deg, rgb(139 109 255 / 0%) 35%, #8B6DFF 50%, rgb(139 109 255 / 0%) 65%) 100% 0 / 250% 100% no-repeat;
+                animation: sb-features-1-flow 3.6s ease-in-out infinite;
+                pointer-events: none;
+            }
         }
 
         .sb-features-1-card-content {
@@ -439,6 +514,17 @@
             border: 1px solid rgb(255 255 255 / 12%);
             overflow: hidden;
             z-index: 1;
+
+            /* radar sweep scanning the data ring */
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: conic-gradient(from 0deg, rgb(99 66 245 / 0%) 0deg, rgb(99 66 245 / 0%) 230deg, rgb(99 66 245 / 45%) 350deg, rgb(139 109 255 / 85%) 360deg);
+                animation: sb-features-1-scan 4s linear infinite;
+                pointer-events: none;
+            }
 
             p {
                 width: 135%;
@@ -584,6 +670,7 @@
                 width: 51.7%;
                 z-index: 2;
                 mix-blend-mode: luminosity;
+                animation: sb-features-1-robot 8s infinite;
             }
         }
     }
@@ -805,6 +892,130 @@
                 }
             }
         }
+    }
+}
+
+/* card-04 robot: servo-style steps to the right, pause, steps back, pause */
+@keyframes sb-features-1-robot {
+    0%,
+    8% {
+        transform: translateX(0);
+        animation-timing-function: steps(12, end);
+    }
+
+    44%,
+    54% {
+        transform: translateX(70%);
+        animation-timing-function: steps(12, end);
+    }
+
+    90%,
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sb-features-1-card-4-panel .robot-img {
+        animation: none;
+    }
+}
+
+/* card-03 data analytics: ping ring, flowing signal, radar sweep */
+@media (prefers-reduced-motion: reduce) {
+    .sb-features-1-card-3-bg-shape::before,
+    .sb-features-1-card-3-bg-shape::after,
+    .sb-features-1-card-3-ring::after {
+        animation: none;
+    }
+}
+
+@keyframes sb-features-1-ping {
+    0% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(.9);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.45);
+    }
+}
+
+@keyframes sb-features-1-flow {
+    0% {
+        background-position: 100% 0;
+    }
+
+    70%,
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes sb-features-1-scan {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* card-02 layers: fade up one by one (3 → 2 → 1), hold, hide together, repeat */
+@keyframes sb-features-1-shape-3 {
+    0% {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    10%,
+    72% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90%,
+    100% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sb-features-1-shape-2 {
+    0%,
+    14% {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    24%,
+    72% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90%,
+    100% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sb-features-1-shape-1 {
+    0%,
+    28% {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    38%,
+    72% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90%,
+    100% {
+        opacity: 0;
+        transform: translateY(0);
     }
 }
 

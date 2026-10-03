@@ -39,7 +39,8 @@
             bottom: -4px;
             width: min(1400px, 100%);
             height: 8px;
-            transform: translateX(-50%);
+            /* --glow-x: 0 → 1 spreads the line out from the centre (set by js on scroll) */
+            transform: translateX(-50%) scaleX(var(--glow-x, 1));
             background: radial-gradient(50% 50% at 50% 50%, #fff 0%, #6a00ff00 100%);
             z-index: 3;
             opacity: .5;
