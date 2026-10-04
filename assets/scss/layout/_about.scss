@@ -1,0 +1,112 @@
+@use '../abstracts/variables' as *;
+
+/*
+    about-2-start
+*/
+.sb-about-2 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        background-color: #282D31;
+        padding: 128px 0;
+
+        @media #{$xxl,$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg,$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$xs} {
+            padding: 60px 0;
+        }
+    }
+
+    /* the photo is laid out on a 2166 x 1184 board that is centred on the 1920 design */
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+
+        img {
+            position: absolute;
+            display: block;
+            max-width: none;
+            left: calc(50% - 1136px);
+            top: -81px;
+            width: 2166px;
+            height: auto;
+
+            @media (min-width: 2166px) {
+                left: 0;
+                width: 100%;
+            }
+
+            @media #{$lg,$md,$sm,$xs} {
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 78% center;
+            }
+        }
+
+        /* keeps the text readable once it starts to overlap the photo */
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgb(20 22 24 / 78%) 0%, rgb(20 22 24 / 40%) 100%);
+            display: none;
+
+            @media #{$lg,$md,$sm,$xs} {
+                display: block;
+            }
+        }
+    }
+
+    &-content {
+        max-width: 720px;
+    }
+
+    &-title {
+        margin-bottom: 20px;
+
+        @media #{$xs} {
+            br {
+                display: none;
+            }
+        }
+    }
+
+    /* glass button: dark inner pill with a white inner glow, spinning gradient stroke on a #272C30 base */
+    &-content .sb-pr-btn-2 {
+        font-family: var(--sb-font-2);
+
+        &::before {
+            background: conic-gradient(from var(--sb-btn-angle), #272C30 0%, #272C30 45%, #FE8165 60%, #D258F6 75%, #45ACFF 90%, #272C30 100%);
+        }
+
+        &::after {
+            background: #282D31;
+            box-shadow: inset 0 0 29px rgb(255 255 255 / 50%);
+        }
+    }
+
+    &-disc {
+        max-width: 600px;
+        margin-bottom: 32px;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+}
+/*
+    about-2-end
+*/

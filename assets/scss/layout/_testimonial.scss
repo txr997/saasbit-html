@@ -480,3 +480,219 @@
 /*
     testimonial-1-end
 */
+
+/*
+    testimonial-2-start
+*/
+.sb-testimonial-2 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(180deg, #F3F9FF 0%, #F3F9FF 43%, #CCE5FA 100%);
+        padding: 128px 0 71px;
+    }
+
+    /* world map made of dots (1674 x 665 on the design, behind the heading and the cards) */
+    &-bg {
+        position: absolute;
+        left: 50%;
+        top: 298px;
+        display: block;
+        width: 1674px;
+        max-width: none;
+        transform: translateX(-50%);
+        pointer-events: none;
+
+        @media #{$xl,$lg,$md,$xs} {
+            width: 1200px;
+            top: 240px;
+        }
+
+        @media #{$xs} {
+            width: 900px;
+            top: 200px;
+        }
+    }
+
+    &-sec-title {
+        position: relative;
+        margin-bottom: 140px;
+
+        @media #{$xxl,$xl} {
+            margin-bottom: 100px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            margin-bottom: 56px;
+        }
+
+        .sb-subtitle-2 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-2 {
+            margin-bottom: 20px;
+        }
+
+        .disc {
+            max-width: 829px;
+            margin: 0 auto;
+
+            @media #{$lg,$md,$xs} {
+                br {
+                    display: none;
+                }
+            }
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+    }
+
+    /* full width swiper; the cards run past the right edge, the area clips them */
+    &-slider {
+        position: relative;
+        overflow: visible;
+        z-index: 1;
+
+        .swiper-slide {
+            display: flex;
+            width: 531px;
+            height: auto;
+
+            @media #{$xxl,$xl} {
+                width: 480px;
+            }
+
+            @media #{$lg} {
+                width: 440px;
+            }
+
+            @media #{$md} {
+                width: 400px;
+            }
+
+            @media #{$xs} {
+                width: min(340px, calc(100vw - 56px));
+            }
+        }
+    }
+
+    &-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 50px;
+        width: 100%;
+        min-height: 430px;
+        padding: 48px;
+        border: 1px solid rgb(255 255 255 / 80%);
+        border-radius: 24px;
+        background: linear-gradient(0deg, #fff 0%, #E5F3FF 100%);
+        box-shadow: 0 32px 100px rgb(0 0 0 / 8%);
+        backdrop-filter: blur(8px);
+        transition: box-shadow .5s, border-color .5s;
+
+        @media #{$md} {
+            padding: 36px;
+        }
+
+        @media #{$xs} {
+            min-height: 0;
+            padding: 28px 24px;
+            gap: 30px;
+        }
+
+        /* 6px stroke that spins around the card on hover (--sb-btn-angle / sb-btn-border-spin live in _button.scss) */
+        &::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            padding: 6px;
+            border-radius: inherit;
+            background: conic-gradient(from var(--sb-btn-angle), #fff 0%, #fff 40%, #45ACFF 55%, #FE8165 70%, #D258F6 85%, #fff 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity .5s;
+            pointer-events: none;
+        }
+
+        &:hover {
+            border-color: transparent;
+            box-shadow: 32px 32px 100px rgb(5 2 33 / 40%);
+
+            &::before {
+                opacity: 1;
+                animation: sb-btn-border-spin 3s linear infinite;
+            }
+        }
+
+        .logo {
+            display: block;
+            height: 40px;
+            width: auto;
+            margin-bottom: 36px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 12px;
+            color: #FD3F00;
+        }
+
+        .quote {
+            font-size: 18px;
+            line-height: 28px;
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .avatar {
+                flex: 0 0 64px;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                object-fit: cover;
+                filter: grayscale(1);
+            }
+
+            .name {
+                margin-bottom: 4px;
+                font-size: 20px;
+                line-height: 28px;
+
+                @media #{$xs} {
+                    font-size: 18px;
+                }
+            }
+
+            .role {
+                display: block;
+                font-family: var(--sb-font-1);
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--sb-clr-p-2);
+            }
+        }
+    }
+}
+/*
+    testimonial-2-end
+*/

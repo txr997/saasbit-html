@@ -31,3 +31,18 @@ no restating what the user already saw.
   `assets/scss/main.scss` → `assets/css/main.css` automatically on save; running
   `sass` manually is unnecessary work.
 - Match the surrounding comment density and indentation (tabs where the file uses tabs).
+
+## Images: never reference them from CSS / SCSS / JS
+
+- No image file may be called from SCSS, CSS or JS — no `url(...)` for `background`,
+  `background-image`, `mask`, `mask-image`, `border-image`, `content`, etc.
+- Every image goes in the **HTML**: an `<img>` tag, or — when it has to act as a
+  background / mask — a data attribute on the element, which `assets/js/main-common.js`
+  already applies:
+  - `data-background="assets/img/..."` → `background-image`
+  - `data-mask-image="assets/img/..."` → `mask-image`
+- SCSS only controls the *presentation* of that image (`background-size`, `-position`,
+  `-repeat`, `mask-size`, `mask-repeat`, …), never the file itself.
+- Gradients and inline `data:` SVGs are not image files; those can stay in SCSS.
+- Existing `url()` calls in older partials are not to be copied; leave them unless asked
+  to migrate them.

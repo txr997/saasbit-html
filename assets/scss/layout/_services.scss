@@ -216,3 +216,162 @@
 /*
     services-1-end
 */
+
+/*
+    services-2-start
+*/
+.sb-services-2 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    /* perspective lines fading out from the top, 1920 wide and centred */
+    &-bg {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        display: block;
+        width: 1920px;
+        max-width: none;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: -2;
+    }
+
+    &-sec-title {
+        margin-bottom: 56px;
+
+        @media #{$lg,$md,$xs} {
+            margin-bottom: 40px;
+        }
+
+        .sb-subtitle-2 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-2 {
+            margin-bottom: 16px;
+        }
+
+        .disc {
+            max-width: 689px;
+            margin: 0 auto;
+
+            @media #{$lg,$md,$xs} {
+                br {
+                    display: none;
+                }
+            }
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+    }
+
+    &-wrap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+
+        @media #{$lg,$md} {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media #{$xs} {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+    }
+
+    &-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 333px;
+        padding: 169px 36px 36px;
+        border: 1px solid rgb(69 172 255 / 18%);
+        border-radius: 20px;
+        background: linear-gradient(180deg, #C5E5FF 0%, #F3F9FF 53%, #F3F9FF 100%);
+
+        @media #{$xs} {
+            min-height: 0;
+            padding: 150px 24px 28px;
+        }
+
+        .dots {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: none;
+            pointer-events: none;
+        }
+
+        /* 76px icon tile; the exported image also carries its 4px drop shadow (86px, 3px bleed top / left) */
+        .icon {
+            position: absolute;
+            left: 32px;
+            top: 32px;
+            width: 76px;
+            height: 76px;
+
+            @media #{$xs} {
+                left: 22px;
+                top: 22px;
+            }
+
+            img {
+                position: absolute;
+                left: -3px;
+                top: -3px;
+                display: block;
+                width: 86px;
+                max-width: none;
+                height: auto;
+            }
+        }
+
+        .content {
+            position: relative;
+
+            .title {
+                margin-bottom: 16px;
+                font-size: 24px;
+                font-weight: 600;
+
+                @media #{$xxl,$xl,$lg} {
+                    font-size: 22px;
+                }
+
+                @media #{$xs} {
+                    margin-bottom: 10px;
+                    font-size: 21px;
+                }
+            }
+
+            .disc {
+                font-size: 18px;
+                line-height: 28px;
+
+                @media #{$xxl,$xl,$lg} {
+                    font-size: 16px;
+                    line-height: 26px;
+                }
+
+                @media #{$xs} {
+                    font-size: 15px;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}
+/*
+    services-2-end
+*/

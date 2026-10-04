@@ -645,6 +645,53 @@ function sbPriceToggle() {
 
 
 /*
+	step-2 tabs — hovering (or clicking) a tab or a card opens that card, leaving the block restores the default one
+*/
+function sbStepTabs() {
+	var $wrap = $(".sb-step-2-wrap");
+
+	if (!$wrap.length) return;
+
+	var $items = $wrap.find("[data-step]");
+	var defaultStep = $wrap.find(".sb-step-2-card.active").data("step");
+
+	function open(step) {
+		$items.removeClass("active").filter("[data-step=\"" + step + "\"]").addClass("active");
+	}
+
+	$items.on("mouseenter focus click", function () {
+		open($(this).data("step"));
+	});
+
+	$wrap.on("mouseleave", function () {
+		open(defaultStep);
+	});
+}
+
+
+/*
+	testimonial-2 slider — cards of a fixed width run past the right edge; the second card is the highlighted one (.swiper-slide-next)
+*/
+function sbTestimonialSlider() {
+	if (!$(".sb-testimonial-2-slider").length) return;
+
+	new Swiper(".sb-testimonial-2-slider", {
+		slidesPerView: "auto",
+		spaceBetween: 20,
+		slidesOffsetBefore: 20,
+		loop: true,
+		loopAdditionalSlides: 3,
+		speed: 900,
+		grabCursor: true,
+		autoplay: {
+			delay: 3200,
+			disableOnInteraction: false,
+		},
+	});
+}
+
+
+/*
 	apps-1 ring — logos are spread around the ring in %, so it scales with the ring
 */
 function sbAppsRing() {
@@ -714,6 +761,8 @@ window.addEventListener("load", function () {
 
 sbHeroBottomGlow();
 sbStepAnimations();
+sbStepTabs();
+sbTestimonialSlider();
 sbPriceToggle();
 sbAppsRing();
 

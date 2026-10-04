@@ -176,3 +176,247 @@
 /*
     faqs-end
 */
+
+/*
+    faqs-2-start
+*/
+.sb-faqs-2 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        
+    }
+
+    &-wrap {
+        display: grid;
+        grid-template-columns: 612fr 732fr;
+        gap: 56px;
+        align-items: start;
+
+        @media #{$xl} {
+            gap: 40px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+    }
+
+    &-sec-title {
+        margin-bottom: 34px;
+
+        .sb-subtitle-2 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-2 {
+            margin-bottom: 20px;
+
+            @media #{$xs} {
+                br {
+                    display: none;
+                }
+            }
+        }
+
+        .disc {
+            max-width: 612px;
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+    }
+
+    /* photo card with the "still have questions" box on its bottom edge */
+    &-card {
+        position: relative;
+        max-width: 567px;
+
+        .img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+    }
+
+    &-help {
+        position: absolute;
+        left: 3%;
+        right: 3.2%;
+        bottom: 16px;
+        padding: 28px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #0073FF 0%, #0DA2FF 100%);
+        box-shadow: 0 0 0 5px #fff, 0 10.27px 13.4px #57B1FF, inset 0 1px 18px 2px #D2EAFF;
+
+        @media #{$xs} {
+            position: relative;
+            left: auto;
+            right: auto;
+            bottom: auto;
+            margin: -60px 10px 10px;
+            padding: 20px;
+        }
+
+        .title {
+            margin-bottom: 6px;
+            font-family: var(--sb-font-2);
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 28px;
+            color: #fff;
+        }
+
+        .disc {
+            max-width: 476px;
+            margin-bottom: 12px;
+            font-family: var(--sb-font-1);
+            font-size: 16px;
+            line-height: 24px;
+            color: #fff;
+
+            @media #{$xs} {
+                font-size: 15px;
+                line-height: 22px;
+            }
+        }
+
+        .chat {
+            display: inline-flex;
+            align-items: center;
+            height: 40px;
+            padding: 0 20px;
+            border-radius: 8px;
+            background-color: #050221;
+            box-shadow: inset 0 0 14px #45ACFF;
+            font-family: var(--sb-font-2);
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #fff;
+            transition: var(--sb-cube-1);
+
+            &:hover {
+                color: #fff;
+                box-shadow: inset 0 0 28px #45ACFF;
+            }
+        }
+    }
+
+    &-right {
+        margin-top: 10px;
+
+        @media #{$lg,$md,$xs} {
+            margin-top: 0;
+        }
+    }
+}
+
+.sb-accordion-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 20px;
+    border: 1px solid #fff;
+    border-radius: 16px;
+    background-color: #E5F2FF;
+
+    @media #{$xs} {
+        padding: 12px;
+    }
+
+    &-item {
+        overflow: hidden;
+        border-radius: 8px;
+        background-color: #F3F9FF;
+        transition: var(--sb-cube-1);
+
+        .item-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            min-height: 68px;
+            padding: 12px 24px 12px 23px;
+            border: 0;
+            background: transparent;
+            font-family: var(--sb-font-1);
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 28px;
+            letter-spacing: -0.02em;
+            text-align: left;
+            color: #050221;
+            transition: var(--sb-cube-1);
+
+            @media #{$xs} {
+                padding: 14px 16px;
+                font-size: 17px;
+                line-height: 24px;
+            }
+
+            /* neumorphic bullet with a blue dot */
+            .dot {
+                position: relative;
+                flex: 0 0 14px;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background-color: #EBEBEB;
+                box-shadow: -3px 4px 6px rgb(0 0 0 / 12%), 4px -2px 6px #fff;
+                transition: var(--sb-cube-1);
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 4px;
+                    border-radius: 50%;
+                    background-color: #45ACFF;
+                    transition: var(--sb-cube-1);
+                }
+            }
+        }
+
+        .item-body {
+            padding: 0 12px 12px;
+        }
+
+        .item-disc {
+            padding: 20px;
+            border-radius: 6px;
+            background-color: #F3F9FF;
+            font-size: 18px;
+            line-height: 28px;
+
+            @media #{$xs} {
+                padding: 16px;
+                font-size: 15px;
+                line-height: 24px;
+            }
+        }
+
+        &.active {
+            background: linear-gradient(180deg, #0073FF 0%, #0DA2FF 100%);
+
+            .item-title {
+                font-weight: 500;
+                color: #fff;
+
+                .dot {
+                    background-color: #45ACFF;
+
+                    &::after {
+                        background-color: #EBEBEB;
+                    }
+                }
+            }
+        }
+    }
+}
+/*
+    faqs-2-end
+*/

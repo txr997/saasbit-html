@@ -1,0 +1,350 @@
+@use '../abstracts/variables' as *;
+
+/*
+    integration-2-start
+*/
+.sb-integration-2 {
+    &-area {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 695px;
+        overflow: hidden;
+        isolation: isolate;
+        background-color: #050221;
+        padding: 90px 0;
+
+        @media #{$lg,$md,$xs} {
+            display: block;
+            min-height: 0;
+            padding: 90px 0 0;
+        }
+
+        @media #{$xs} {
+            padding-top: 60px;
+        }
+
+        > .container {
+            position: relative;
+            z-index: 2;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -3;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    &-shape {
+        position: absolute;
+        z-index: -2;
+        max-width: none;
+        opacity: .6;
+        pointer-events: none;
+
+        &.shape-1 {
+            left: 0;
+            top: 0;
+        }
+
+        &.shape-2 {
+            left: 0;
+            bottom: 0;
+        }
+
+        @media #{$md,$xs} {
+            display: none;
+        }
+    }
+
+    &-content {
+        max-width: 720px;
+
+        .sb-subtitle-2 {
+            margin-bottom: 16px;
+            background: #387CDA;
+        }
+
+        .sb-pr-btn-2 {
+            font-family: var(--sb-font-2);
+        }
+    }
+
+    &-title {
+        margin-bottom: 20px;
+        color: #fff;
+
+        @media #{$xs} {
+            br {
+                display: none;
+            }
+        }
+    }
+
+    &-disc {
+        max-width: 632px;
+        margin-bottom: 32px;
+
+        @media #{$lg,$md,$xs} {
+            br {
+                display: none;
+            }
+        }
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /* the visual is laid out on a 1920 x 695 board, hung off the right edge of the design */
+    &-visual {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        width: 1920px;
+        height: 695px;
+        overflow: hidden;
+        pointer-events: none;
+
+        @media (min-width: 1921px) {
+            right: auto;
+            left: 50%;
+            margin-left: -960px;
+        }
+
+        @media #{$xxl} {
+            zoom: .85;
+        }
+
+        @media #{$xl} {
+            right: -120px;
+            zoom: .62;
+        }
+
+        /* stacked under the text: the board is scaled by --z and centred on the main logo */
+        @media #{$lg,$md,$xs} {
+            --z: .6;
+            position: relative;
+            right: auto;
+            width: 100%;
+            height: calc(695px * var(--z));
+            margin-top: 20px;
+            overflow: hidden;
+            /* the top edge of the box would cut the lanes and the light beam, so it fades in */
+            -webkit-mask: linear-gradient(180deg, transparent 0, #000 22%);
+            mask: linear-gradient(180deg, transparent 0, #000 22%);
+        }
+
+        @media #{$md} {
+            --z: .55;
+        }
+
+        @media #{$sm} {
+            --z: .45;
+        }
+
+        @media (max-width: 575px) {
+            --z: .36;
+        }
+    }
+
+    &-board {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 695px;
+
+        @media #{$lg,$md,$xs} {
+            left: 50%;
+            transform-origin: 0 0;
+            transform: translateX(calc(-1410px * var(--z))) scale(var(--z));
+        }
+
+        > * {
+            position: absolute;
+        }
+
+        .light {
+            left: 886px;
+            top: -225px;
+            max-width: none;
+        }
+
+        /* rings around the main logo, centred on 1405 / 366 */
+        /* the rings breathe in and out around the main logo, each one a beat behind the last */
+        .circle {
+            border-radius: 50%;
+            animation: sb-integration-2-ring 5s ease-in-out infinite;
+
+            &.circle-1 { left: 905px; top: -134px; width: 1000px; height: 1000px; border: 1px solid rgb(255 255 255 / 7%); animation-delay: 0s; }
+            &.circle-2 { left: 1059px; top: 20px; width: 692px; height: 692px; border: 1px solid rgb(255 255 255 / 12%); animation-delay: -1.25s; }
+            &.circle-3 { left: 1153px; top: 114px; width: 504px; height: 504px; border: 1px solid rgb(255 255 255 / 20%); animation-delay: -2.5s; }
+            &.circle-4 { left: 1246px; top: 207px; width: 318px; height: 318px; border: 1px solid rgb(255 255 255 / 5%); animation-delay: -3.75s; }
+        }
+
+        /* four glass lanes running into the main logo */
+        .bar {
+            background-color: rgb(255 255 255 / 9%);
+            box-shadow: inset 0 4px 4px rgb(255 255 255 / 20%);
+            backdrop-filter: blur(22px);
+            transform-origin: 0 0;
+
+            &.bar-1 { left: 1110px; top: -166px; width: 92px; height: 462px; transform: rotate(-18deg); }
+            &.bar-2 { left: 1495px; top: 198px; width: 556px; height: 92px; transform: rotate(-27deg); }
+            &.bar-3 { left: 590px; top: 794px; width: 806px; height: 92px; transform: rotate(-26deg); }
+            &.bar-4 { left: 1487px; top: 478px; width: 92px; height: 392px; transform: rotate(-31.64deg); }
+        }
+
+        /*
+            Logos ride their lane into the main logo and slide under it. A lane is anchored on the last (hidden) slot next to the
+            logo; --sx/--sy is one 108px slot step away from the logo, --n the number of logos (= slots from the logo to off-board).
+            Every logo runs the same linear path, offset in time by one slot (--i), so the spacing never changes and the loop is seamless.
+        */
+        /* logos vanish at the outer edge of the main logo instead of showing through its open rings (ring centre 1410 / 357, outer radius 179) */
+        .lanes {
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 695px;
+            -webkit-mask: radial-gradient(circle at 1410px 357px, transparent 175px, #000 176px);
+            mask: radial-gradient(circle at 1410px 357px, transparent 175px, #000 176px);
+        }
+
+        .lane {
+            position: absolute;
+            width: 0;
+            height: 0;
+
+            &.lane-1 { left: 1314px; top: 318px; --sx: -33px; --sy: -105px; --n: 4; }
+            &.lane-2 { left: 1478px; top: 262px; --sx: 97px; --sy: -51px; --n: 5; }
+            &.lane-3 { left: 1404px; top: 455px; --sx: -97px; --sy: 45px; --n: 6; }
+            &.lane-4 { left: 1497px; top: 413px; --sx: 58px; --sy: 91px; --n: 4; }
+        }
+
+        .logo {
+            position: absolute;
+            left: -30px;
+            top: -30px;
+            width: 60px;
+            height: 60px;
+            animation: sb-integration-2-flow calc(var(--n) * 3.5s) linear infinite;
+            animation-delay: calc(var(--i) * -3.5s);
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+            &:nth-child(1) { --i: 0; }
+            &:nth-child(2) { --i: 1; }
+            &:nth-child(3) { --i: 2; }
+            &:nth-child(4) { --i: 3; }
+            &:nth-child(5) { --i: 4; }
+            &:nth-child(6) { --i: 5; }
+        }
+
+        /* rings from the Figma logo: outer gradient ring (33px, white inner glow), glass ring, dark core, gradient disc */
+        .main-logo {
+            left: 1231px;
+            top: 178px;
+            width: 358px;
+            height: 358px;
+
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background:
+                    radial-gradient(circle farthest-side, rgb(255 255 255 / 0%) 145px, rgb(255 255 255 / 85%) 146px, rgb(255 255 255 / 0%) 179px),
+                    linear-gradient(90deg, #FE8165 0%, #D258F6 52%, #45ACFF 100%);
+                box-shadow: inset 0 0 34px #fff;
+                -webkit-mask: radial-gradient(circle farthest-side, transparent 145.5px, #000 146px);
+                mask: radial-gradient(circle farthest-side, transparent 145.5px, #000 146px);
+            }
+
+            .glass {
+                position: absolute;
+                left: 25px;
+                top: 25px;
+                width: 308px;
+                height: 308px;
+                border-radius: 50%;
+                background-color: rgb(255 255 255 / 8%);
+                backdrop-filter: blur(27px);
+                -webkit-mask: radial-gradient(circle farthest-side, transparent 127.6px, #000 128px);
+                mask: radial-gradient(circle farthest-side, transparent 127.6px, #000 128px);
+            }
+
+            .core {
+                position: absolute;
+                left: 68.65px;
+                top: 68.65px;
+                width: 220.7px;
+                height: 220.7px;
+                border-radius: 50%;
+                background-color: #050221;
+                box-shadow: inset 0 0 24px #45ACFF;
+
+                .fill {
+                    position: absolute;
+                    left: 17.4px;
+                    top: 17.4px;
+                    width: 186px;
+                    height: 186px;
+                    border-radius: 50%;
+                    background: linear-gradient(90deg, #FE8165 0%, #D258F6 52%, #45ACFF 100%);
+                }
+
+                img {
+                    position: absolute;
+                    left: 55.6px;
+                    top: 54.7px;
+                    width: 109.5px;
+                    height: 111.2px;
+                }
+            }
+        }
+    }
+}
+
+@keyframes sb-integration-2-ring {
+    0%, 100% {
+        transform: scale(.94);
+        opacity: .55;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+}
+
+@keyframes sb-integration-2-flow {
+    from {
+        transform: translate(calc(var(--sx) * var(--n)), calc(var(--sy) * var(--n)));
+    }
+
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sb-integration-2-board .logo,
+    .sb-integration-2-board .circle {
+        animation: none;
+    }
+}
+/*
+    integration-2-end
+*/

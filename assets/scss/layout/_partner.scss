@@ -136,3 +136,183 @@
 /*
     partner-1-end
 */
+
+/*
+    partner-2-start
+*/
+.sb-partner-2 {
+    &-area {
+        background-color: #07082B;
+        position: relative;
+        overflow: hidden;
+    }
+
+    &-wrap {
+        display: flex;
+    }
+
+    &-box {
+        position: relative;
+        flex: 0 0 50%;
+        max-width: 50%;
+        height: 122px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background-color: #E3F2FF;
+        background-repeat: no-repeat;
+
+        @media #{$lg,$md} {
+            height: 100px;
+        }
+
+        @media #{$xs} {
+            height: 80px;
+        }
+
+        /* gradient stroke on the inner edge (8px, top / bottom / centre) */
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 2;
+            width: min(300px, 100%);
+            padding: 8px;
+            pointer-events: none;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+
+            @media #{$lg,$md} {
+                width: min(240px, 100%);
+                padding: 6px;
+            }
+
+            @media #{$xs} {
+                width: min(150px, 100%);
+                padding: 5px;
+            }
+        }
+
+        /* outer edge fades into the box colour */
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 1;
+            width: 260px;
+            pointer-events: none;
+
+            @media #{$xs} {
+                width: 100px;
+            }
+        }
+    }
+
+    &-left {
+        border-radius: 0 24px 24px 0;
+        background-image: linear-gradient(#EBF6FF, #EBF6FF);
+        background-position: right 0 top 10px;
+        background-size: 12px calc(100% - 16px);
+
+        @media #{$xs} {
+            border-radius: 0 16px 16px 0;
+        }
+
+        &::before {
+            right: 0;
+            border-radius: 0 24px 24px 0;
+            background: linear-gradient(270deg, #45ACFF 0%, rgb(254 129 101 / 80%) 25%, rgb(210 88 246 / 60%) 50%, rgb(69 172 255 / 0%) 75%);
+
+            @media #{$xs} {
+                border-radius: 0 16px 16px 0;
+            }
+        }
+
+        &::after {
+            left: 0;
+            background: linear-gradient(90deg, #E3F2FF 0%, rgb(227 242 255 / 92%) 37%, rgb(227 242 255 / 0%) 100%);
+        }
+
+        /* same markup as the right half, mirrored so the logos meet at the centre and move toward it; the logos themselves stay upright */
+        .sb-partner-2-marquee {
+            transform: scaleX(-1);
+        }
+
+        img {
+            transform: scaleX(-1);
+        }
+    }
+
+    &-right {
+        border-radius: 24px 0 0 24px;
+        background-image: linear-gradient(#EBF6FF, #EBF6FF);
+        background-position: left 0 top 10px;
+        background-size: 12px calc(100% - 16px);
+
+        @media #{$xs} {
+            border-radius: 16px 0 0 16px;
+        }
+
+        &::before {
+            left: 0;
+            border-radius: 24px 0 0 24px;
+            background: linear-gradient(90deg, #45ACFF 0%, rgb(254 129 101 / 80%) 25%, rgb(210 88 246 / 60%) 50%, rgb(69 172 255 / 0%) 75%);
+
+            @media #{$xs} {
+                border-radius: 16px 0 0 16px;
+            }
+        }
+
+        &::after {
+            right: 0;
+            background: linear-gradient(270deg, #E3F2FF 0%, rgb(227 242 255 / 92%) 37%, rgb(227 242 255 / 0%) 100%);
+        }
+    }
+
+    &-marquee {
+        width: 100%;
+        overflow: hidden;
+
+        &-wrap {
+            display: flex;
+            align-items: center;
+            gap: 93px;
+            margin-right: 93px;
+
+            @media #{$lg,$md} {
+                gap: 60px;
+                margin-right: 60px;
+            }
+
+            @media #{$xs} {
+                gap: 40px;
+                margin-right: 40px;
+            }
+        }
+
+        &-item {
+            flex-shrink: 0;
+            opacity: .8;
+
+            img {
+                display: block;
+                max-width: none;
+
+                @media #{$lg,$md} {
+                    zoom: .82;
+                }
+
+                @media #{$xs} {
+                    zoom: .6;
+                }
+            }
+        }
+    }
+}
+/*
+    partner-2-end
+*/

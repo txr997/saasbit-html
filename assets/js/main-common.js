@@ -346,7 +346,10 @@ $("[data-background]").each(function(){
 
 // data-mask-image
 $('[data-mask-image]').each(function() {
-    $(this).css('mask-image', 'url('+ $(this).attr('data-mask-image') + ')');
+    $(this).css({
+        'mask-image': 'url('+ $(this).attr('data-mask-image') + ')',
+        '-webkit-mask-image': 'url('+ $(this).attr('data-mask-image') + ')'
+    });
 });
 
 

@@ -327,3 +327,292 @@
 /* 
     hero-1-end
 */
+
+/* 
+    hero-2-start
+*/
+.sb-hero-2 {
+    &-area {
+        background-color: #050221;
+        padding-top: 247px;
+        padding-bottom: 247px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+
+        @media #{$xxxl,$xxl} {
+            padding-top: 220px;
+            padding-bottom: 200px;
+        }
+
+        @media #{$xl} {
+            padding-top: 200px;
+            padding-bottom: 160px;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            padding-top: 150px;
+            padding-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &-content {
+        max-width: 700px;
+        position: relative;
+        z-index: 2;
+
+        .sb-subtitle-2 {
+            margin-bottom: 20px;
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+        }
+    }
+
+    &-title {
+        font-size: 64px;
+        line-height: 1.0625;
+        letter-spacing: -0.01em;
+        margin-bottom: 20px;
+
+        @media #{$xl} {
+            font-size: 58px;
+        }
+
+        @media #{$lg} {
+            font-size: 52px;
+        }
+
+        @media #{$md} {
+            font-size: 48px;
+        }
+
+        @media #{$sm} {
+            font-size: 44px;
+        }
+
+        @media #{$xs} {
+            font-size: 36px;
+        }
+
+        &-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 68px;
+            height: 68px;
+            vertical-align: middle;
+            margin: 0 0 0 14px;
+            border-radius: 16px;
+            position: relative;
+
+            /* 2px inside stroke: vertical gradient (transparent > color > transparent) at 60% */
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                padding: 2px;
+                border-radius: inherit;
+                background: linear-gradient(0deg, rgb(255 255 255 / 0%) 0%, var(--stroke) 52%, rgb(255 255 255 / 0%) 100%);
+                opacity: .6;
+                mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+                mask-composite: exclude;
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                pointer-events: none;
+            }
+
+            @media #{$lg,$md,$sm,$xs} {
+                width: 56px;
+                height: 56px;
+                border-radius: 14px;
+
+                img {
+                    height: 70%;
+                    width: auto;
+                }
+            }
+
+            &-1 {
+                --stroke: #5ED4FF;
+                background: linear-gradient(264deg, rgb(199 240 255 / 40%) 0%, rgb(94 212 255 / 40%) 54%, rgb(199 240 255 / 40%) 100%);
+                box-shadow: 0 2.54px 5.08px rgb(94 212 255 / 15%), 0 8.9px 8.9px rgb(94 212 255 / 13%);
+            }
+
+            &-2 {
+                --stroke: #FF6A6A;
+                background: linear-gradient(264deg, rgb(255 220 220 / 40%) 0%, rgb(255 151 151 / 40%) 54%, rgb(255 220 220 / 40%) 100%);
+                box-shadow: 0 2.54px 5.08px rgb(255 106 106 / 15%), 0 8.9px 8.9px rgb(255 106 106 / 13%);
+            }
+        }
+    }
+
+    &-disc {
+        max-width: 663px;
+        margin-bottom: 32px;
+        font-size: 18px;
+        line-height: 28px;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /* backgrounds */
+    &-bg-shape {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 56%;
+        height: 100%;
+        z-index: -4;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-bg-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 29%;
+        z-index: -3;
+        height: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    /* the visual is laid out on a 1000 x 926 board that hangs off the right edge of the 1920 design */
+    &-visual {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1000px;
+        height: 926px;
+        transform-origin: top right;
+        z-index: -1;
+
+        @media #{$xxxl} {
+            zoom: .95;
+        }
+
+        @media #{$xxl} {
+            zoom: .85;
+        }
+
+        @media #{$xl} {
+            zoom: .7;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            position: relative;
+            z-index: 0;
+            margin: 0 auto;
+            order: 2;
+            zoom: .9;
+        }
+
+        @media #{$md} {
+            zoom: .7;
+        }
+
+        @media #{$sm} {
+            zoom: .52;
+        }
+
+        @media #{$xs} {
+            zoom: .34;
+        }
+
+        > * {
+            position: absolute;
+        }
+
+        img {
+            max-width: none;
+        }
+    }
+
+    &-land {
+        top: 650px;
+        left: -90px;
+        opacity: .8;
+        z-index: 0;
+    }
+
+    &-light-1 {
+        top: -220px;
+        left: -227px;
+        z-index: 1;
+
+        @media #{$lg,$md,$sm,$xs} {
+            display: none;
+        }
+    }
+
+    &-light-2 {
+        top: -121px;
+        left: 263px;
+        z-index: 3;
+
+        @media #{$lg,$md,$sm,$xs} {
+            display: none;
+        }
+    }
+
+    &-dot {
+        top: -2px;
+        left: 40px;
+        width: 757px;
+        height: 658px;
+        z-index: 4;
+
+        @media #{$lg,$md,$sm,$xs} {
+            display: none;
+        }
+    }
+
+    &-card {
+        width: 480px;
+        height: 304px;
+        border-radius: 22px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &-1 {
+            top: 229px;
+            left: 190px;
+            transform: rotate(17deg);
+            box-shadow: -8px 8px 16px rgb(0 0 0 / 25%);
+            z-index: 2;
+        }
+
+        &-2 {
+            top: 462px;
+            left: 328px;
+            transform: rotate(-22deg);
+            box-shadow: 0 0 14px rgb(0 0 0 / 25%);
+            z-index: 5;
+        }
+    }
+}
+/* 
+    hero-2-end
+*/
