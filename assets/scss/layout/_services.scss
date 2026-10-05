@@ -296,10 +296,22 @@
         border: 1px solid rgb(69 172 255 / 18%);
         border-radius: 20px;
         background: linear-gradient(180deg, #C5E5FF 0%, #F3F9FF 53%, #F3F9FF 100%);
+        transition: var(--sb-cube-1);
 
         @media #{$xs} {
             min-height: 0;
             padding: 150px 24px 28px;
+        }
+
+        /* blue glow that fades in from the top on hover */
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgb(69 172 255 / 30%) 0%, rgb(69 172 255 / 0%) 65%);
+            opacity: 0;
+            transition: var(--sb-cube-1);
+            pointer-events: none;
         }
 
         .dots {
@@ -311,6 +323,30 @@
             height: auto;
             max-width: none;
             pointer-events: none;
+            transform-origin: top center;
+            transition: transform .8s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        &:hover {
+            transform: translateY(-8px);
+            border-color: rgb(69 172 255 / 45%);
+            box-shadow: 0 24px 44px rgb(69 172 255 / 22%);
+
+            &::before {
+                opacity: 1;
+            }
+
+            .dots {
+                transform: scale(1.1) translateY(8px);
+            }
+
+            .icon {
+                transform: translateY(-6px) rotate(-6deg) scale(1.06);
+            }
+
+            .content .title {
+                color: var(--sb-clr-pr-1);
+            }
         }
 
         /* 76px icon tile; the exported image also carries its 4px drop shadow (86px, 3px bleed top / left) */
@@ -320,6 +356,7 @@
             top: 32px;
             width: 76px;
             height: 76px;
+            transition: transform .6s cubic-bezier(.18, .82, .41, 1);
 
             @media #{$xs} {
                 left: 22px;
@@ -342,6 +379,7 @@
 
             .title {
                 margin-bottom: 16px;
+                transition: var(--sb-cube-1);
                 font-size: 24px;
                 font-weight: 600;
 

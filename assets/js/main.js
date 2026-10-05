@@ -210,25 +210,10 @@ function sbTitlePlay() {
 */
 var sbHero = null;
 
-function sbHeroPark() {
-	if (prefersReducedMotion()) return;
+// the plain words of a hero title become masked words, anything else inside it (capsule, icons) stays as it is
+function sbHeroWords(title) {
+	var words = [];
 
-	var title = document.querySelector(".sb-hero-1-title");
-	if (!title) return;
-
-	var hero = {
-		pill: document.querySelector(".sb-hero-1-content .sb-subtitle-1"),
-		title: title,
-		box: title.querySelector(".sb-hero-1-title-box"),
-		boxText: title.querySelector(".sb-hero-1-title-box-text"),
-		disc: document.querySelector(".sb-hero-1-disc"),
-		btns: document.querySelector(".sb-hero-1-content .btn-wrap"),
-		img: document.querySelector(".sb-hero-1-img"),
-		robot: document.querySelector(".sb-hero-1-robot"),
-		words: []
-	};
-
-	// the plain words of the title become masked words, the capsule stays as it is
 	Array.prototype.slice.call(title.childNodes).forEach(function (node) {
 		if (node.nodeType !== 3) return;
 
@@ -247,10 +232,33 @@ function sbHeroPark() {
 			word.textContent = part;
 			mask.appendChild(word);
 			frag.appendChild(mask);
-			hero.words.push(word);
+			words.push(word);
 		});
 		title.replaceChild(frag, node);
 	});
+
+	return words;
+}
+
+function sbHeroPark() {
+	if (prefersReducedMotion()) return;
+
+	var title = document.querySelector(".sb-hero-1-title");
+	if (!title) return;
+
+	var hero = {
+		pill: document.querySelector(".sb-hero-1-content .sb-subtitle-1"),
+		title: title,
+		box: title.querySelector(".sb-hero-1-title-box"),
+		boxText: title.querySelector(".sb-hero-1-title-box-text"),
+		disc: document.querySelector(".sb-hero-1-disc"),
+		btns: document.querySelector(".sb-hero-1-content .btn-wrap"),
+		img: document.querySelector(".sb-hero-1-img"),
+		robot: document.querySelector(".sb-hero-1-robot"),
+		words: []
+	};
+
+	hero.words = sbHeroWords(title);
 
 	gsap.set(hero.words, {
 		yPercent: 115,
@@ -305,6 +313,146 @@ function sbHeroPlay() {
 		// the robot waits until the image has landed, so the two never cross mid-slide
 		.set(hero.robot, { visibility: "visible" }, ">-.5")
 		.to(hero.robot, { y: 0, duration: 1.1, ease: "power3.out" }, "<");
+}
+
+/*
+	section titles 2 (.sb-sec-title-2) — the same word cascade, then the icon pops in;
+	the words end on the colour the title already has, some of them sit on a dark section
+*/
+var sbTitle2Items = [];
+
+function sbTitle2Split() {
+	if (isRtl() || prefersReducedMotion()) return;
+
+	document.querySelectorAll(".sb-sec-title-2").forEach(function (el) {
+		var color = getComputedStyle(el).color;
+		var icons = el.querySelectorAll(".sb-sec-title-2-icon");
+		var words = sbHeroWords(el);
+
+		gsap.set(words, {
+			yPercent: 115,
+			rotate: 6,
+			opacity: 0,
+			filter: "blur(10px)",
+			color: "#8b72ff",
+			transformOrigin: "0% 100%"
+		});
+		gsap.set(icons, { opacity: 0, scale: .4, rotate: -25 });
+
+		sbTitle2Items.push({ el: el, words: words, icons: icons, color: color });
+	});
+}
+
+function sbTitle2Play() {
+	if (isRtl()) return;
+
+	sbTitle2Items.forEach(function (item) {
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: item.el,
+				start: "top 86%"
+			},
+			onComplete: function () {
+				gsap.set(item.words.concat(Array.prototype.slice.call(item.icons)), { clearProps: "all" });
+			}
+		})
+			.to(item.words, {
+				yPercent: 0,
+				rotate: 0,
+				opacity: 1,
+				filter: "blur(0px)",
+				color: item.color,
+				duration: 1.1,
+				ease: "power4.out",
+				stagger: .07
+			}, 0)
+			.to(item.icons, { opacity: 1, scale: 1, rotate: 0, duration: .9, ease: "back.out(1.7)" }, .45);
+	});
+}
+
+
+/*
+	hero-2 — same story as hero-1: parked before the preloader lifts, played right after
+*/
+var sbHero2 = null;
+
+function sbHero2Park() {
+	if (prefersReducedMotion()) return;
+
+	var title = document.querySelector(".sb-hero-2-title");
+	if (!title) return;
+
+	var hero = {
+		pill: document.querySelector(".sb-hero-2-content .sb-subtitle-2"),
+		icons: title.querySelectorAll(".sb-hero-2-title-icon"),
+		disc: document.querySelector(".sb-hero-2-disc"),
+		btns: document.querySelector(".sb-hero-2-content .btn-wrap"),
+		bg: document.querySelectorAll(".sb-hero-2-bg-shape, .sb-hero-2-bg-line"),
+		land: document.querySelector(".sb-hero-2-land"),
+		light1: document.querySelector(".sb-hero-2-light-1"),
+		light2: document.querySelector(".sb-hero-2-light-2"),
+		dot: document.querySelector(".sb-hero-2-dot"),
+		card1: document.querySelector(".sb-hero-2-card-1"),
+		card2: document.querySelector(".sb-hero-2-card-2"),
+		words: sbHeroWords(title)
+	};
+
+	gsap.set(hero.words, {
+		yPercent: 115,
+		rotate: 6,
+		opacity: 0,
+		filter: "blur(10px)",
+		color: "#8b72ff",
+		transformOrigin: "0% 100%"
+	});
+	gsap.set(hero.pill, { opacity: 0, y: 20, clipPath: "inset(0% 50% 0% 50% round 100px)" });
+	gsap.set(hero.icons, { opacity: 0, scale: .4, rotate: -25 });
+	gsap.set([hero.disc, hero.btns], { opacity: 0, y: 28, filter: "blur(6px)" });
+	gsap.set(hero.bg, { opacity: 0 });
+	gsap.set([hero.light1, hero.light2, hero.dot], { opacity: 0 });
+	// the cards keep their tilt from the css, gsap only adds the slide on top of it
+	gsap.set([hero.land, hero.card1, hero.card2], { opacity: 0, y: 90 });
+
+	sbHero2 = hero;
+}
+
+function sbHero2Play() {
+	if (!sbHero2) return;
+	var hero = sbHero2;
+
+	gsap.timeline({
+		defaults: { ease: "power3.out" },
+		onComplete: function () {
+			gsap.set([hero.pill, hero.icons, hero.disc, hero.btns, hero.bg, hero.land, hero.light1, hero.light2, hero.dot, hero.card1, hero.card2].concat(hero.words), { clearProps: "all" });
+		}
+	})
+		.to(hero.bg, { opacity: 1, duration: 1.5, ease: "power2.out" }, 0)
+		.to(hero.pill, {
+			opacity: 1,
+			y: 0,
+			clipPath: "inset(0% 0% 0% 0% round 100px)",
+			duration: 1
+		}, 0)
+		.to(hero.words, {
+			yPercent: 0,
+			rotate: 0,
+			opacity: 1,
+			filter: "blur(0px)",
+			color: "#fff",
+			duration: 1.1,
+			ease: "power4.out",
+			stagger: .08
+		}, .15)
+		.to(hero.icons, { opacity: 1, scale: 1, rotate: 0, duration: .9, ease: "back.out(1.7)", stagger: .25 }, .6)
+		.to(hero.disc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .8)
+		.to(hero.btns, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .95)
+		// the visual builds up behind the text: ground first, then the cards with their lights and dots
+		.to(hero.land, { opacity: .8, y: 0, duration: 1.3 }, .3)
+		.to(hero.light1, { opacity: 1, duration: 1.5, ease: "power2.out" }, .5)
+		.to(hero.card1, { opacity: 1, y: 0, duration: 1.3, ease: "power4.out" }, .6)
+		.to(hero.light2, { opacity: 1, duration: 1.5, ease: "power2.out" }, .8)
+		.to(hero.dot, { opacity: 1, duration: 1.5, ease: "power2.out" }, .9)
+		.to(hero.card2, { opacity: 1, y: 0, duration: 1.3, ease: "power4.out" }, .95);
 }
 
 function sbHeroGlow() {
@@ -465,6 +613,219 @@ function sbFeaturesMenu() {
 		items[current].classList.remove("active");
 		items[next].classList.add("active");
 	}, 2000);
+}
+
+
+/*
+	features-2 panels — every panel builds up its own elements when it scrolls into view;
+	the css values (tilt, resting opacity) are the end state, so these are all "from" tweens
+*/
+function sbFeatures2Panels() {
+	if (prefersReducedMotion()) return;
+
+	document.querySelectorAll(".sb-features-2-panel").forEach(function (panel) {
+		var card = panel.parentNode.classList;
+		var targets = [];
+		var wipe = "inset(0% 100% 0% 0%)";
+
+		var tl = gsap.timeline({
+			defaults: { duration: 1, ease: "power3.out" },
+			scrollTrigger: {
+				trigger: panel,
+				start: "top 85%",
+				once: true
+			},
+			onComplete: function () {
+				gsap.set(targets, { clearProps: "opacity,transform,clipPath" });
+			}
+		});
+
+		// collects what is animated so it can be cleaned up in one go
+		function from(sel, vars, pos) {
+			var els = panel.querySelectorAll(sel);
+			if (!els.length) return;
+			targets = targets.concat(Array.prototype.slice.call(els));
+			tl.from(els, vars, pos);
+		}
+
+		if (card.contains("sb-features-2-card-1")) {
+			from(".sb-features-2-card-1-list", { y: 40, opacity: 0 }, 0);
+			from(".sb-features-2-card-1-chart", { clipPath: wipe, opacity: 0, duration: 1.6, ease: "power2.inOut" }, .3);
+		}
+
+		if (card.contains("sb-features-2-card-2")) {
+			from(".bg-line", { y: -30, opacity: 0, duration: 1.4 }, 0);
+			from(".bg-noise", { opacity: 0, duration: 1.4 }, 0);
+			from(".card-img", { y: 60, scale: .85, rotate: -22, opacity: 0, duration: 1.2 }, .2);
+			from(".arrow", { scale: .4, opacity: 0, duration: .7, stagger: .12 }, .7);
+			from(".icon", { scale: 0, opacity: 0, duration: .8, ease: "back.out(1.7)", stagger: .1 }, .5);
+		}
+
+		if (card.contains("sb-features-2-card-3")) {
+			from(".bg-shape", { opacity: 0, duration: 1.3 }, 0);
+			from(".phone", { y: 60, opacity: 0, duration: 1.3, ease: "power4.out" }, .1);
+			from(".img-1", { x: -50, opacity: 0, duration: 1.1 }, .5);
+			from(".img-2", { x: 50, y: -20, opacity: 0, duration: 1.1 }, .65);
+			from(".line", { clipPath: wipe, opacity: 0, duration: 1.2, ease: "power2.inOut" }, .9);
+		}
+
+		if (card.contains("sb-features-2-card-4")) {
+			from(".bg-shape", { opacity: 0, duration: 1.3 }, 0);
+			from(".img-1, .img-2, .img-3", { y: 50, opacity: 0, duration: 1.1, stagger: .15 }, .2);
+			from(".flag", { scale: 0, opacity: 0, duration: .8, ease: "back.out(1.7)", stagger: .12 }, .7);
+			from(".flag-line", { clipPath: wipe, opacity: 0, duration: 1.2, ease: "power2.inOut" }, .9);
+		}
+	});
+}
+
+
+/*
+	cta-2 — the card fades up, its side shapes slide in, the text and store badges follow
+	and the phone stands up last; the title has its own word cascade (wa_title_ani_2)
+*/
+function sbCta2Intro() {
+	var wrap = document.querySelector(".sb-cta-2-wrap");
+	if (!wrap || prefersReducedMotion()) return;
+
+	var q = function (sel) { return wrap.querySelectorAll(sel); };
+	var targets = Array.prototype.slice.call(q(".sb-cta-2-bg, .shape, .sb-cta-2-disc, .sb-cta-2-apps a, .sb-cta-2-phone"));
+
+	var tl = gsap.timeline({
+		defaults: { duration: 1, ease: "power3.out" },
+		scrollTrigger: {
+			trigger: wrap,
+			start: "top 80%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(targets, { clearProps: "opacity,transform,filter" });
+		}
+	});
+
+	tl
+		.from(q(".sb-cta-2-bg"), { opacity: 0, scale: .96, duration: 1.2 }, 0)
+		.from(q(".shape-1"), { x: -80, opacity: 0, duration: 1.3 }, .2)
+		.from(q(".shape-2"), { x: 80, opacity: 0, duration: 1.3 }, .2)
+		.from(q(".sb-cta-2-disc"), { y: 28, opacity: 0, filter: "blur(6px)" }, .6)
+		.from(q(".sb-cta-2-apps a"), { y: 24, opacity: 0, scale: .9, duration: .8, stagger: .15 }, .8)
+		.from(q(".sb-cta-2-phone"), { y: 120, opacity: 0, duration: 1.4, ease: "power4.out" }, .5);
+}
+
+
+/*
+	faqs-2 card — the photo is revealed top to bottom, then the blue help box rises over it
+	and its title, text and button follow one by one
+*/
+function sbFaqs2Card() {
+	var card = document.querySelector(".sb-faqs-2-card");
+	if (!card || prefersReducedMotion()) return;
+
+	var q = function (sel) { return card.querySelectorAll(sel); };
+	var targets = Array.prototype.slice.call(q(".img, .sb-faqs-2-help, .title, .disc, .chat"));
+
+	gsap.timeline({
+		defaults: { duration: 1, ease: "power3.out" },
+		scrollTrigger: {
+			trigger: card,
+			start: "top 85%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(targets, { clearProps: "opacity,transform,clipPath" });
+		}
+	})
+		.from(q(".img"), { clipPath: "inset(0% 0% 100% 0% round 20px)", duration: 1.3, ease: "power3.inOut" }, 0)
+		.from(q(".sb-faqs-2-help"), { y: 50, opacity: 0, duration: 1.1 }, .7)
+		.from(q(".title, .disc, .chat"), { y: 20, opacity: 0, duration: .8, stagger: .12 }, 1);
+}
+
+
+/*
+	footer-2 — the title cascades word by word (the two gradient phrases rise as one piece each,
+	splitting them would break their gradient), the logo is wiped in from the left
+*/
+function sbFooter2Intro() {
+	if (prefersReducedMotion()) return;
+
+	var title = document.querySelector(".sb-footer-2-title");
+	var logo = document.querySelector(".sb-footer-2-info .logo img");
+
+	if (title) {
+		var words = sbHeroWords(title);
+
+		var grads = Array.prototype.slice.call(title.querySelectorAll(".grad-1, .grad-2"));
+		grads.forEach(function (el) {
+			var mask = document.createElement("span");
+			mask.className = "sb-split-mask";
+			el.parentNode.insertBefore(mask, el);
+			mask.appendChild(el);
+		});
+
+		// plain words and gradient phrases in reading order
+		var units = Array.prototype.slice.call(title.querySelectorAll(".sb-split-word, .grad-1, .grad-2"));
+
+		gsap.set(units, { yPercent: 115, rotate: 6, opacity: 0, filter: "blur(10px)", transformOrigin: "0% 100%" });
+		gsap.set(words, { color: "#8b72ff" });
+
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: title,
+				start: "top 86%",
+				once: true
+			},
+			onComplete: function () {
+				gsap.set(units, { clearProps: "all" });
+			}
+		})
+			.to(units, {
+				yPercent: 0,
+				rotate: 0,
+				opacity: 1,
+				filter: "blur(0px)",
+				duration: 1.1,
+				ease: "power4.out",
+				stagger: .1
+			}, 0)
+			.to(words, { color: "#fff", duration: 1.1, ease: "power4.out", stagger: .1 }, 0);
+	}
+
+	if (logo) {
+		gsap.from(logo, {
+			clipPath: "inset(0% 100% 0% 0%)",
+			x: -60,
+			opacity: 0,
+			duration: 1.6,
+			ease: "power3.inOut",
+			scrollTrigger: {
+				trigger: ".sb-footer-2-info",
+				start: "top 90%",
+				once: true
+			},
+			onComplete: function () {
+				gsap.set(logo, { clearProps: "opacity,transform,clipPath" });
+			}
+		});
+	}
+}
+
+
+/*
+	about-2 — the photo drifts slower than the page (parallax) while the section passes the screen
+*/
+function sbAbout2Parallax() {
+	var img = document.querySelector(".sb-about-2-bg img");
+	if (!img || prefersReducedMotion()) return;
+
+	gsap.fromTo(img, { yPercent: -6 }, {
+		yPercent: 6,
+		ease: "none",
+		scrollTrigger: {
+			trigger: ".sb-about-2-area",
+			start: "top bottom",
+			end: "bottom top",
+			scrub: true
+		}
+	});
 }
 
 
@@ -720,11 +1081,18 @@ function afterPreloader() {
 	sbFeaturesCard1();
 	sbFeaturesCard2();
 	sbFeaturesMenu();
+	sbFeatures2Panels();
+	sbAbout2Parallax();
+	sbCta2Intro();
+	sbFaqs2Card();
+	sbFooter2Intro();
 	sbServicesBg();
 	sbTestimonialGlow();
 	sbCtaIntro();
 	sbHeroPlay();
+	sbHero2Play();
 	sbTitlePlay();
+	sbTitle2Play();
 }
 
 function afterPageLoad() {
@@ -748,7 +1116,9 @@ window.addEventListener("load", function () {
 
 	// park the titles and the hero while the curtain is still up
 	sbTitleSplit();
+	sbTitle2Split();
 	sbHeroPark();
+	sbHero2Park();
 
 	if (sbPreloader) {
 		sbPreloader.done();

@@ -579,6 +579,41 @@
         height: 658px;
         z-index: 4;
 
+        /* every dot falls from top to bottom on its own speed and delay, so they never fall together */
+        circle {
+            animation: sbHero2DotFall 6s linear infinite;
+
+            &:nth-child(3n+2) {
+                animation-duration: 8s;
+            }
+
+            &:nth-child(3n) {
+                animation-duration: 10s;
+            }
+
+            &:nth-child(4n+1) {
+                animation-delay: -2s;
+            }
+
+            &:nth-child(5n+2) {
+                animation-delay: -4s;
+            }
+
+            &:nth-child(7n+3) {
+                animation-delay: -6s;
+            }
+
+            &:nth-child(2n) {
+                animation-delay: -8s;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            circle {
+                animation: none;
+            }
+        }
+
         @media #{$lg,$md,$sm,$xs} {
             display: none;
         }
@@ -613,6 +648,25 @@
         }
     }
 }
-/* 
+@keyframes sbHero2DotFall {
+    0% {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(80px);
+    }
+}
+/*
     hero-2-end
 */

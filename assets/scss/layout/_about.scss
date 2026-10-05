@@ -52,6 +52,8 @@
                 height: 100%;
                 object-fit: cover;
                 object-position: 78% center;
+                /* fills the height, so the parallax drift (+-6%) needs this much extra to never show an edge */
+                transform: scale(1.15);
             }
         }
 
