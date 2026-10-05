@@ -667,10 +667,12 @@
                 background-image: linear-gradient(transparent calc(100% - 1px), currentColor 2px);
                 -webkit-transition: var(--sb-cube-1);
                 transition: var(--sb-cube-1);
+                opacity: 80%;
 
                 &:hover {
                     color: #FE8165;
                     background-size: 100% 100%;
+                    opacity: 1;
                 }
             }
         }

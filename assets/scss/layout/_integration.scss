@@ -89,6 +89,7 @@
     &-disc {
         max-width: 632px;
         margin-bottom: 32px;
+        opacity: 80% !important;
 
         @media #{$lg,$md,$xs} {
             br {

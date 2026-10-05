@@ -651,7 +651,7 @@
             z-index: 2;
             padding: 2px;
             border-radius: inherit;
-            background: linear-gradient(180deg, rgb(var(--rgb) / 45%) 0%, rgb(var(--rgb) / 12%) 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #FFE3DD 100%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -756,6 +756,19 @@
 
         &.active .content .title {
             font-weight: 500;
+        }
+
+
+        &:nth-child(1) {
+            &::before {
+                background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #F9E4FF 100%);
+            }
+        }
+
+        &:nth-child(2) {
+            &::before {
+                background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #C5E5FF 100%);
+            }
         }
     }
 

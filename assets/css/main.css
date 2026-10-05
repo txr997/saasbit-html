@@ -1564,6 +1564,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   background: linear-gradient(50deg, #FE8165 0%, #D258F6 30%, #45ACFF 50%);
   background-size: 200% 100%;
   background-position: 0 0;
+  box-shadow: inset 0 0 0 100px rgba(5, 2, 33, 0);
   z-index: -1;
   transition: var(--sb-cube-1);
 }
@@ -1589,7 +1590,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   color: #fff;
 }
 .sb-pr-btn-2:hover::after {
-  background-position: 100% 0;
+  box-shadow: inset 0 0 0 100px var(--sb-clr-h-2);
 }
 .sb-pr-btn-2:hover .text {
   transform: translateX(8px);
@@ -2331,7 +2332,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 .fadeInLeft2,
 .fadeInRight2 {
   animation-duration: 700ms;
-  animation-timing-function: var(--on-cube-1);
+  animation-timing-function: var(--sb-cube-1);
   animation-fill-mode: both;
 }
 
@@ -2339,7 +2340,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 .slideInDown2,
 .animate__slideInUp3 {
   animation-duration: 1000ms;
-  animation-timing-function: var(--on-cube-1);
+  animation-timing-function: var(--sb-cube-1);
   animation-fill-mode: both;
 }
 
@@ -7220,7 +7221,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   z-index: 2;
   padding: 2px;
   border-radius: inherit;
-  background: linear-gradient(180deg, rgb(var(--rgb)/45%) 0%, rgb(var(--rgb)/12%) 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #FFE3DD 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -7326,6 +7327,12 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .sb-step-2-card.active .content .title {
   font-weight: 500;
+}
+.sb-step-2-card:nth-child(1)::before {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #F9E4FF 100%);
+}
+.sb-step-2-card:nth-child(2)::before {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 46.63%, #C5E5FF 100%);
 }
 .sb-step-2-card-1 {
   --bg: #F9E4FF;
@@ -7684,6 +7691,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 .sb-integration-2-disc {
   max-width: 632px;
   margin-bottom: 32px;
+  opacity: 80% !important;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .sb-integration-2-disc br {
@@ -10111,10 +10119,12 @@ input:focus::placeholder, textarea:focus::placeholder {
   background-image: linear-gradient(transparent calc(100% - 1px), currentColor 2px);
   -webkit-transition: var(--sb-cube-1);
   transition: var(--sb-cube-1);
+  opacity: 80%;
 }
 .sb-footer-2-links ul li a:hover {
   color: #FE8165;
   background-size: 100% 100%;
+  opacity: 1;
 }
 @media (max-width: 767px) {
   .sb-footer-2-links {
