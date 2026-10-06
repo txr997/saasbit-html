@@ -23,6 +23,15 @@
     margin-bottom: 0;
 }
 
+.sb-p-3 {
+    font-family: var(--sb-font-1);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--sb-clr-p-3);
+    line-height: 1.555;
+    margin-bottom: 0;
+}
+
 
 .sb-h-1 {
     font-family: var(--sb-font-2);
@@ -36,6 +45,14 @@
     font-family: var(--sb-font-2);
     font-weight: 500;
     color: var(--sb-clr-h-2);
+    line-height: 1.153;
+    margin-bottom: 0;
+}
+
+.sb-h-3 {
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    color: var(--sb-clr-h-3);
     line-height: 1.153;
     margin-bottom: 0;
 }
@@ -155,6 +172,61 @@
     &.light {
         background: #F3F9FF;
         box-shadow: 0 0 0 4px rgb(69 172 255 / 12%);
+    }
+}
+
+
+.sb-subtitle-3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+    padding: 2px 16px 2px 2px;
+    border: 1px solid var(--sb-clr-pr-3);
+    border-radius: 80px;
+    background: rgb(255 255 255 / 8%);
+    backdrop-filter: blur(12px);
+
+    &-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--sb-clr-pr-3);
+        box-shadow: inset 0 0 14px #fff;
+    }
+
+    &-text {
+        font-family: var(--sb-font-2);
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 22px;
+        color: var(--sb-clr-h-3);
+        margin-bottom: 0;
+    }
+
+    &::before,
+    &::after {
+        content: "";
+        width: 50%;
+        height: 1px;
+        position: absolute;
+        left: 25%;
+        z-index: 2;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #fff 50%, rgba(255, 255, 255, 0) 100%);
+        pointer-events: none;
+    }
+
+    // glow lines sit on top of the border
+    &::before {
+        top: -1px;
+    }
+
+    &::after {
+        bottom: -1px;
     }
 }
 
@@ -308,7 +380,36 @@
     }
 }
 
+.sb-sec-title-3 {
+    font-family: var(--sb-font-2);
+    line-height: 1.083;
+    color: var(--sb-clr-h-3);
+    font-weight: 600;
+    letter-spacing: -1%;
+    margin-bottom: 0;
+    font-size: 48px;
 
+    
+    @media #{$xl} {
+        font-size: 44px;
+    }
+
+    @media #{$lg} {
+        font-size: 40px;
+    }
+
+    @media #{$md} {
+        font-size: 36px;
+    }
+
+    @media #{$xs} {
+        font-size: 28px;
+    }
+
+    @media #{$sm} {
+        font-size: 32px;
+    }
+}
 
 /*
     typography-end

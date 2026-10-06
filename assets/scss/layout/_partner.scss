@@ -316,3 +316,156 @@
 /*
     partner-2-end
 */
+
+/* 
+    partner-3-start
+*/
+.sb-partner-3 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+    }
+
+    &-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    /* hatch panels on both outer sides, same height as the marquee band */
+    &-side {
+        flex: 1 1 0;
+        min-width: 0;
+        align-self: flex-end;
+        height: 118px;
+        background-repeat: repeat;
+        background-position: top left;
+        background-size: 260px 118px;
+
+        &-right {
+            background-position: top right;
+        }
+
+        @media #{$lg,$md} {
+            height: 100px;
+            background-size: 220px 100px;
+        }
+
+        @media #{$sm,$xs} {
+            display: none;
+        }
+    }
+
+    &-main {
+        flex: 0 1 1400px;
+        min-width: 0;
+        border-left: 1px solid #D6DADB;
+        border-right: 1px solid #D6DADB;
+    }
+
+    &-head {
+        padding: 128px 20px 30px;
+        text-align: center;
+
+        @media #{$xl} {
+            padding-top: 110px;
+        }
+
+        @media #{$lg} {
+            padding-top: 90px;
+        }
+
+        @media #{$md} {
+            padding-top: 70px;
+        }
+
+        @media #{$sm,$xs} {
+            padding-top: 60px;
+            padding-bottom: 24px;
+        }
+    }
+
+    &-title {
+        font-size: 28px;
+        line-height: 1;
+
+        span {
+            color: var(--sb-clr-pr-3);
+        }
+
+        @media #{$lg,$md} {
+            font-size: 26px;
+        }
+
+        @media #{$sm} {
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        @media #{$xs} {
+            font-size: 20px;
+            line-height: 1.25;
+        }
+    }
+
+    &-box {
+        display: flex;
+        align-items: center;
+        height: 118px;
+        overflow: hidden;
+        border-top: 1px solid #D6DADB;
+        border-bottom: 1px solid #D6DADB;
+
+        @media #{$lg,$md} {
+            height: 100px;
+        }
+
+        @media #{$sm,$xs} {
+            height: 84px;
+        }
+    }
+
+    &-marquee {
+        width: 100%;
+        overflow: hidden;
+
+        &-wrap {
+            display: flex;
+            align-items: center;
+            gap: 160px;
+            margin-right: 160px;
+
+            @media #{$xl,$lg,$md} {
+                gap: 100px;
+                margin-right: 100px;
+            }
+
+            @media #{$sm,$xs} {
+                gap: 60px;
+                margin-right: 60px;
+            }
+        }
+
+        &-item {
+            flex-shrink: 0;
+            opacity: .72;
+
+            img {
+                display: block;
+                max-width: none;
+                filter: grayscale(1);
+
+                @media #{$lg,$md} {
+                    zoom: .85;
+                }
+
+                @media #{$sm,$xs} {
+                    zoom: .65;
+                }
+            }
+        }
+    }
+}
+/*
+    partner-3-end
+*/

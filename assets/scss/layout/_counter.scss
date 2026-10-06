@@ -1,0 +1,138 @@
+@use '../abstracts/variables' as *;
+
+/* 
+    counter-3-start
+*/
+.sb-counter-3 {
+    &-area {
+        overflow: hidden;
+    }
+
+    &-wrap {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        @media #{$lg,$md} {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media #{$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    &-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 58px;
+        min-height: 463px;
+        padding: 44px;
+        border-right: 1px solid rgb(3 27 32 / 20%);
+
+        &:last-child {
+            border-right: 0;
+        }
+
+        @media #{$xl} {
+            padding: 36px 32px;
+        }
+
+        @media #{$lg,$md} {
+            min-height: 0;
+            gap: 48px;
+            padding: 40px;
+            border-bottom: 1px solid rgb(3 27 32 / 20%);
+
+            &:nth-child(2n) {
+                border-right: 0;
+            }
+
+            &:nth-last-child(-n+2) {
+                border-bottom: 0;
+            }
+        }
+
+        @media #{$sm,$xs} {
+            min-height: 0;
+            gap: 40px;
+            padding: 36px 24px;
+            border-right: 0;
+            border-bottom: 1px solid rgb(3 27 32 / 20%);
+
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+    }
+
+    // neumorphic green badge
+    &-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #04946F;
+        box-shadow: inset -1px -1px 1px rgb(0 0 0 / 23%), inset 1px 1px 1px rgb(255 255 255 / 83%), -.5px -.5px 0 #14AE86, 10px 10px 21.2px -3.75px rgb(0 0 0 / 23%), 5.9px 5.9px 8.3px -3px rgb(0 0 0 / 19%), 2.7px 2.7px 3.8px -2.25px rgb(0 0 0 / 23%), inset 0 0 10px #fff;
+    }
+
+    &-head {
+        position: relative;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgb(3 27 32 / 16%);
+    }
+
+    // big ghost number, the title sits on top of its lower part
+    &-number {
+        display: block;
+        font-family: var(--sb-font-2);
+        font-weight: 700;
+        font-size: 100px;
+        line-height: 1.04;
+        height: 1.04em;
+        color: var(--sb-clr-h-3);
+        opacity: .16;
+        white-space: nowrap;
+
+        .odometer {
+            padding: 0;
+            line-height: inherit;
+            vertical-align: baseline;
+        }
+
+        @media #{$xl} {
+            font-size: 84px;
+        }
+
+        @media #{$lg,$md} {
+            font-size: 90px;
+        }
+
+        @media #{$sm,$xs} {
+            font-size: 76px;
+        }
+    }
+
+    &-title {
+        position: relative;
+        margin: -28px 0 0;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 28px;
+
+        @media #{$xs} {
+            font-size: 22px;
+        }
+    }
+
+    &-disc {
+        margin: 0;
+    }
+}
+/*
+    counter-3-end
+*/

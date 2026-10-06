@@ -1,0 +1,342 @@
+@use '../abstracts/variables' as *;
+
+/*
+    blog-3-start
+*/
+.sb-blog-3 {
+    &-area {
+        position: relative;
+        padding: 272px 0 128px;
+        background-color: #F5F5F5;
+        overflow: hidden;
+        z-index: 1;
+        margin-top: -140px;
+
+        @media #{$xl} {
+            padding: 220px 0 110px;
+        }
+
+        @media #{$lg} {
+            padding: 180px 0 100px;
+      
+        }
+
+        @media #{$md} {
+            padding: 140px 0 80px;
+            margin-top: -40px;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 100px 0 60px;
+            margin-top: -40px;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    &-title-wrap {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        margin-bottom: 52px;
+
+        .sb-subtitle-3 {
+            margin-bottom: 12px;
+        }
+
+        .sb-sec-title-3 {
+            margin-bottom: 0;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+    }
+
+    &-btn {
+        flex-shrink: 0;
+        margin-bottom: 8px;
+
+        @media #{$lg,$md,$sm,$xs} {
+            margin-bottom: 0;
+        }
+    }
+
+    &-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px;
+
+        @media #{$lg} {
+            gap: 20px;
+        }
+
+        @media #{$md,$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+    }
+
+    /*
+        post card, the date badge hangs over the bottom edge of the photo
+    */
+    &-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        background: rgb(255 255 255 / 60%);
+
+        &-media {
+            position: relative;
+        }
+
+        &-img {
+            display: block;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+
+            img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 448 / 316;
+                object-fit: cover;
+                transition: transform .8s cubic-bezier(.18, .82, .41, 1);
+            }
+        }
+
+        &:hover &-img img {
+            transform: scale(1.06);
+        }
+
+        &-date {
+            position: absolute;
+            bottom: -24px;
+            left: 40px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            width: 80px;
+            height: 91px;
+            padding: 16px 18px;
+            border-radius: 8px;
+            background: rgb(255 255 255 / 88%);
+            backdrop-filter: blur(12px);
+            box-shadow: -12px 12px 64px rgb(0 0 0 / 10%);
+
+            // faint second plate behind the badge
+            &::after {
+                content: "";
+                position: absolute;
+                top: 9px;
+                left: 7px;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                background: rgb(255 255 255 / 12%);
+                z-index: -1;
+            }
+
+            .day {
+                font-family: var(--sb-font-1);
+                font-weight: 600;
+                font-size: 36px;
+                line-height: 30px;
+                color: var(--sb-clr-h-3);
+            }
+
+            .month {
+                font-family: var(--sb-font-1);
+                font-weight: 600;
+                font-size: 15px;
+                line-height: 12px;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: var(--sb-clr-p-3);
+                opacity: .72;
+            }
+        }
+
+        &-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 57px 40px 40px;
+        }
+
+        &-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        &-cat,
+        &-read {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--sb-font-1);
+            line-height: 24px;
+            letter-spacing: 1px;
+
+            &::before {
+                content: "";
+                flex-shrink: 0;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--sb-clr-pr-3);
+            }
+        }
+
+        &-cat {
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--sb-clr-pr-3);
+        }
+
+        &-title {
+            margin: 0;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 32px;
+
+            a {
+                color: inherit;
+                transition: var(--sb-cube-1);
+
+                &:hover {
+                    color: var(--sb-clr-pr-3);
+                }
+            }
+        }
+
+        &-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-top: 20px;
+            border-top: 1px solid rgb(10 31 67 / 12%);
+        }
+
+        &-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            img {
+                flex-shrink: 0;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .name {
+                font-family: var(--sb-font-1);
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: 1px;
+                color: var(--sb-clr-h-3);
+                opacity: .8;
+            }
+        }
+
+        &-read {
+            font-weight: 500;
+            font-size: 16px;
+            color: var(--sb-clr-p-3);
+            white-space: nowrap;
+        }
+
+        @media #{$xl} {
+            &-content {
+                padding: 57px 28px 32px;
+            }
+
+            &-date {
+                left: 28px;
+            }
+        }
+
+        @media #{$lg} {
+            &-content {
+                padding: 57px 24px 28px;
+                gap: 16px;
+            }
+
+            &-date {
+                left: 24px;
+                width: 70px;
+                height: 80px;
+                padding: 12px 14px;
+                gap: 10px;
+
+                .day {
+                    font-size: 30px;
+                }
+
+                .month {
+                    font-size: 13px;
+                }
+            }
+
+            &-title {
+                font-size: 20px;
+                line-height: 30px;
+            }
+
+            &-author .name,
+            &-read {
+                font-size: 14px;
+            }
+        }
+
+        @media #{$xs} {
+            &-content {
+                padding: 57px 20px 24px;
+            }
+
+            &-date {
+                left: 20px;
+            }
+
+            &-title {
+                font-size: 20px;
+                line-height: 30px;
+            }
+
+            &-author .name {
+                font-size: 14px;
+            }
+
+            &-read {
+                font-size: 14px;
+            }
+        }
+    }
+}
+/*
+    blog-3-end
+*/

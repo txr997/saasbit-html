@@ -349,3 +349,374 @@
 /*
     integration-2-end
 */
+
+
+/*
+    integration-3-start
+*/
+// icon board tiles: column (x = col * 110px), top, glow colours (bottom, top) and the glow opacities
+$sb-in3-tiles: (
+    1: (0, 181, #FF9F04, .72, #008ADF, .8),
+    2: (1, 45, #EDBE01, .72, #EDBE01, .72),
+    3: (1, 265, #199A64, .72, #199A64, .72),
+    4: (2, 99, #6342F5, .72, #6342F5, .72),
+    5: (3, 229, #CB2027, .72, #CB2027, .72),
+    6: (4, 48, #03D482, 1, #03D482, 1),
+    7: (4, 158, #518EF8, 1, #28B446, 1),
+    8: (5, 0, #1877F2, 1, #1877F2, 1),
+    9: (5, 220, #FF9601, .7, #DD6EC5, .7),
+    10: (6, 47, #F44336, 1, #F44336, 1),
+    11: (6, 157, #016FB3, .8, #016FB3, .8),
+    12: (7, 65, #409FEC, .72, #409FEC, .72),
+    13: (8, 25, #00D95F, 1, #00D95F, 1),
+    14: (8, 135, #BC5A5E, .72, #BC5A5E, .72),
+    15: (8, 245, #BC5AB5, .72, #BC5AB5, .72),
+    16: (9, 45, #7328E1, 1, #7328E1, 1),
+    17: (10, 145, #54CB1A, .72, #54CB1A, .72),
+    18: (11, 45, #FF7F59, 1, #FF7F59, 1)
+);
+
+// empty ghost tiles: column, top
+$sb-in3-ghosts: (
+    1: (11, 155),
+    2: (10, 35),
+    3: (9, 163),
+    4: (7, 175),
+    5: (5, 110),
+    6: (3, 119),
+    7: (2, 209),
+    8: (1, 155)
+);
+
+.sb-integration-3 {
+    &-area {
+        position: relative;
+        padding: 86px 0 128px;
+        overflow: hidden;
+        z-index: 1;
+
+        @media #{$xl} {
+            padding: 80px 0 110px;
+        }
+
+        @media #{$lg} {
+            padding: 80px 0 90px;
+        }
+
+        @media #{$md} {
+            padding: 70px 0 80px;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 60px 0 60px;
+        }
+    }
+
+    &-shape {
+        position: absolute;
+        max-width: none;
+        pointer-events: none;
+        z-index: -1;
+
+        &.shape-1 {
+            top: 0;
+            right: 0;
+            width: 346px;
+        }
+
+        &.shape-2 {
+            left: 0;
+            bottom: 0;
+            width: 854px;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            width: 40%;
+
+            &.shape-1 {
+                width: 26%;
+            }
+        }
+    }
+
+    &-title-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 686px;
+        margin: 0 auto 52px;
+        text-align: center;
+
+        .sb-subtitle-3 {
+            margin-bottom: 12px;
+        }
+
+        .sb-sec-title-3 {
+            margin-bottom: 20px;
+        }
+
+        @media #{$sm,$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    // this pill sits on a mint fill in the design
+    &-subtitle {
+        background: #A7DDCE;
+    }
+
+    &-disc {
+        color: var(--sb-clr-h-3);
+        opacity: .8;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /*
+        board: 12 columns of 100px tiles on a 110px step, shrinks as a whole on small screens
+    */
+    // flex keeps the (zoomed down) board centred even when it is wider than the container
+    &-board-wrap {
+        display: flex;
+        justify-content: center;
+    }
+
+    &-board {
+        position: relative;
+        flex: 0 0 auto;
+        width: 1310px;
+        height: 365px;
+
+        @media #{$xl} {
+            zoom: .85;
+        }
+
+        @media #{$lg} {
+            zoom: .7;
+        }
+
+        @media #{$md} {
+            zoom: .55;
+        }
+
+        @media #{$sm} {
+            zoom: .42;
+        }
+
+        // below 576px it keeps shrinking so the 1310px board always fits the container
+        @media (max-width: 575px) {
+            zoom: .38;
+        }
+
+        @media (max-width: 520px) {
+            zoom: .34;
+        }
+
+        @media (max-width: 440px) {
+            zoom: .29;
+        }
+
+        @media (max-width: 385px) {
+            zoom: .25;
+        }
+
+        @media (max-width: 340px) {
+            zoom: .22;
+        }
+    }
+
+    &-item,
+    &-ghost {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 24px;
+    }
+
+    &-ghost {
+        background: rgb(245 245 245 / 12%);
+        border: 1px solid rgb(255 255 255 / 12%);
+    }
+
+    // glass tile: mint base, 60% white veil, two blurred colour glows (top and bottom), logo on top
+    &-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 60%)), #96D2C2;
+        box-shadow: inset 0 0 0 1px #fff;
+        overflow: hidden;
+        isolation: isolate;
+        transition: var(--sb-cube-1);
+
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow: inset 0 0 0 1px #fff, 0 14px 24px rgb(3 27 32 / 14%);
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(22px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        // top glow
+        &::before {
+            top: -45px;
+            left: 0;
+            width: 44px;
+            height: 82px;
+            background: var(--c2);
+            opacity: var(--o2);
+        }
+
+        // bottom glow
+        &::after {
+            top: 58px;
+            left: 50px;
+            width: 44px;
+            height: 82px;
+            background: var(--c1);
+            opacity: var(--o1);
+        }
+
+        img {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 44px;
+            height: auto;
+            max-width: none;
+        }
+    }
+
+    // wide glows
+    &-item-3,
+    &-item-5,
+    &-item-12,
+    &-item-14,
+    &-item-15,
+    &-item-17 {
+        &::before {
+            width: 80px;
+            height: 66px;
+        }
+
+        &::after {
+            top: 90px;
+            left: 15px;
+            width: 80px;
+            height: 51px;
+        }
+    }
+
+    &-item-1 {
+        &::before {
+            top: -49px;
+            width: 48px;
+            height: 89px;
+        }
+
+        &::after {
+            top: 63px;
+            left: 54px;
+            width: 48px;
+            height: 89px;
+        }
+    }
+
+    // two glows at the bottom, blue and green
+    &-item-7 {
+        &::before {
+            top: 58px;
+            left: 36px;
+            width: 28px;
+            height: 82px;
+        }
+
+        &::after {
+            left: 67px;
+            width: 28px;
+        }
+    }
+
+    // thin blue glows along the top
+    &-item-8 {
+        &::before {
+            top: -32px;
+            left: -10px;
+            width: 70px;
+            height: 82px;
+        }
+
+        &::after {
+            top: -33px;
+            left: 55px;
+            width: 55px;
+            height: 82px;
+        }
+    }
+
+    &-item-13 {
+        &::before {
+            top: -28px;
+            width: 100px;
+            height: 46px;
+        }
+
+        &::after {
+            top: 92px;
+            left: 11px;
+            width: 89px;
+            height: 49px;
+        }
+    }
+
+    &-item-16::before {
+        top: -20px;
+        width: 76px;
+        height: 44px;
+    }
+
+    // youtube tile has a white base
+    &-item-18 {
+        background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 60%)), #fff;
+    }
+
+    // logos that are not 44px wide
+    &-item-2 img {
+        width: 56px;
+    }
+
+    &-item-3 img {
+        width: 42px;
+    }
+
+    @each $n, $cfg in $sb-in3-tiles {
+        &-item-#{$n} {
+            left: nth($cfg, 1) * 110px;
+            top: nth($cfg, 2) * 1px;
+            --c1: #{nth($cfg, 3)};
+            --o1: #{nth($cfg, 4)};
+            --c2: #{nth($cfg, 5)};
+            --o2: #{nth($cfg, 6)};
+        }
+    }
+
+    @each $n, $cfg in $sb-in3-ghosts {
+        &-ghost-#{$n} {
+            left: nth($cfg, 1) * 110px;
+            top: nth($cfg, 2) * 1px;
+        }
+    }
+}
+/*
+    integration-3-end
+*/

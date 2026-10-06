@@ -696,3 +696,583 @@
 /*
     testimonial-2-end
 */
+
+
+/*
+    testimonial-3-start
+*/
+.sb-testimonial-3 {
+    &-area {
+        padding: 10px 100px 0;
+        background-color: #F5F5F5;
+        position: relative;
+        z-index: 2;
+
+        @media #{$xl} {
+            padding: 10px 60px 0;
+        }
+
+        @media #{$lg} {
+            padding: 10px 40px 0;
+        }
+
+        @media #{$md} {
+            padding: 10px 24px 0;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 10px 12px 0;
+        }
+    }
+
+    // rounded white card with the marble texture
+    &-wrap {
+        position: relative;
+        padding: 128px 0;
+        border-radius: 40px;
+        background-color: #fff;
+        overflow: hidden;
+        isolation: isolate;
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+            border-radius: 32px;
+        }
+
+        @media #{$md} {
+            padding: 80px 0;
+            border-radius: 32px;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 60px 0;
+            border-radius: 24px;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    &-top {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        margin-bottom: 44px;
+
+        @media #{$lg,$md,$sm,$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 28px;
+            margin-bottom: 36px;
+        }
+    }
+
+    &-title-wrap {
+        .sb-subtitle-3 {
+            margin-bottom: 12px;
+        }
+
+        .sb-sec-title-3 {
+            margin-bottom: 0;
+        }
+    }
+
+    /*
+        avatar switch, the open one grows into a pill with the name
+    */
+    &-nav {
+        display: flex;
+        align-items: flex-end;
+        flex-shrink: 0;
+        gap: 6px;
+        margin-bottom: 8px;
+
+        @media #{$sm,$xs} {
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+        &-item {
+            display: flex;
+            align-items: center;
+            height: 64px;
+            padding: 0;
+            border: 0;
+            border-radius: 100px;
+            background: transparent;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--sb-cube-1);
+
+            img {
+                flex-shrink: 0;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                object-fit: cover;
+                transition: var(--sb-cube-1);
+            }
+
+            .name {
+                max-width: 0;
+                margin-left: 0;
+                font-family: var(--sb-font-2);
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 28px;
+                color: #1C1C2D;
+                white-space: nowrap;
+                opacity: 0;
+                transition: var(--sb-cube-1);
+            }
+
+            &.active {
+                padding: 6px 20px 6px 6px;
+                background: #EDF4F2;
+
+                img {
+                    width: 52px;
+                    height: 52px;
+                }
+
+                .name {
+                    max-width: 200px;
+                    margin-left: 12px;
+                    opacity: 1;
+                }
+            }
+
+            @media #{$xs} {
+                height: 52px;
+
+                img {
+                    width: 52px;
+                    height: 52px;
+                }
+
+                &.active {
+                    img {
+                        width: 40px;
+                        height: 40px;
+                    }
+
+                    .name {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    &-bottom {
+        display: grid;
+        grid-template-columns: 344px minmax(0, 1fr);
+        gap: 16px;
+        margin-bottom: 52px;
+
+        @media #{$xl} {
+            grid-template-columns: 300px minmax(0, 1fr);
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            margin-bottom: 40px;
+        }
+    }
+
+    // photo with the rating on top
+    &-author {
+        position: relative;
+        height: 384px;
+        border-radius: 16px;
+        overflow: hidden;
+
+        &-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &-info {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .avatars {
+                display: flex;
+                flex-shrink: 0;
+
+                img {
+                    display: block;
+                    width: 52px;
+                    height: 52px;
+
+                    + img {
+                        margin-left: -18px;
+                    }
+                }
+            }
+
+            .top {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .stars {
+                display: flex;
+                gap: 2px;
+            }
+
+            .score {
+                font-family: var(--sb-font-2);
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 24px;
+                color: #fff;
+            }
+
+            .text {
+                margin: 4px 0 0;
+                font-family: var(--sb-font-2);
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: var(--sb-clr-p-3);
+
+                b {
+                    font-weight: 500;
+                    color: var(--sb-clr-h-3);
+                }
+            }
+
+            @media #{$xl} {
+                left: 14px;
+                right: 14px;
+                bottom: 14px;
+
+                .stars svg {
+                    width: 15px;
+                    height: 15px;
+                }
+
+                .text {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            height: 320px;
+        }
+    }
+
+    /*
+        slider, one review at a time (fade)
+    */
+    &-slider {
+        padding: 12px;
+        border-radius: 16px;
+        background: #EDF4F2;
+        overflow: hidden;
+
+        .swiper {
+            overflow: hidden;
+        }
+
+        .swiper-slide {
+            height: auto;
+        }
+
+        // every time a review becomes the active slide its parts come in one after another
+        .swiper-slide-active {
+            .sb-testimonial-3-item-img {
+                animation: sbTesti3Left .9s cubic-bezier(.18, .82, .41, 1) both;
+
+                img {
+                    animation: sbTesti3Zoom 1.4s cubic-bezier(.18, .82, .41, 1) both;
+                }
+            }
+
+            .sb-testimonial-3-item-card {
+                animation: sbTesti3Up .9s cubic-bezier(.18, .82, .41, 1) .1s both;
+            }
+
+            .sb-testimonial-3-item-stars svg {
+                animation: sbTesti3Star .6s cubic-bezier(.34, 1.56, .64, 1) both;
+
+                @for $i from 1 through 5 {
+                    &:nth-child(#{$i}) {
+                        animation-delay: #{.3 + $i * .08}s;
+                    }
+                }
+            }
+
+            .sb-testimonial-3-item-quote {
+                animation: sbTesti3Up .9s cubic-bezier(.18, .82, .41, 1) .5s both;
+            }
+
+            .sb-testimonial-3-item-author {
+                animation: sbTesti3Up .9s cubic-bezier(.18, .82, .41, 1) .7s both;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .sb-testimonial-3-item-img,
+                .sb-testimonial-3-item-img img,
+                .sb-testimonial-3-item-card,
+                .sb-testimonial-3-item-stars svg,
+                .sb-testimonial-3-item-quote,
+                .sb-testimonial-3-item-author {
+                    animation: none;
+                }
+            }
+        }
+    }
+
+    &-item {
+        display: grid;
+        grid-template-columns: 272px minmax(0, 1fr);
+        gap: 12px;
+        height: 360px;
+
+        &-img {
+            border-radius: 8px;
+            overflow: hidden;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        &-card {
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        &-stars {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        &-quote {
+            margin: 0;
+            font-family: var(--sb-font-1);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 32px;
+            color: var(--sb-clr-h-3);
+        }
+
+        &-author {
+            margin-top: auto;
+
+            .name {
+                margin-bottom: 8px;
+                font-weight: 600;
+                font-size: 22px;
+                line-height: 28px;
+            }
+
+            .role {
+                margin: 0;
+                font-family: var(--sb-font-1);
+                font-size: 16px;
+                line-height: 24px;
+                color: var(--sb-clr-p-3);
+                opacity: .72;
+            }
+        }
+
+        @media #{$xl} {
+            grid-template-columns: 220px minmax(0, 1fr);
+
+            &-card {
+                padding: 32px;
+            }
+
+            &-quote {
+                font-size: 18px;
+                line-height: 28px;
+            }
+        }
+
+        @media #{$lg} {
+            grid-template-columns: 220px minmax(0, 1fr);
+
+            &-card {
+                padding: 36px;
+            }
+
+            &-quote {
+                font-size: 18px;
+                line-height: 30px;
+            }
+        }
+
+        @media #{$md,$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            height: auto;
+
+            &-img {
+                height: 280px;
+            }
+
+            &-card {
+                padding: 28px;
+            }
+
+            &-quote {
+                font-size: 18px;
+                line-height: 30px;
+            }
+
+            &-author {
+                margin-top: 24px;
+            }
+        }
+
+        @media #{$xs} {
+            &-card {
+                padding: 22px;
+            }
+
+            &-quote {
+                font-size: 16px;
+                line-height: 26px;
+            }
+
+            &-author .name {
+                font-size: 20px;
+            }
+        }
+    }
+
+    /*
+        logo marquee
+    */
+    &-marquee-box {
+        height: 46px;
+        overflow: hidden;
+    }
+
+    &-marquee {
+        width: 100%;
+        overflow: hidden;
+
+        &-wrap {
+            display: flex;
+            align-items: center;
+            gap: 160px;
+            margin-right: 160px;
+
+            @media #{$xl,$lg,$md} {
+                gap: 100px;
+                margin-right: 100px;
+            }
+
+            @media #{$sm,$xs} {
+                gap: 60px;
+                margin-right: 60px;
+            }
+        }
+
+        &-item {
+            flex-shrink: 0;
+            opacity: .72;
+
+            img {
+                display: block;
+                max-width: none;
+                filter: grayscale(1);
+
+                @media #{$lg,$md} {
+                    zoom: .85;
+                }
+
+                @media #{$sm,$xs} {
+                    zoom: .65;
+                }
+            }
+        }
+    }
+}
+@keyframes sbTesti3Left {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sbTesti3Zoom {
+    0% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+@keyframes sbTesti3Up {
+    0% {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sbTesti3Star {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-90deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/*
+    testimonial-3-end
+*/

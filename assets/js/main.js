@@ -1006,6 +1006,31 @@ function sbPriceToggle() {
 
 
 /*
+	price-3 toggle — swaps every card between the monthly and the annual rate
+*/
+function sbPrice3Toggle() {
+	$("#sb-price-3-toggle").on("change", function () {
+		var yearly = $(this).is(":checked");
+
+		$(".sb-price-3-toggle-label.monthly").toggleClass("active", !yearly);
+		$(".sb-price-3-toggle-label.yearly").toggleClass("active", yearly);
+
+		$(".sb-price-3-card-price").each(function () {
+			var $amount = $(this).find(".amount");
+
+			$amount.text($amount.data(yearly ? "yearly" : "monthly"));
+			$(this).find(".duration").text(yearly ? "/per year" : "/per months");
+		});
+	});
+
+	// the labels flip the switch as well
+	$(".sb-price-3-toggle-label").on("click", function () {
+		$("#sb-price-3-toggle").prop("checked", $(this).hasClass("yearly")).trigger("change");
+	});
+}
+
+
+/*
 	step-2 tabs — hovering (or clicking) a tab or a card opens that card, leaving the block restores the default one
 */
 function sbStepTabs() {
@@ -1031,6 +1056,24 @@ function sbStepTabs() {
 
 
 /*
+	step-3 tabs — hovering (or clicking) a tab opens it and swaps the screenshot, the last opened tab stays active
+*/
+function sbStep3Tabs() {
+	var $wrap = $(".sb-step-3-wrap");
+
+	if (!$wrap.length) return;
+
+	var $items = $wrap.find("[data-step]");
+
+	$wrap.find(".sb-step-3-tab").on("mouseenter focus click", function () {
+		var step = $(this).data("step");
+
+		$items.removeClass("active").filter("[data-step=\"" + step + "\"]").addClass("active");
+	});
+}
+
+
+/*
 	testimonial-2 slider — cards of a fixed width run past the right edge; the second card is the highlighted one (.swiper-slide-next)
 */
 function sbTestimonialSlider() {
@@ -1048,6 +1091,36 @@ function sbTestimonialSlider() {
 			delay: 3200,
 			disableOnInteraction: false,
 		},
+	});
+}
+
+
+/*
+	testimonial-3 slider — one review at a time (fade), the avatar row on top opens the matching review
+*/
+function sbTestimonial3() {
+	if (!$(".sb-testimonial-3-slider").length) return;
+
+	var $navItems = $(".sb-testimonial-3-nav-item");
+
+	var slider = new Swiper(".sb-testimonial-3-slider .swiper", {
+		effect: "fade",
+		fadeEffect: { crossFade: true },
+		speed: 700,
+		loop: true,
+		initialSlide: $navItems.filter(".active").index() || 0,
+		autoplay: {
+			delay: 4500,
+			disableOnInteraction: false,
+		},
+	});
+
+	slider.on("slideChange", function () {
+		$navItems.removeClass("active").eq(slider.realIndex).addClass("active");
+	});
+
+	$navItems.on("click", function () {
+		slider.slideToLoop($(this).index());
 	});
 }
 
@@ -1132,8 +1205,11 @@ window.addEventListener("load", function () {
 sbHeroBottomGlow();
 sbStepAnimations();
 sbStepTabs();
+sbStep3Tabs();
 sbTestimonialSlider();
+sbTestimonial3();
 sbPriceToggle();
+sbPrice3Toggle();
 sbAppsRing();
 
 })(jQuery);

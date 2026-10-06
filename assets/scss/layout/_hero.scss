@@ -670,3 +670,410 @@
 /*
     hero-2-end
 */
+
+/*
+    hero-3-start
+*/
+.sb-hero-3 {
+    &-area {
+        background-color: #fff;
+        padding-top: 337px;
+        padding-bottom: 86px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+
+        @media #{$xl} {
+            padding-bottom: 70px;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            padding-top: 150px;
+            padding-bottom: 50px;
+        }
+
+        @media #{$xs} {
+            padding-top: 130px;
+            padding-bottom: 40px;
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        max-width: 804px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 4;
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+    }
+
+    &-title {
+        font-weight: 600;
+        font-size: 60px;
+        line-height: 1.0667;
+
+        @media #{$xl} {
+            font-size: 54px;
+        }
+
+        @media #{$lg} {
+            font-size: 52px;
+        }
+
+        @media #{$md} {
+            font-size: 48px;
+        }
+
+        @media #{$sm} {
+            font-size: 42px;
+        }
+
+        @media #{$xs} {
+            font-size: 34px;
+        }
+    }
+
+    &-disc {
+        margin-bottom: 10px;
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /* backgrounds */
+    &-bg-clr {
+        position: absolute;
+        top: -223px;
+        width: 952px;
+        height: 952px;
+        border-radius: 50%;
+        filter: blur(600px);
+        z-index: -5;
+        pointer-events: none;
+
+        &-1 {
+            left: -338px;
+            background: #7287FF;
+        }
+
+        &-2 {
+            right: -338px;
+            background: #14AE86;
+        }
+
+        @media #{$md,$sm,$xs} {
+            width: 600px;
+            height: 600px;
+            filter: blur(300px);
+            top: -150px;
+
+            &-1 {
+                left: -240px;
+            }
+
+            &-2 {
+                right: -240px;
+            }
+        }
+    }
+
+    &-bg-glow {
+        position: absolute;
+        top: -51px;
+        max-width: 45%;
+        z-index: -4;
+        pointer-events: none;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        &-left {
+            left: -128px;
+        }
+
+        &-right {
+            right: -128px;
+        }
+    }
+
+    &-bg-dot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 529px;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -3;
+        pointer-events: none;
+    }
+
+    /* hills, the dashboard sits between the two */
+    &-hill {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        &-back {
+            bottom: -24px;
+            z-index: 1;
+        }
+
+        &-front {
+            bottom: 0;
+            z-index: 3;
+        }
+
+        @media #{$sm,$xs} {
+            img {
+                object-fit: cover;
+                object-position: center top;
+            }
+
+            &-back {
+                bottom: -10px;
+
+                img {
+                    height: 220px;
+                }
+            }
+
+            &-front {
+                img {
+                    height: 130px;
+                }
+            }
+        }
+    }
+
+    /* main logo, absolute on a 1920 wide board till xl then it falls in the flow */
+    &-logo {
+        position: absolute;
+        top: 159px;
+        left: 50%;
+        width: 132px;
+        height: 132px;
+        margin-left: -66px;
+        isolation: isolate;
+        z-index: 2;
+
+        // blurred glow
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #fff 0%, #048765 100%);
+            filter: blur(32px);
+            z-index: -2;
+        }
+
+        // outer ring
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #03D482 0%, #fff 47%, #fff 100%);
+            z-index: -1;
+        }
+
+        &-core {
+            position: absolute;
+            inset: 14px;
+            border-radius: 50%;
+            background: var(--sb-clr-pr-3);
+            box-shadow: inset 0 0 24px #110F20, 0 0 0 7px #CFE7EE;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 75px;
+            height: auto;
+            transform: translate(-50%, -50%);
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            position: relative;
+            top: auto;
+            left: auto;
+            margin: 0 auto 36px;
+        }
+
+        @media #{$xs} {
+            zoom: .85;
+            margin-bottom: 28px;
+        }
+    }
+
+    /* floating icons, laid out on a 1193 x 404 board (design x:378 y:159) */
+    &-icons {
+        position: absolute;
+        top: 159px;
+        left: calc(50% - 582px);
+        width: 1193px;
+        height: 404px;
+        transform-origin: 582px 0;
+        z-index: 1;
+        pointer-events: none;
+
+        @media #{$xl} {
+            transform: scale(.75);
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            display: none;
+        }
+
+        img {
+            max-width: none;
+        }
+    }
+
+    &-line {
+        position: absolute;
+
+        &-1 {
+            top: 67px;
+            left: 111px;
+        }
+
+        &-2 {
+            top: 88px;
+            left: 15px;
+        }
+
+        &-3 {
+            top: 70px;
+            left: 632px;
+        }
+
+        &-4 {
+            top: 87px;
+            left: 613px;
+        }
+    }
+
+    &-icon {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        background: rgb(255 255 255 / 60%);
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 -3px 0 var(--clr), 8px 8px 22px rgb(0 0 0 / 20%);
+        overflow: hidden;
+
+        // colored glow at the bottom
+        &::before {
+            content: "";
+            position: absolute;
+            top: 33px;
+            left: 9px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--clr);
+            opacity: .6;
+            filter: blur(7px);
+        }
+
+        img {
+            position: relative;
+        }
+
+        &-1 {
+            --clr: #D258F6;
+            top: 50px;
+            left: 89px;
+        }
+
+        &-2 {
+            --clr: #03D482;
+            top: 344px;
+            left: 0;
+        }
+
+        &-3 {
+            --clr: #7287FF;
+            top: 37px;
+            left: 875px;
+        }
+
+        &-4 {
+            --clr: #FF7F59;
+            top: 214px;
+            left: 1133px;
+        }
+    }
+
+    /* dashboard */
+    &-dashboard {
+        position: relative;
+        max-width: 1200px;
+        margin: 52px auto 0;
+        border-radius: 20px;
+        background: rgb(255 255 255 / 9%);
+        overflow: hidden;
+        z-index: 2;
+
+        // 2px inside stroke
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid #fff;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        @media #{$xl} {
+            margin-top: 60px;
+        }
+
+        @media #{$lg,$md} {
+            margin-top: 50px;
+        }
+
+        @media #{$sm,$xs} {
+            margin-top: 40px;
+            border-radius: 12px;
+        }
+    }
+}
+/*
+    hero-3-end
+*/
