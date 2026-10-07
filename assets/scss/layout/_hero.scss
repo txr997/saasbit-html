@@ -791,7 +791,7 @@
 
     &-bg-glow {
         position: absolute;
-        top: -51px;
+        top: 0px;
         max-width: 45%;
         z-index: -4;
         pointer-events: none;
@@ -802,11 +802,11 @@
         }
 
         &-left {
-            left: -128px;
+            left: 0px;
         }
 
         &-right {
-            right: -128px;
+            right: 0px;
         }
     }
 
@@ -916,7 +916,7 @@
 
         img {
             position: absolute;
-            top: 50%;
+            top: 53%;
             left: 50%;
             width: 75px;
             height: auto;

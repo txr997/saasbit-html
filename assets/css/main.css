@@ -3971,7 +3971,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .sb-hero-3-bg-glow {
   position: absolute;
-  top: -51px;
+  top: 0px;
   max-width: 45%;
   z-index: -4;
   pointer-events: none;
@@ -3981,10 +3981,10 @@ input:focus::placeholder, textarea:focus::placeholder {
   height: auto;
 }
 .sb-hero-3-bg-glow-left {
-  left: -128px;
+  left: 0px;
 }
 .sb-hero-3-bg-glow-right {
-  right: -128px;
+  right: 0px;
 }
 .sb-hero-3-bg-dot {
   position: absolute;
@@ -4080,7 +4080,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .sb-hero-3-logo img {
   position: absolute;
-  top: 50%;
+  top: 53%;
   left: 50%;
   width: 75px;
   height: auto;
@@ -9599,6 +9599,38 @@ input:focus::placeholder, textarea:focus::placeholder {
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
+  position: relative;
+  z-index: 1;
+}
+.sb-step-3-img::after {
+  content: "";
+  width: 254px;
+  height: 100%;
+  background: linear-gradient(270deg, #F5F5F5 8.01%, rgba(245, 245, 245, 0.9) 47.12%, rgba(245, 245, 245, 0) 100%);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
+  .sb-step-3-img::after {
+    display: none;
+  }
+}
+.sb-step-3-img::before {
+  content: "";
+  width: 100%;
+  height: 415px;
+  background: linear-gradient(180deg, rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 0.9) 52.88%, #F5F5F5 91.99%);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
+  .sb-step-3-img::before {
+    display: none;
+  }
 }
 .sb-step-3-img img {
   display: block;
@@ -11601,10 +11633,10 @@ input:focus::placeholder, textarea:focus::placeholder {
   padding: 0;
   border: 0;
   border-radius: 100px;
-  background: transparent;
+  background: rgba(237, 244, 242, 0);
   overflow: hidden;
   cursor: pointer;
-  transition: var(--sb-cube-1);
+  transition: padding 0.55s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.55s ease;
 }
 .sb-testimonial-3-nav-item img {
   flex-shrink: 0;
@@ -11612,7 +11644,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  transition: var(--sb-cube-1);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sb-testimonial-3-nav-item .name {
   max-width: 0;
@@ -11624,7 +11656,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   color: #1C1C2D;
   white-space: nowrap;
   opacity: 0;
-  transition: var(--sb-cube-1);
+  transition: opacity 0.15s ease, max-width 0.55s cubic-bezier(0.22, 1, 0.36, 1), margin-left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .sb-testimonial-3-nav-item.active {
   padding: 6px 20px 6px 6px;
@@ -11635,9 +11667,10 @@ input:focus::placeholder, textarea:focus::placeholder {
   height: 52px;
 }
 .sb-testimonial-3-nav-item.active .name {
-  max-width: 200px;
+  max-width: var(--name-w, 200px);
   margin-left: 12px;
   opacity: 1;
+  transition: opacity 0.35s ease 0.2s, max-width 0.55s cubic-bezier(0.22, 1, 0.36, 1), margin-left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (max-width: 767px) {
   .sb-testimonial-3-nav-item {

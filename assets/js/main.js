@@ -569,7 +569,9 @@ function sbHero3Play() {
 	gsap.timeline({
 		defaults: { ease: "power3.out" },
 		onComplete: function () {
-			gsap.set([hero.pill, hero.disc, hero.btns, hero.bg, hero.hills, hero.logo, hero.lines, hero.icons, hero.iconImgs, hero.dashboard].concat(hero.words), { clearProps: "all" });
+			gsap.set([hero.pill, hero.disc, hero.btns, hero.hills, hero.logo, hero.lines, hero.icons, hero.iconImgs, hero.dashboard].concat(hero.words), { clearProps: "all" });
+			// the dot bg gets its image from data-background as an inline style, so only the fade is cleared here
+			gsap.set(hero.bg, { clearProps: "opacity" });
 			sbHero3Scroll();
 		}
 	})
@@ -630,7 +632,9 @@ function sbHeroBottomGlow() {
 
 
 /*
-	hero-3 — as the hero scrolls out, the front hill drops below its bottom edge and the dashboard grows a little
+	hero-3 — once the hero has been scrolled down to its bottom edge it is pinned (the dashboard and the
+	hills stay as they are), and while it is pinned the scroll drops the front hill below the bottom edge
+	and makes the dashboard grow a little
 */
 function sbHero3Scroll() {
 	var area = document.querySelector(".sb-hero-3-area");
@@ -638,19 +642,30 @@ function sbHero3Scroll() {
 	var dashboard = document.querySelector(".sb-hero-3-dashboard");
 	if (!area || !hill || !dashboard || prefersReducedMotion()) return;
 
-	gsap.timeline({
-		defaults: { ease: "none" },
-		scrollTrigger: {
-			trigger: area,
-			// runs while the hero's bottom edge travels from the screen bottom up to 35% of the screen
-			start: "top -40%",
-			end: "bottom 35%",
-			scrub: .5,
-			markers: false,
-		}
-	})
-		.to(hill, { yPercent: 100 }, 0)
-		.to(dashboard, { scale: 1.05, transformOrigin: "50% 0%" }, 0);
+	// only from 992px up; below that the hero stays plain (matchMedia undoes the pin when the screen gets narrower)
+	gsap.matchMedia().add("(min-width: 992px)", function () {
+		gsap.timeline({
+			defaults: { ease: "none" },
+			scrollTrigger: {
+				trigger: area,
+				// pinned the moment the hero's bottom edge reaches the bottom of the screen
+				start: "clamp(bottom bottom)",
+				// 80% of a screen of scrolling while it holds
+				end: function () {
+					return "+=" + Math.round(window.innerHeight * .8);
+				},
+				pin: true,
+				anticipatePin: 1,
+				scrub: .5,
+				invalidateOnRefresh: true
+			}
+		})
+			.to(hill, { yPercent: 100 }, 0)
+			.to(dashboard, { scale: 1.05, transformOrigin: "50% 0%" }, 0);
+	});
+
+	// the pin adds scroll length, so the triggers below it are measured again
+	ScrollTrigger.refresh();
 }
 
 
@@ -1510,6 +1525,18 @@ function sbTestimonial3() {
 	if (!$(".sb-testimonial-3-slider").length) return;
 
 	var $navItems = $(".sb-testimonial-3-nav-item");
+
+	// the active pill opens exactly as wide as the name, so the growth does not stall at the end
+	function measureNames() {
+		$navItems.each(function () {
+			var name = this.querySelector(".name");
+			if (name) this.style.setProperty("--name-w", name.scrollWidth + "px");
+		});
+	}
+
+	measureNames();
+	if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureNames);
+	$(window).on("resize", measureNames);
 
 	var slider = new Swiper(".sb-testimonial-3-slider .swiper", {
 		effect: "fade",
