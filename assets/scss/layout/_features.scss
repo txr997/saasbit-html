@@ -1913,6 +1913,7 @@
         opacity: 0.35;
     }
 
+    /* the three boxes fade up one by one (3 → 2 → 1), hold, hide together, repeat: same loop as features-1 card-2 */
     &-box {
         height: auto;
 
@@ -1920,18 +1921,29 @@
             top: 249px;
             left: 49px;
             width: 275px;
+            animation: sb-features-1-shape-3 5.5s ease-out infinite;
         }
 
         &-2 {
             top: 257px;
             left: 32px;
             width: 309px;
+            animation: sb-features-1-shape-2 5.5s ease-out infinite;
         }
 
         &-1 {
             top: 265px;
             left: 12px;
             width: 348px;
+            animation: sb-features-1-shape-1 5.5s ease-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            &-3,
+            &-2,
+            &-1 {
+                animation: none;
+            }
         }
     }
 

@@ -288,13 +288,13 @@
         pointer-events: none;
     }
 
-    // hover fill, plain fade
+    // hover colour, a darker green faded in over the button
     &::after {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: 12px;
-        background: #031B20;
+        background: linear-gradient(180deg, #14AE86 0%, #0B7A5D 100%);
         opacity: 0;
         z-index: -1;
         transition: var(--sb-cube-1);
@@ -379,7 +379,9 @@
 
     &:hover {
         color: #fff;
-
+        .inner-box {
+            background: var(--sb-clr-pr-3);
+        }
     }
 }
 

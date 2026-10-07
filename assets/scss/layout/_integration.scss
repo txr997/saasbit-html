@@ -528,9 +528,12 @@ $sb-in3-ghosts: (
         }
     }
 
+    // every slot (tile or ghost) gets its place from --x / --y, the swap script reads them to move a tile into a free slot
     &-item,
     &-ghost {
         position: absolute;
+        left: var(--x);
+        top: var(--y);
         width: 100px;
         height: 100px;
         border-radius: 24px;
@@ -555,6 +558,13 @@ $sb-in3-ghosts: (
         &:hover {
             transform: translateY(-6px);
             box-shadow: inset 0 0 0 1px #fff, 0 14px 24px rgb(3 27 32 / 14%);
+        }
+
+        // dropped out by the swap script, the transition above fades it away and back
+        &.is-hidden {
+            opacity: 0;
+            transform: scale(.6);
+            pointer-events: none;
         }
 
         &::before,
@@ -701,8 +711,8 @@ $sb-in3-ghosts: (
 
     @each $n, $cfg in $sb-in3-tiles {
         &-item-#{$n} {
-            left: nth($cfg, 1) * 110px;
-            top: nth($cfg, 2) * 1px;
+            --x: #{nth($cfg, 1) * 110px};
+            --y: #{nth($cfg, 2) * 1px};
             --c1: #{nth($cfg, 3)};
             --o1: #{nth($cfg, 4)};
             --c2: #{nth($cfg, 5)};
@@ -712,8 +722,8 @@ $sb-in3-ghosts: (
 
     @each $n, $cfg in $sb-in3-ghosts {
         &-ghost-#{$n} {
-            left: nth($cfg, 1) * 110px;
-            top: nth($cfg, 2) * 1px;
+            --x: #{nth($cfg, 1) * 110px};
+            --y: #{nth($cfg, 2) * 1px};
         }
     }
 }

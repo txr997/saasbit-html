@@ -16,6 +16,20 @@
 
 .sb-home-3 {
     background-color: #F5F5F5;
+
+    @media #{$over,$xxxl,$xxl} {
+        &::-webkit-scrollbar-thumb {
+            background: var(--sb-clr-pr-3);
+        }
+    }
+
+    .wa-back-to-top {
+        background-color: var(--sb-clr-pr-3);
+
+        &:hover svg * {
+            fill: var(--sb-clr-pr-3);
+        }
+    }
 }
 
 

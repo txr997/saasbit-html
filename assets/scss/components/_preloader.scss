@@ -206,3 +206,55 @@
 /*
     preloader-1-end
 */
+
+/*
+    preloader-3-start
+    preloader-1 in the home 3 colours, the layout and the script stay the same:
+    <div class="sb-preloader-1 sb-preloader-3">
+*/
+.sb-preloader-1.sb-preloader-3 {
+    background: linear-gradient(180deg, #fff 0%, #E3F6EF 100%);
+    color: var(--sb-clr-h-3);
+
+    /* glow behind the counter */
+    &::before {
+        background: radial-gradient(closest-side, rgb(20 174 134 / 30%), rgb(114 135 255 / 10%) 55%, rgb(227 246 239 / 0%));
+    }
+
+    .curve {
+        fill: #E3F6EF;
+    }
+
+    .top .label {
+        color: var(--sb-clr-p-3);
+
+        &::before {
+            background: var(--sb-clr-pr-3);
+        }
+    }
+
+    .words .word span {
+        color: var(--sb-clr-pr-3);
+    }
+
+    /* image only, the shorthand would drop the text clip */
+    .counter .percent {
+        background-image: linear-gradient(135deg, #22C298, #7287FF);
+    }
+
+    .note {
+        color: var(--sb-clr-p-3);
+    }
+
+    .bar {
+        background-color: rgb(3 27 32 / 8%);
+
+        span {
+            background: linear-gradient(90deg, #22C298, #7287FF);
+        }
+    }
+}
+
+/*
+    preloader-3-end
+*/

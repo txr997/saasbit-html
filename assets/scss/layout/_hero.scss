@@ -898,6 +898,12 @@
             border-radius: 50%;
             background: linear-gradient(180deg, #03D482 0%, #fff 47%, #fff 100%);
             z-index: -1;
+            // the ring is a circle, so turning it only moves the gradient round
+            animation: sb-hero-3-ring-spin 6s linear infinite;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
         }
 
         &-core {
@@ -954,27 +960,41 @@
         }
     }
 
+    // each line moves exactly like its icon: same up/down travel, same --dur and --delay as icon-1..4
     &-line {
         position: absolute;
+        animation: sb-hero-3-line-flap var(--dur) ease-in-out var(--delay) infinite;
 
         &-1 {
+            --dur: 3.6s;
+            --delay: 0s;
             top: 67px;
             left: 111px;
         }
 
         &-2 {
+            --dur: 4.2s;
+            --delay: -1.2s;
             top: 88px;
             left: 15px;
         }
 
         &-3 {
+            --dur: 3.9s;
+            --delay: -2.1s;
             top: 70px;
             left: 632px;
         }
 
         &-4 {
+            --dur: 4.6s;
+            --delay: -.6s;
             top: 87px;
             left: 613px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
         }
     }
 
@@ -990,6 +1010,8 @@
         backdrop-filter: blur(10px);
         box-shadow: inset 0 -3px 0 var(--clr), 8px 8px 22px rgb(0 0 0 / 20%);
         overflow: hidden;
+        // wing-like flap, every icon runs on its own pace and phase
+        animation: sb-hero-3-flap var(--dur) ease-in-out var(--delay) infinite;
 
         // colored glow at the bottom
         &::before {
@@ -1011,26 +1033,38 @@
 
         &-1 {
             --clr: #D258F6;
+            --dur: 3.6s;
+            --delay: 0s;
             top: 50px;
             left: 89px;
         }
 
         &-2 {
             --clr: #03D482;
+            --dur: 4.2s;
+            --delay: -1.2s;
             top: 344px;
             left: 0;
         }
 
         &-3 {
             --clr: #7287FF;
+            --dur: 3.9s;
+            --delay: -2.1s;
             top: 37px;
             left: 875px;
         }
 
         &-4 {
             --clr: #FF7F59;
+            --dur: 4.6s;
+            --delay: -.6s;
             top: 214px;
             left: 1133px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
         }
     }
 
@@ -1072,6 +1106,37 @@
             margin-top: 40px;
             border-radius: 12px;
         }
+    }
+}
+
+/* hero-3 icons: up and down with a small tilt, like a wing beat */
+@keyframes sb-hero-3-flap {
+    0%,
+    100% {
+        transform: translateY(6px) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(3deg);
+    }
+}
+
+/* hero-3 logo ring: endless turn */
+@keyframes sb-hero-3-ring-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* same up/down travel as the icon above (6px down / 8px up), no tilt so the line stays straight */
+@keyframes sb-hero-3-line-flap {
+    0%,
+    100% {
+        transform: translateY(6px);
+    }
+
+    50% {
+        transform: translateY(-8px);
     }
 }
 /*
