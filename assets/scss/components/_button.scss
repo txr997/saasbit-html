@@ -385,6 +385,222 @@
     }
 }
 
+// header-4 buttons
+.sb-login-btn-4 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 24px;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--sb-clr-pr-4);
+    border: 2px solid rgb(86 65 242 / 12%);
+    border-radius: 10px;
+    transition: var(--sb-cube-1);
+
+    &:hover {
+        color: #fff;
+        background: var(--sb-clr-pr-4);
+        border-color: var(--sb-clr-pr-4);
+    }
+}
+
+.sb-signup-btn-4,
+.sb-pr-btn-4 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 22px;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    position: relative;
+    isolation: isolate;
+    transition: var(--sb-cube-1);
+
+    // 3px gradient lip under the button
+    &::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        background: linear-gradient(90deg, var(--sb-clr-sd-4) 0%, var(--sb-clr-pr-4) 100%);
+        z-index: -2;
+        transition: var(--sb-cube-1);
+    }
+
+    .bg {
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        background: #000;
+        overflow: hidden;
+        z-index: -1;
+
+        // inner top highlight
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: inset 0px 5px 10px rgb(255 255 255 / 41%);
+        }
+
+        .glow {
+            position: absolute;
+            left: 18px;
+            width: 106px;
+            height: 34px;
+            border-radius: 50%;
+            filter: blur(15px);
+            transition: var(--sb-cube-1);
+
+            &.glow-1 {
+                top: 33px;
+                background: var(--sb-clr-sd-4);
+            }
+
+            &.glow-2 {
+                top: -32px;
+                background: var(--sb-clr-pr-4);
+            }
+        }
+    }
+
+    &:hover {
+        color: #fff;
+
+        &::before {
+            top: 4px;
+        }
+
+        .bg .glow {
+            &.glow-1 {
+                top: 22px;
+            }
+
+            &.glow-2 {
+                top: -22px;
+            }
+        }
+    }
+}
+
+// hero-4 buttons, the primary one shares the glow + lip with .sb-signup-btn-4
+.sb-pr-btn-4 {
+    height: 50px;
+    color: #000;
+
+    &::before,
+    .bg,
+    .bg::after {
+        border-radius: 100px;
+    }
+
+    .bg {
+        background: #fff;
+
+        .glow {
+            left: 40px;
+        }
+    }
+
+    &:hover {
+        color: #000;
+    }
+}
+
+// dark version of the primary button, "Explore All Agents"
+.sb-pr-btn-4.has-dark {
+    color: #fff;
+
+    .bg {
+        background: #000;
+
+        &::after {
+            box-shadow: inset 0px 5px 10px #fff;
+        }
+    }
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+// core-features cards, "Get Started"
+.sb-card-btn-4 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 24px;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 100px;
+    background: linear-gradient(238deg, #F6F7F8 0%, #E9E9E9 54%, #F6F7F8 100%);
+    transition: var(--sb-cube-1);
+
+    // 2px stroke, strongest in the middle of the top and bottom edge
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 2px;
+        background: linear-gradient(90deg, rgb(40 196 254 / 6%) 0%, rgb(40 196 254 / 55%) 50%, rgb(40 196 254 / 6%) 100%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    .text {
+        background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    &:hover {
+        box-shadow: 0 8px 20px rgb(40 196 254 / 25%);
+    }
+}
+
+.sb-sd-btn-4 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    padding: 0 22px;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgb(0 0 0 / 80%);
+    background: #fff;
+    border-radius: 80px;
+    box-shadow: inset 0 0 10px #45ACFF;
+    transition: var(--sb-cube-1);
+
+    &:hover {
+        color: #000;
+        box-shadow: inset 0 0 20px #45ACFF;
+    }
+}
+
 .sb-sd-btn-1 {
     font-family: var(--sb-font-1);
     line-height: 1.5;

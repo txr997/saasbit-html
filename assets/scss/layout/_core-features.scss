@@ -1,0 +1,240 @@
+@use '../abstracts/variables' as *;
+
+/*
+    core-features-4-start
+*/
+@property --sb-core-4-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes sb-core-features-4-border {
+    to {
+        --sb-core-4-angle: 360deg;
+    }
+}
+
+.sb-core-features-4 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding-top: 128px;
+        background-color: #F6F7F8;
+        overflow: hidden;
+
+        @media #{$xl} {
+            padding-top: 110px;
+        }
+
+        @media #{$lg,$md} {
+            padding-top: 90px;
+        }
+
+        @media #{$sm,$xs} {
+            padding-top: 70px;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-sec-title {
+        max-width: 768px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-4 {
+            margin-bottom: 20px;
+        }
+
+        .sec-disc {
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        @media #{$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    /* glass panel, 36px wider than the container on each side */
+    &-wrap {
+        position: relative;
+        margin: 0 -36px;
+        padding: 36px 36px 64px;
+        border-radius: 20px;
+
+        // 3px stroke, a cyan > purple streak runs round the white edge
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 3px;
+            background: conic-gradient(from var(--sb-core-4-angle), #fff 0deg, rgb(40 196 254 / 45%) 40deg, #28C4FE 85deg, #5641F2 120deg, #fff 120.5deg, #fff 360deg);
+            animation: sb-core-features-4-border 6s linear infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+
+        @media #{$xl,$lg,$md,$sm} {
+            margin: 0 -12px;
+            padding: 24px 24px 56px;
+        }
+
+        @media #{$xs} {
+            margin: 0;
+            padding: 16px 16px 48px;
+        }
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+
+        @media #{$lg,$md,$sm} {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media #{$xs} {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &-card {
+        display: flex;
+        flex-direction: column;
+        padding: 28px;
+        background: #fff;
+        border-radius: 12px;
+
+        &-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 32px;
+            border-radius: 8px;
+            background: #28C4FE;
+            overflow: hidden;
+            isolation: isolate;
+
+            // soft white glow at the top and the bottom edge
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                left: 12px;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: #fff;
+                filter: blur(11px);
+                z-index: -1;
+            }
+
+            &::before {
+                top: -26px;
+            }
+
+            &::after {
+                top: 48px;
+            }
+
+            i {
+                font-size: 32px;
+                line-height: 1;
+                color: #fff;
+            }
+
+            &.is-green {
+                background: #14AE86;
+            }
+
+            &.is-purple {
+                background: #8272FB;
+            }
+
+            &.is-orange {
+                background: #FA9145;
+            }
+        }
+
+        &-content {
+            margin-bottom: 60px;
+
+            .title {
+                font-size: 22px;
+                font-weight: 500;
+                line-height: 28px;
+                margin-bottom: 12px;
+            }
+        }
+
+        .sb-card-btn-4 {
+            margin-top: auto;
+        }
+
+        @media #{$xl} {
+            padding: 24px;
+        }
+
+        @media #{$xs} {
+            padding: 24px;
+
+            &-content {
+                margin-bottom: 36px;
+
+                .title {
+                    font-size: 20px;
+                }
+
+                .disc {
+                    font-size: 16px;
+                    line-height: 1.6;
+                }
+            }
+        }
+    }
+
+    /* the button hangs over the bottom edge of the panel */
+    &-btn {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        justify-content: center;
+        margin-top: -28px;
+        padding-bottom: 3px;
+    }
+}
+/*
+    core-features-4-end
+*/

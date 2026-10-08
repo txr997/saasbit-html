@@ -18,8 +18,10 @@
 */
 @use './layout/header';
 @use './layout/hero';
+@use './layout/core-features';
 @use './layout/partner';
 @use './layout/features';
+@use './layout/use-case';
 @use './layout/about';
 @use './layout/services';
 @use './layout/price';

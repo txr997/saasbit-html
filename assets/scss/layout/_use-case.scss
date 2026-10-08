@@ -1,0 +1,510 @@
+@use '../abstracts/variables' as *;
+
+/*
+    use-case-4-start
+*/
+.sb-use-case-4 {
+    &-area {
+        --sb-uc-z: 1;
+        position: relative;
+        z-index: 1;
+        margin: 0 80px;
+        padding: 128px 0 0;
+        background: linear-gradient(180deg, #E0F6FE 0%, #F6F7F8 100%);
+        border-radius: 48px 48px 0 0;
+        overflow: hidden;
+
+        @media #{$xxl,$xl} {
+            margin: 0 40px;
+            padding-top: 110px;
+        }
+
+        @media #{$lg,$md} {
+            margin: 0 24px;
+            padding-top: 90px;
+            border-radius: 36px 36px 0 0;
+        }
+
+        @media #{$sm} {
+            --sb-uc-z: 0.92;
+            margin: 0 12px;
+            padding-top: 70px;
+            border-radius: 28px 28px 0 0;
+        }
+
+        @media #{$xs} {
+            --sb-uc-z: 0.58;
+            margin: 0 8px;
+            padding-top: 60px;
+            border-radius: 24px 24px 0 0;
+        }
+    }
+
+    /* blue corner shapes, the left one has a cut out */
+    &-bg-shape {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            max-width: none;
+        }
+
+        &.is-left {
+            left: 0;
+        }
+
+        &.is-right {
+            right: 0;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            img {
+                width: 720px;
+                height: auto;
+            }
+        }
+
+        @media #{$sm,$xs} {
+            img {
+                width: 480px;
+            }
+        }
+    }
+
+    &-sec-title {
+        margin-bottom: 48px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        @media #{$xs} {
+            margin-bottom: 32px;
+        }
+    }
+
+    /* tab bar */
+    &-tabs {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        max-width: 1066px;
+        margin: 0 auto 24px;
+        // figma: 1066x75, the tabs start 10px in from the left and the top
+        padding: 8px 14px 9px 8px;
+        // the bar is see-through, only its 2px white outline shows
+        background: rgb(255 255 255 / 30%);
+        border: 2px solid #fff;
+        border-radius: 12px;
+
+        @media #{$lg} {
+            gap: 12px;
+        }
+
+        @media #{$md,$sm,$xs} {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 8px;
+        }
+    }
+
+    &-tab {
+        flex: 0 0 auto;
+        padding: 12px 26px;
+        font-family: var(--sb-font-2);
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+        text-align: center;
+        color: var(--sb-clr-p-4);
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        transition: var(--sb-cube-1);
+
+        &:hover {
+            color: #000;
+            border-color: rgb(48 173 252 / 40%);
+        }
+
+        // active tab, the colours are read off the figma render: a pale blue rim on the top edge (the inner glow),
+        // then it eases from near white into #30ADFC at the bottom
+        &.active {
+            position: relative;
+            color: #000;
+            background: linear-gradient(180deg, #C6E8FC 0%, #DCF2FB 8%, #E7F5FC 15%, #E2F3FC 22%, #D8EFFC 33%, #BEE6FD 50%, #99D5FC 67%, #68C3FC 83%, #30ADFC 100%);
+            // the gradient covers the border box too, otherwise it tiles into the transparent border (dark line on the top edge)
+            background-origin: border-box;
+            border-color: transparent;
+
+            // 1px stroke, not there at the top and about half #30ADFC at the bottom
+            &::before {
+                content: "";
+                position: absolute;
+                inset: -1px;
+                border-radius: inherit;
+                padding: 1px;
+                background: linear-gradient(180deg, rgb(48 173 252 / 0%) 0%, rgb(48 173 252 / 50%) 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+        }
+
+        @media #{$over,$xxxl,$xxl,$xl,$lg} {
+            white-space: nowrap;
+        }
+
+        @media #{$lg} {
+            padding: 12px 14px;
+            font-size: 16px;
+        }
+
+        @media #{$xs} {
+            padding: 10px 8px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    }
+
+    /* panes */
+    &-content {
+        max-width: 1067px;
+        margin: 0 auto;
+    }
+
+    &-pane {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 533px;
+        min-height: 432px;
+        // 14px + the 2px border = the 16px gap the figma card keeps (its stroke sits inside)
+        padding: 14px;
+        background: #fff;
+        // figma stroke: #28C4FE at 20%, same on all four sides (#D4F3FF over the white card)
+        border: 2px solid rgb(40 196 254 / 20%);
+        border-radius: 16px;
+        overflow: hidden;
+
+        @media #{$md,$sm,$xs} {
+            grid-template-columns: 1fr;
+        }
+
+        // streak in the top left corner
+        &-streak {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 197px;
+            height: 222px;
+            pointer-events: none;
+        }
+
+        &-left {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 32px 24px 32px 32px;
+
+            @media #{$xs} {
+                padding: 24px 8px;
+            }
+        }
+
+        &-content {
+            max-width: 422px;
+
+            .title {
+                font-size: 28px;
+                font-weight: 500;
+                line-height: 32px;
+                margin-bottom: 16px;
+
+                @media #{$xs} {
+                    font-size: 22px;
+                    line-height: 1.25;
+                }
+            }
+
+            .disc {
+                @media #{$xs} {
+                    font-size: 16px;
+                    line-height: 1.6;
+                }
+            }
+        }
+    }
+
+    &-icon {
+        display: inline-block;
+        width: 78px;
+        height: 78px;
+        padding: 5px;
+        border-radius: 16px;
+        background: #EDF6FA;
+
+        .inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 68px;
+            height: 68px;
+            border-radius: 12px;
+            background: radial-gradient(80% 60% at 50% 105%, #1B8FC9 0%, rgb(27 143 201 / 0%) 100%), linear-gradient(180deg, #04121C 0%, #06202F 100%);
+            box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+
+            i {
+                font-size: 32px;
+                line-height: 1;
+                color: #fff;
+            }
+        }
+    }
+
+    /* right hand visual, 533x400 */
+    &-visual {
+        position: relative;
+        width: 533px;
+        height: 400px;
+        border-radius: 12px;
+        background: #F6F7F8;
+        overflow: hidden;
+        zoom: var(--sb-uc-z);
+
+        .visual-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media #{$md,$sm,$xs} {
+            justify-self: center;
+        }
+    }
+
+    /* pane-01, new leads list */
+    &-leads {
+        position: absolute;
+        left: 44px;
+        top: 48px;
+        width: 445px;
+        height: 304px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 24px rgb(0 0 0 / 8%);
+        overflow: hidden;
+
+        .leads-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 48px;
+            padding: 0 20px 0 24px;
+            background: #E3F5FD;
+        }
+
+        .leads-title {
+            font-family: var(--sb-font-1);
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+
+        .leads-add {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #28C4FE;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .leads-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 60px;
+            padding: 0 24px;
+            border-bottom: 1px solid #EDEFF2;
+        }
+
+        .avatar {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .name {
+            margin: 0;
+            font-family: var(--sb-font-1);
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 18px;
+            color: #000;
+        }
+
+        .role {
+            margin: 0;
+            font-family: var(--sb-font-1);
+            font-size: 11px;
+            line-height: 16px;
+            color: var(--sb-clr-p-4);
+        }
+
+        .badge-tag {
+            padding: 3px 12px;
+            font-family: var(--sb-font-1);
+            font-size: 10px;
+            line-height: 16px;
+            color: #12A7D6;
+            background: #E3F5FD;
+            border-radius: 4px;
+        }
+    }
+}
+/* tab change, the parts of the pane that turns active come in one after the other */
+@keyframes sb-use-case-4-rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sb-use-case-4-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.6) rotate(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sb-use-case-4-slide {
+    from {
+        opacity: 0;
+        transform: translateX(36px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sb-use-case-4-row {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sb-use-case-4-press {
+    from {
+        transform: scale(0.94);
+    }
+
+    to {
+        transform: none;
+    }
+}
+
+.sb-use-case-4-tab.active {
+    animation: sb-use-case-4-press 0.35s cubic-bezier(0.18, 0.82, 0.41, 1);
+}
+
+.sb-use-case-4-content .tab-pane.active {
+    .sb-use-case-4-pane-streak {
+        animation: sb-use-case-4-slide 0.8s cubic-bezier(0.18, 0.82, 0.41, 1) both;
+    }
+
+    .sb-use-case-4-icon {
+        animation: sb-use-case-4-pop 0.6s cubic-bezier(0.18, 0.82, 0.41, 1) both;
+    }
+
+    .sb-use-case-4-pane-content .title {
+        animation: sb-use-case-4-rise 0.6s cubic-bezier(0.18, 0.82, 0.41, 1) 0.12s both;
+    }
+
+    .sb-use-case-4-pane-content .disc {
+        animation: sb-use-case-4-rise 0.6s cubic-bezier(0.18, 0.82, 0.41, 1) 0.22s both;
+    }
+
+    .sb-use-case-4-visual {
+        animation: sb-use-case-4-slide 0.7s cubic-bezier(0.18, 0.82, 0.41, 1) 0.1s both;
+    }
+
+    .sb-use-case-4-leads {
+        animation: sb-use-case-4-rise 0.7s cubic-bezier(0.18, 0.82, 0.41, 1) 0.25s both;
+    }
+
+    // the head is the first child, the rows are 2 to 5
+    .leads-row {
+        animation: sb-use-case-4-row 0.5s cubic-bezier(0.18, 0.82, 0.41, 1) both;
+
+        &:nth-child(2) {
+            animation-delay: 0.45s;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 0.55s;
+        }
+
+        &:nth-child(4) {
+            animation-delay: 0.65s;
+        }
+
+        &:nth-child(5) {
+            animation-delay: 0.75s;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sb-use-case-4-tab.active,
+    .sb-use-case-4-content .tab-pane.active * {
+        animation: none !important;
+    }
+}
+/*
+    use-case-4-end
+*/

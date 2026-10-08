@@ -730,3 +730,564 @@ $sb-in3-ghosts: (
 /*
     integration-3-end
 */
+
+/*
+    integration-4-start
+*/
+// a star drops from where it is and fades out on the way down, then it starts again at the top
+@keyframes sb-integration-4-fall {
+    0% {
+        transform: translateY(-14px);
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    65% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(var(--sb-fall));
+        opacity: 0;
+    }
+}
+
+@keyframes sb-integration-4-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sb-integration-4-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes sb-integration-4-beam {
+    0%, 100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.sb-integration-4 {
+    &-area {
+        // zoom of the board, it is drawn at 1720 wide
+        --sb-in4-z: 1;
+        position: relative;
+        z-index: 1;
+        margin: 0 100px;
+        padding-top: 124px;
+        background-color: #000;
+        border-radius: 40px;
+        overflow: hidden;
+        isolation: isolate;
+
+        @media #{$xxxl} {
+            margin: 0 80px;
+        }
+
+        @media #{$xxl} {
+            margin: 0 60px;
+        }
+
+        @media #{$xl} {
+            --sb-in4-z: 0.9;
+            margin: 0 40px;
+        }
+
+        @media #{$lg} {
+            --sb-in4-z: 0.76;
+            margin: 0 24px;
+            padding-top: 90px;
+            border-radius: 32px;
+        }
+
+        @media #{$md} {
+            --sb-in4-z: 0.58;
+            margin: 0 16px;
+            padding-top: 80px;
+            border-radius: 28px;
+        }
+
+        @media #{$sm} {
+            --sb-in4-z: 0.44;
+            margin: 0 12px;
+            padding-top: 64px;
+            border-radius: 24px;
+        }
+
+        @media #{$xs} {
+            --sb-in4-z: 0.3;
+            margin: 0 8px;
+            padding-top: 56px;
+            border-radius: 20px;
+        }
+    }
+
+    /* picture layers, the grain, the grey glow on top and the blue one at the bottom */
+    &-bg,
+    &-color-top,
+    &-color-bottom {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    &-bg {
+        top: 0;
+        height: 100%;
+        z-index: -4;
+
+        img {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-color-top {
+        top: 0;
+        z-index: -3;
+
+        img {
+            height: auto;
+        }
+    }
+
+    &-color-bottom {
+        bottom: 0;
+        height: 100%;
+        z-index: -3;
+
+        img {
+            height: 100%;
+            object-fit: cover;
+            object-position: center bottom;
+        }
+    }
+
+    &-stars {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: -2;
+        max-width: none;
+        // the stars fall past the 160px the svg is drawn in
+        overflow: visible;
+        transform: translateX(-50%);
+        pointer-events: none;
+        zoom: var(--sb-in4-z);
+
+        // big stars drop further and slower, the tiny ones go quick and short
+        circle {
+            --sb-fall: 100px;
+            animation: sb-integration-4-fall 6s ease-in infinite;
+
+            &[r="2"] {
+                --sb-fall: 170px;
+                animation-duration: 7s;
+            }
+
+            &[r="1"] {
+                --sb-fall: 130px;
+                animation-duration: 6s;
+            }
+
+            &[r="0.5"] {
+                --sb-fall: 90px;
+                animation-duration: 5s;
+            }
+
+            &:nth-child(3n) {
+                animation-delay: -1.7s;
+            }
+
+            &:nth-child(3n + 1) {
+                animation-delay: -3.4s;
+            }
+
+            &:nth-child(4n) {
+                animation-delay: -5.1s;
+            }
+        }
+    }
+
+    &-sec-title {
+        position: relative;
+        max-width: 616px;
+        margin: 0 auto;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+            background: rgb(255 255 255 / 8%);
+
+            &::before {
+                opacity: 0.45;
+            }
+        }
+
+        .sb-sec-title-4 {
+            color: #fff;
+
+            @media #{$md,$sm,$xs} {
+                br {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    /* 1720 x 614 board, everything on it sits at its figma place */
+    &-board {
+        position: relative;
+        left: 50%;
+        width: 1720px;
+        height: 614px;
+        margin-top: 51px;
+        transform: translateX(-50%);
+        zoom: var(--sb-in4-z);
+
+        // four rings round the bottom centre
+        .ring {
+            position: absolute;
+            left: 50%;
+            border-radius: 50%;
+            background: rgb(255 255 255 / 6%);
+            border: 1px solid rgb(255 255 255 / 10%);
+            // figma has a background blur here, it smooths the grain away inside the circles
+            backdrop-filter: blur(24px);
+
+            &-1 {
+                width: 1160px;
+                height: 1160px;
+                margin-left: -580px;
+                bottom: -580px;
+            }
+
+            &-2 {
+                width: 882px;
+                height: 882px;
+                margin-left: -441px;
+                bottom: -441px;
+            }
+
+            &-3 {
+                width: 576px;
+                height: 576px;
+                margin-left: -288px;
+                bottom: -288px;
+            }
+
+            &-4 {
+                width: 332px;
+                height: 332px;
+                margin-left: -166px;
+                bottom: -166px;
+            }
+        }
+
+        // light beam from the top orb down to the main logo
+        .beam {
+            position: absolute;
+            left: 50%;
+            top: 49px;
+            width: 66px;
+            height: 508px;
+            margin-left: -33px;
+            animation: sb-integration-4-beam 4s ease-in-out infinite;
+
+            // three blurred triangles, a point at the top and the base at the logo (the blur is on the span, the triangle is cut on its ::before, so the glow is not clipped)
+            span {
+                position: absolute;
+                top: 0;
+                height: 100%;
+                left: 50%;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+                }
+            }
+
+            .beam-1 {
+                width: 66px;
+                margin-left: -33px;
+                filter: blur(20px);
+
+                &::before {
+                    background: #6342F5;
+                }
+            }
+
+            .beam-2 {
+                width: 30px;
+                margin-left: -15px;
+                filter: blur(9px);
+
+                &::before {
+                    background: #AD9AFF;
+                }
+            }
+
+            .beam-3 {
+                width: 9px;
+                margin-left: -4.5px;
+                filter: blur(2px);
+
+                &::before {
+                    background: #fff;
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        // 188px logo, its centre sits on the bottom edge so only the top half shows
+        .main-logo {
+            position: absolute;
+            left: 50%;
+            bottom: -94px;
+            width: 188px;
+            height: 188px;
+            margin-left: -94px;
+
+            span {
+                position: absolute;
+                border-radius: 50%;
+            }
+
+            .glow {
+                inset: 0;
+                background: linear-gradient(180deg, #fff 0%, #C88EFF 100%);
+                filter: blur(32px);
+            }
+
+            // the ring colour (blue to white) turns round the logo
+            .rim {
+                inset: 0;
+                background: linear-gradient(180deg, #45ACFF 0%, #fff 47%);
+                animation: sb-integration-4-spin 6s linear infinite;
+            }
+
+            .dark {
+                inset: 10px;
+                background: #110F20;
+            }
+
+            .core {
+                inset: 20px;
+                background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+                box-shadow: inset 0 0 24px #110F20;
+            }
+
+            .logo-mark {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 83px;
+                height: 84px;
+                margin: -42px 0 0 -41.5px;
+                filter: drop-shadow(0 4px 4px rgb(0 0 0 / 50%));
+            }
+        }
+
+        // the three outer rings turn round the bottom centre, the tool orbs sit on them and go with them
+        // (the lower half is cut off by the section, so the orbs come round from below)
+        .orbit {
+            position: absolute;
+            left: 50%;
+            border-radius: 50%;
+            animation: sb-integration-4-spin var(--sb-in4-t) linear infinite;
+
+            // a soft arc of light on the ring, it shows the turn
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                padding: 1px;
+                border-radius: inherit;
+                background: conic-gradient(from 0deg, rgb(255 255 255 / 0%) 0deg, rgb(255 255 255 / 0%) 240deg, rgb(255 255 255 / 55%) 340deg, rgb(255 255 255 / 0%) 360deg);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            &-1 {
+                --sb-in4-t: 90s;
+                width: 1160px;
+                height: 1160px;
+                margin-left: -580px;
+                bottom: -580px;
+            }
+
+            &-2 {
+                --sb-in4-t: 70s;
+                width: 882px;
+                height: 882px;
+                margin-left: -441px;
+                bottom: -441px;
+                animation-direction: reverse;
+            }
+
+            &-3 {
+                --sb-in4-t: 50s;
+                width: 576px;
+                height: 576px;
+                margin-left: -288px;
+                bottom: -288px;
+            }
+        }
+
+        // tool orbs, 68px (the google ones are 64px), left / top is the place on the ring they sit on
+        .orb {
+            position: absolute;
+            // turns back the other way, so the logo stays upright
+            animation: sb-integration-4-spin var(--sb-in4-t) linear infinite reverse;
+
+            img {
+                display: block;
+                max-width: none;
+                animation: sb-integration-4-float 5s ease-in-out infinite;
+            }
+
+            &:nth-child(even) img {
+                animation-delay: -2.5s;
+            }
+        }
+
+        .orbit-2 .orb {
+            animation-direction: normal;
+        }
+
+        .orb-1 {
+            left: 1120px;
+            top: 496px;
+        }
+
+        .orb-2 {
+            left: 980px;
+            top: 163px;
+        }
+
+        .orb-7 {
+            left: -27px;
+            top: 442px;
+        }
+
+        .orb-8 {
+            left: 547px;
+            top: -34px;
+        }
+
+        .orb-11 {
+            left: 172px;
+            top: 95px;
+        }
+
+        .orb-14 {
+            left: 41px;
+            top: 836px;
+        }
+
+        .orb-19 {
+            left: 547px;
+            top: 1126px;
+        }
+
+        .orb-20 {
+            left: 1010px;
+            top: 900px;
+        }
+
+        .orb-4 {
+            left: 807px;
+            top: 227px;
+        }
+
+        .orb-5 {
+            left: 600px;
+            top: 5px;
+        }
+
+        .orb-9 {
+            left: 280px;
+            top: -19px;
+        }
+
+        .orb-10 {
+            left: 24px;
+            top: 187px;
+        }
+
+        .orb-13 {
+            left: 812px;
+            top: 573px;
+        }
+
+        .orb-17 {
+            left: 600px;
+            top: 793px;
+        }
+
+        .orb-18 {
+            left: 79px;
+            top: 686px;
+        }
+
+        .orb-3 {
+            left: 447px;
+            top: 39px;
+        }
+
+        .orb-6 {
+            left: 113px;
+            top: 6px;
+        }
+
+        .orb-12 {
+            left: -28px;
+            top: 249px;
+        }
+
+        .orb-15 {
+            left: 539px;
+            top: 317px;
+        }
+
+        .orb-16 {
+            left: 221px;
+            top: 533px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &-area *,
+        &-area *::before,
+        &-area *::after {
+            animation: none !important;
+        }
+    }
+}
+/*
+    integration-4-end
+*/

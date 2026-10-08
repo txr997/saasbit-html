@@ -1142,3 +1142,422 @@
 /*
     hero-3-end
 */
+
+/*
+    hero-4-start
+*/
+.sb-hero-4 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding: 112px 20px 20px;
+        background-color: #F6F7F8;
+        overflow: hidden;
+
+        @media #{$xs} {
+            padding: 96px 12px 12px;
+        }
+    }
+
+    /* blurred colour behind the glass box */
+    &-bg-clr {
+        position: absolute;
+        width: 873px;
+        height: 873px;
+        border-radius: 50%;
+        opacity: 0.7;
+        filter: blur(437px);
+        z-index: -2;
+        pointer-events: none;
+
+        &-1 {
+            left: 52px;
+            top: 545px;
+            background: var(--sb-clr-sd-4);
+        }
+
+        &-2 {
+            left: 809px;
+            top: -223px;
+            background: var(--sb-clr-pr-4);
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            width: 520px;
+            height: 520px;
+            filter: blur(260px);
+
+            &-1 {
+                left: -120px;
+                top: auto;
+                bottom: -160px;
+            }
+
+            &-2 {
+                left: auto;
+                right: -120px;
+                top: -180px;
+            }
+        }
+    }
+
+    &-box {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 852px;
+        border-radius: 20px;
+        background: rgb(255 255 255 / 32%);
+        backdrop-filter: blur(6px);
+        overflow: hidden;
+
+        @media #{$lg,$md,$sm,$xs} {
+            min-height: 0;
+        }
+
+        @media #{$xs} {
+            border-radius: 14px;
+        }
+    }
+
+    /* container, content + dashboard + marquee in one column */
+    &-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 121px;
+        padding-top: 161px;
+        padding-bottom: 75px;
+
+        @media #{$xxl} {
+            gap: 100px;
+            padding-top: 150px;
+            padding-bottom: 70px;
+        }
+
+        @media #{$xl} {
+            gap: 90px;
+            padding-top: 120px;
+            padding-bottom: 60px;
+        }
+
+        @media #{$lg,$md,$sm} {
+            gap: 48px;
+            padding-top: 70px;
+            padding-bottom: 50px;
+        }
+
+        @media #{$xs} {
+            gap: 36px;
+            padding-top: 50px;
+            padding-bottom: 36px;
+        }
+    }
+
+    &-content {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 592px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 20px;
+
+            .sb-sd-btn-4 {
+                margin-top: 1px;
+            }
+        }
+
+        @media #{$xl} {
+            max-width: 520px;
+        }
+    }
+
+    &-title {
+        font-size: 60px;
+        line-height: 1.0667;
+        margin-bottom: 20px;
+
+        .has-clr {
+            background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media #{$xl} {
+            font-size: 52px;
+        }
+
+        @media #{$lg} {
+            font-size: 50px;
+        }
+
+        @media #{$md} {
+            font-size: 46px;
+        }
+
+        @media #{$sm} {
+            font-size: 40px;
+        }
+
+        @media #{$xs} {
+            font-size: 34px;
+        }
+    }
+
+    &-disc {
+        margin-bottom: 32px;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /* dashboard, tilted 6deg, it falls in the flow under the content from lg down */
+    &-dashboard {
+        position: absolute;
+        top: 38px;
+        right: 2px;
+        width: 873px;
+        z-index: 2;
+        pointer-events: none;
+        // figma: -8 8 54 dark + 8 8 0 violet, drop-shadow follows the png alpha and its blur is half the box-shadow one
+        filter: drop-shadow(-8px 8px 27px rgb(17 15 32 / 62%)) drop-shadow(8px 8px 0 rgb(99 66 245 / 10%));
+
+        // the tilt sits on the img so the shadow offsets stay on screen axes like in figma
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transform: rotate(6deg);
+        }
+
+        @media #{$xxl} {
+            top: 100px;
+            right: 0;
+            width: 720px;
+        }
+
+        @media #{$xl} {
+            top: 160px;
+            right: 0;
+            width: 560px;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            position: relative;
+            top: auto;
+            right: auto;
+            align-self: center;
+            width: 100%;
+            max-width: 620px;
+        }
+
+        @media #{$xs} {
+            width: 94%;
+        }
+    }
+
+    &-marquee {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        max-width: 852px;
+
+        &-title {
+            font-family: var(--sb-font-2);
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 24px;
+            margin-bottom: 9px;
+            background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: fit-content;
+        }
+
+        // logos fade out to the right
+        &-box {
+            width: 100%;
+            height: 55px;
+            overflow: hidden;
+            vertical-align: top;
+            -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 58%, transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0%, #000 58%, transparent 100%);
+        }
+
+        &-wrap {
+            display: flex;
+            align-items: center;
+            height: 55px;
+            gap: 80px;
+            margin-right: 80px;
+
+            @media #{$xs} {
+                gap: 48px;
+                margin-right: 48px;
+            }
+        }
+
+        &-item {
+            flex-shrink: 0;
+
+            img {
+                display: block;
+                max-width: none;
+                height: auto;
+
+                @media #{$xs} {
+                    zoom: .75;
+                }
+            }
+
+            &:nth-child(1) img,
+            &:nth-child(3) img {
+                width: 131px;
+            }
+
+            &:nth-child(2) img {
+                width: 125px;
+            }
+
+            &:nth-child(4) img {
+                width: 74px;
+            }
+
+            &:nth-child(5) img {
+                width: 127px;
+            }
+
+            &:nth-child(6) img {
+                width: 113px;
+            }
+
+            &:nth-child(7) img {
+                width: 109px;
+            }
+
+            &:nth-child(8) img {
+                width: 89px;
+            }
+        }
+
+        @media #{$xxl,$xl} {
+            max-width: 560px;
+        }
+    }
+
+    /* box backgrounds, each one is the part of the Figma layer that shows inside the box */
+    &-bg-img {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right bottom;
+        }
+    }
+
+    &-bg-line-bottom {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 0;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 227px;
+        z-index: 1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        @media #{$xs} {
+            width: 140px;
+        }
+    }
+
+    &-bg-shape {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            height: 100%;
+            width: auto;
+            max-width: none;
+        }
+
+        @media #{$xxl,$xl} {
+            transform: scale(0.8);
+            transform-origin: right bottom;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            top: auto;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    &-bg-dot {
+        position: absolute;
+        left: 0;
+        bottom: 4px;
+        z-index: 1;
+        pointer-events: none;
+
+        img {
+            display: block;
+        }
+
+        @media #{$xs} {
+            display: none;
+        }
+    }
+}
+/*
+    hero-4-end
+*/

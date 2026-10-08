@@ -1114,3 +1114,224 @@
 /*
     step-3-end
 */
+
+/*
+    step-4-start
+*/
+@keyframes sb-step-4-run {
+    from {
+        background-position: -99px 0, 0 0;
+    }
+
+    to {
+        background-position: calc(100% + 99px) 0, 0 0;
+    }
+}
+
+.sb-step-4 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+
+    }
+
+    // soft cyan to violet wash, full width
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-sec-title {
+        max-width: 669px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-4 {
+            margin-bottom: 20px;
+
+            @media #{$md,$sm,$xs} {
+                br {
+                    display: none;
+                }
+            }
+        }
+
+        .sec-disc {
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        @media #{$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-wrap {
+        --sb-step-4-gap: 105px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: var(--sb-step-4-gap);
+        max-width: 1296px;
+        margin: 0 auto;
+
+        @media #{$xl} {
+            --sb-step-4-gap: 60px;
+        }
+
+        @media #{$lg} {
+            --sb-step-4-gap: 32px;
+        }
+
+        @media #{$md,$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            row-gap: 48px;
+            max-width: 440px;
+        }
+    }
+
+    &-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 36px;
+
+        // line to the next step, from under this icon to under the next one, a violet dash runs along it
+        &:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 33px;
+            left: calc(50% + 30px);
+            width: calc(100% + var(--sb-step-4-gap) - 60px);
+            height: 2px;
+            // dash: faded tail on the left, solid violet head on the right
+            background:
+                linear-gradient(90deg, rgb(86 65 242 / 0%) 0%, rgb(86 65 242 / 35%) 55%, #5641F2 100%) no-repeat -99px 0 / 99px 2px,
+                rgb(0 0 0 / 8%);
+            animation: sb-step-4-run 3.4s linear infinite;
+            z-index: 0;
+
+            @media #{$md,$sm,$xs} {
+                display: none;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+
+        &:nth-child(2)::after {
+            animation-delay: -1.7s;
+        }
+    }
+
+    // 68px white frame, a 60px tinted tile inside it
+    &-icon {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 68px;
+        height: 68px;
+        padding: 4px;
+        background: #fff;
+        border-radius: 12px;
+
+        .inner {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(180deg, var(--sb-step-4-tint) 0%, #fff 100%);
+            border-radius: 8px;
+            box-shadow: 3px 3px 10px rgb(0 0 0 / 20%);
+
+            // 1px stroke at 20%: white at the top, the tint at the bottom
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 1px;
+                background: linear-gradient(180deg, #fff 0%, var(--sb-step-4-tint) 100%);
+                opacity: 0.2;
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            i {
+                font-size: 32px;
+                line-height: 1;
+                color: var(--sb-step-4-icon);
+            }
+
+            svg {
+                display: block;
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        &.is-blue {
+            --sb-step-4-tint: #84DEFF;
+            --sb-step-4-icon: #28C4FE;
+        }
+
+        &.is-orange {
+            --sb-step-4-tint: #FFC2B4;
+            --sb-step-4-icon: #FF7F59;
+        }
+
+        &.is-purple {
+            --sb-step-4-tint: #BFB1FF;
+            --sb-step-4-icon: #5641F2;
+        }
+    }
+
+    &-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        text-align: center;
+
+        .title {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 28px;
+            margin-bottom: 16px;
+
+            @media #{$xs} {
+                font-size: 22px;
+            }
+        }
+
+        .disc {
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+/*
+    step-4-end
+*/

@@ -2201,3 +2201,1170 @@
 /*
     features-3-end
 */
+
+/*
+    features-4-start
+*/
+@keyframes sb-features-4-arc {
+    0%, 60%, 100% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes sb-features-4-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes sb-features-4-list-up {
+    to {
+        transform: translateY(-296px);
+    }
+}
+
+@keyframes sb-features-4-list-down {
+    from {
+        transform: translateY(-296px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes sb-features-4-dash {
+    0% {
+        offset-distance: 0%;
+        opacity: 0;
+    }
+
+    8%, 90% {
+        opacity: 1;
+    }
+
+    100% {
+        offset-distance: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes sb-features-4-emit {
+    0% {
+        transform: translate(var(--x), var(--y)) scale(0.2);
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    45%, 75% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0, -46px) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes sb-features-4-caret {
+    0%, 49% {
+        opacity: 1;
+    }
+
+    50%, 100% {
+        opacity: 0;
+    }
+}
+
+@keyframes sb-features-4-travel {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+
+    15%, 85% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+.sb-features-4 {
+    &-area {
+        // zoom of the card visuals, they are drawn on a fixed 1920 board
+        --sb-f4-z: 1;
+        --sb-f4-zs: 1;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            --sb-f4-z: 0.92;
+            --sb-f4-zs: 0.92;
+        }
+
+        @media #{$xl} {
+            --sb-f4-z: 0.77;
+            --sb-f4-zs: 0.77;
+            padding: 110px 0;
+        }
+
+        @media #{$lg,$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            --sb-f4-z: 0.75;
+            padding: 70px 0;
+        }
+
+        @media #{$xs} {
+            --sb-f4-z: 0.48;
+            --sb-f4-zs: 0.95;
+            padding: 60px 0;
+        }
+    }
+
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* grey blurred shapes on both sides */
+    &-bg-glow {
+        position: absolute;
+        top: 0px;
+        z-index: -1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 525px;
+            max-width: none;
+            height: auto;
+        }
+
+        &.is-left {
+            left: 0;
+        }
+
+        &.is-right {
+            right: 0;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            opacity: 0.6;
+
+            img {
+                width: 320px;
+            }
+        }
+    }
+
+    &-sec-title {
+        max-width: 679px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-4 {
+            margin-bottom: 20px;
+        }
+
+        .sec-disc {
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        @media #{$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &-row {
+        display: grid;
+        gap: 20px;
+
+        &.is-two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &.is-three {
+            grid-template-columns: 346fr 668fr 346fr;
+            gap: 21px;
+        }
+
+        // workflow card on its own line, the two small ones side by side
+        @media #{$lg,$md} {
+            &.is-two {
+                grid-template-columns: 1fr;
+            }
+
+            &.is-three {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+
+                .card-4 {
+                    grid-column: 1 / -1;
+                    order: -1;
+                }
+            }
+        }
+
+        @media #{$sm,$xs} {
+            &.is-two,
+            &.is-three {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    }
+
+    &-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+
+        @media #{$over,$xxxl} {
+            min-height: 420px;
+        }
+
+        &.card-2 .sb-features-4-card-content {
+            padding-top: 19px;
+        }
+    }
+
+    &-panel {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+
+        &.is-inset-8 {
+            margin: 8px 8px 0;
+            border-radius: 12px;
+        }
+
+        &.is-inset-10 {
+            margin: 10px 10px 0;
+            border-radius: 12px;
+        }
+
+        &.is-inset-12 {
+            margin: 12px 12px 0;
+            border-radius: 8px;
+        }
+
+        // pale sky image (68% opacity is in the png) over white
+        &.is-sky {
+            background: #fff;
+        }
+
+        &-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    // fixed size boards, children sit at the figma coordinates
+    &-stage {
+        position: relative;
+        flex-shrink: 0;
+        zoom: var(--sb-f4-z);
+
+        &.is-small {
+            zoom: var(--sb-f4-zs);
+        }
+
+        &.stage-1 {
+            width: 690px;
+            height: 274px;
+        }
+
+        &.stage-2 {
+            width: 670px;
+            height: 269px;
+        }
+
+        &.stage-3 {
+            width: 322px;
+            height: 232px;
+            border-radius: 8px;
+            // cyan fades in at the top and out into lilac at the bottom, the middle band is the strong blue
+            background: linear-gradient(180deg, #C2EBFF 0%, #6BB8FF 22%, #3F86FB 45%, #4A8BFB 52%, #8FA2FA 68%, #B1A9FA 85%, #D4CEFB 100%);
+            overflow: hidden;
+        }
+
+        &.stage-4 {
+            width: 652px;
+            height: 266px;
+        }
+
+        &.stage-5 {
+            width: 330px;
+            height: 266px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #fff 0%, #F6F7F8 100%);
+            overflow: hidden;
+        }
+
+        .logo-mark {
+            display: block;
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    &-card-content {
+        margin-top: auto;
+        padding: 24px 32px 32px;
+
+        .title {
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 30px;
+            margin-bottom: 12px;
+
+            @media #{$xs} {
+                font-size: 20px;
+                line-height: 1.3;
+            }
+        }
+
+        .disc {
+            font-size: 16px;
+            line-height: 24px;
+
+            @media #{$xs} {
+                font-size: 15px;
+                line-height: 1.6;
+            }
+        }
+
+        @media #{$xl,$sm,$xs} {
+            padding: 20px 24px 28px;
+        }
+    }
+
+    /* card-1, agent builder */
+    &-stage.stage-1 {
+        .bg-clr {
+            position: absolute;
+            left: 62px;
+            top: 0;
+            width: 566px;
+            height: 274px;
+        }
+
+        // three arcs per side, 20px / 36px / 51px in from the edge (the circles sit 15px apart), they light up one after the other
+        .arcs {
+            position: absolute;
+            top: 0;
+            width: 259px;
+            height: 274px;
+
+            &.is-left {
+                left: 0;
+            }
+
+            &.is-right {
+                right: 0;
+            }
+
+            img {
+                position: absolute;
+                top: 0;
+                width: 208px;
+                height: 274px;
+                animation: sb-features-4-arc 3.2s ease-in-out infinite;
+
+                &:nth-child(2) {
+                    animation-delay: 0.35s;
+                }
+
+                &:nth-child(3) {
+                    animation-delay: 0.7s;
+                }
+            }
+
+            &.is-left img {
+                &:nth-child(1) {
+                    left: 20px;
+                }
+
+                &:nth-child(2) {
+                    left: 36px;
+                }
+
+                &:nth-child(3) {
+                    left: 51px;
+                }
+            }
+
+            &.is-right img {
+                &:nth-child(1) {
+                    right: 20px;
+                }
+
+                &:nth-child(2) {
+                    right: 36px;
+                }
+
+                &:nth-child(3) {
+                    right: 51px;
+                }
+            }
+        }
+
+        .line-img {
+            position: absolute;
+            left: 186px;
+            top: 54px;
+            width: 208px;
+            height: 162px;
+        }
+
+        .orb {
+            position: absolute;
+            left: 101px;
+            top: 91px;
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            // cyan glow on the top and bottom rim of the pale disc
+            background:
+                radial-gradient(circle at 50% 108%, rgb(40 196 254 / 85%) 0%, rgb(40 196 254 / 0%) 45%),
+                radial-gradient(circle at 50% -8%, rgb(40 196 254 / 85%) 0%, rgb(40 196 254 / 0%) 45%),
+                #F6F7F8;
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 7px;
+                border-radius: 50%;
+                background: linear-gradient(180deg, #28C4FE 0%, #5641F2 100%);
+                box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+            }
+
+            &-core {
+                position: absolute;
+                inset: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: #000;
+                overflow: hidden;
+
+                // rim light, top and bottom
+                &::before,
+                &::after {
+                    content: "";
+                    position: absolute;
+                    left: 50%;
+                    width: 35px;
+                    height: 35px;
+                    margin-left: -17px;
+                    border-radius: 50%;
+                    background: linear-gradient(180deg, #28C4FE 0%, #5641F2 100%);
+                    filter: blur(12px);
+                }
+
+                &::before {
+                    top: -19px;
+                }
+
+                &::after {
+                    bottom: -19px;
+                }
+
+                .logo-mark {
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+        }
+
+        .chip {
+            position: absolute;
+            width: 196px;
+            height: 40px;
+            animation: sb-features-4-float 5s ease-in-out infinite;
+
+            &-1 {
+                left: 318px;
+                top: 34px;
+            }
+
+            &-2 {
+                left: 393px;
+                top: 86px;
+                animation-delay: -1.2s;
+            }
+
+            &-3 {
+                left: 280px;
+                top: 138px;
+                animation-delay: -2.4s;
+            }
+
+            &-4 {
+                left: 349px;
+                top: 190px;
+                animation-delay: -3.6s;
+            }
+        }
+    }
+
+    /* card-2, workflow tree */
+    &-stage.stage-2 {
+        .lines {
+            position: absolute;
+            left: 105px;
+            top: 76px;
+
+            width: 463px;
+            height: 74px;
+
+            svg {
+                display: block;
+            }
+
+            // 16x1.5 dash (the figma ones are 25x2, a bit smaller here), transparent tail to violet head, the head sits on the route
+            .dash {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 16px;
+                height: 1.5px;
+                border-radius: 1px;
+                background: linear-gradient(90deg, rgb(86 65 242 / 0%) 0%, #5641F2 100%);
+                offset-rotate: auto;
+                offset-anchor: 100% 50%;
+                opacity: 0;
+                animation: sb-features-4-dash 2.4s linear infinite;
+
+                &.dash-1 {
+                    offset-path: path("M231.5 0V25.4329C231.5 30.9518 235.971 35.4273 241.49 35.4329L298.51 35.49C304.029 35.4955 308.5 39.9711 308.5 45.49V73.5");
+                }
+
+                &.dash-2 {
+                    offset-path: path("M231.5 0V25.4329C231.5 30.9518 227.029 35.4273 221.51 35.4329L164.49 35.49C158.971 35.4955 154.5 39.9711 154.5 45.49V73.5");
+                    animation-delay: -1.2s;
+                }
+
+                &.dash-3 {
+                    offset-path: path("M231.5 0.5V25.5C231.5 31.0228 235.977 35.5 241.5 35.5H452.5C458.023 35.5 462.5 39.9772 462.5 45.5V73.5");
+                    animation-duration: 3.6s;
+                    animation-delay: -0.9s;
+                }
+
+                &.dash-4 {
+                    offset-path: path("M231.5 0.500359V25.3771C231.5 30.8999 227.023 35.3771 221.5 35.3771H10.5C4.97715 35.3771 0.5 39.8542 0.5 45.3771V73.5");
+                    animation-duration: 3.6s;
+                    animation-delay: -2.7s;
+                }
+            }
+        }
+
+        .prompt {
+            position: absolute;
+            left: 189px;
+            top: 32px;
+            width: 292px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 6px;
+            border-radius: 174px;
+            background: #fff;
+            // cyan to purple glow round the pill
+            box-shadow: -8px 0 16px rgb(40 196 254 / 55%), 8px 0 16px rgb(86 65 242 / 55%), 0 0 10px rgb(86 65 242 / 25%);
+
+            // 1px gradient stroke
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 1px;
+                background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            &-orb {
+                flex-shrink: 0;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                box-shadow: inset 0 0 6px #fff, inset 0 4px 4px #fff;
+                overflow: hidden;
+            }
+
+            &-text {
+                font-family: var(--sb-font-1);
+                font-size: 14px;
+                line-height: 20px;
+                color: #000;
+                white-space: nowrap;
+            }
+
+            &-caret {
+                width: 1px;
+                height: 19px;
+                margin-left: -6px;
+                background: #28C4FE;
+                animation: sb-features-4-caret 1s steps(1) infinite;
+            }
+        }
+
+        .tiles {
+            position: absolute;
+            left: 32px;
+            top: 149px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tile {
+            position: relative;
+            width: 144px;
+            height: 88px;
+            padding: 55px 11px 0;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            background: rgb(255 255 255 / 40%);
+            backdrop-filter: blur(3px);
+            box-shadow: -6px 6px 20px rgb(0 0 0 / 16%);
+            font-family: var(--sb-font-1);
+            font-size: 14px;
+            line-height: 20px;
+            color: #000;
+            transition: var(--sb-cube-1);
+
+            &:first-child {
+                background: rgb(255 255 255 / 20%);
+            }
+
+            &:hover {
+                background: rgb(255 255 255 / 70%);
+                transform: translateY(-4px);
+            }
+
+            .dot {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #28C4FE;
+            }
+        }
+    }
+
+    /* card-3, conversation routing, two lists scrolling against each other */
+    &-stage.stage-3 {
+        .win {
+            position: absolute;
+            left: 6px;
+            width: 310px;
+            height: 98px;
+            background: #fff;
+            overflow: hidden;
+
+            &.win-top {
+                top: 0;
+                border-radius: 0 0 28px 28px;
+            }
+
+            &.win-bottom {
+                top: 134px;
+                border-radius: 28px 28px 0 0;
+            }
+        }
+
+        .list {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 270px;
+
+            img {
+                display: block;
+                width: 270px;
+                height: 296px;
+            }
+
+            &.is-up {
+                animation: sb-features-4-list-up 12s linear infinite;
+            }
+
+            &.is-down {
+                animation: sb-features-4-list-down 12s linear infinite;
+            }
+        }
+
+        .logo {
+            position: absolute;
+            left: 107px;
+            top: 103px;
+            width: 105px;
+            height: 25px;
+
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    /* card-4, workflow automation */
+    &-stage.stage-4 {
+        .flow {
+            position: absolute;
+            left: 38px;
+            top: 28px;
+            width: 576px;
+            height: 211px;
+        }
+
+        .mini-orb {
+            position: absolute;
+            left: 140px;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            // wide ellipse sitting on the bottom edge: cyan at the bottom, violet towards the top
+            background: radial-gradient(127.2px 50px at 50% 100%, #28C4FE 0%, #28C4FE 19.7%, #6342F5 68.7%), #fff;
+            box-shadow: 0 1.75px 3px 2.75px rgb(0 0 0 / 40%);
+
+            // 2.75px stroke outside the disc, white at the top to cyan at the bottom
+            &::before {
+                content: "";
+                position: absolute;
+                inset: -2.75px;
+                border-radius: 50%;
+                padding: 2.75px;
+                background: linear-gradient(180deg, #fff 0%, #28C4FE 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            .logo-mark {
+                position: relative;
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        // line from the orb down to the agents, a spark runs along it
+        .v-line {
+            position: absolute;
+            left: 163px;
+            top: 48px;
+            width: 1px;
+            height: 100px;
+            background: #28C4FE;
+
+            &::after {
+                content: "";
+                position: absolute;
+                left: -2px;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #fff;
+                box-shadow: 0 0 8px 2px #28C4FE;
+                animation: sb-features-4-travel 2.4s linear infinite;
+            }
+        }
+
+        // the card pngs are cut at the card edge, so the figma shadow (0 4 24, 12% black) is drawn here, outside the card only
+        .chat {
+            position: absolute;
+            left: 0;
+            top: 73px;
+            z-index: 1;
+            width: 328px;
+            height: 64px;
+            border-radius: 6px;
+            box-shadow: 0 4px 24px rgb(0 0 0 / 12%);
+        }
+
+        .tick {
+            position: absolute;
+            top: 137px;
+            width: 1px;
+            height: 11px;
+            background: rgb(0 0 0 / 12%);
+
+            &-1 {
+                left: 52px;
+            }
+
+            &-2 {
+                left: 276px;
+            }
+        }
+
+        .agents {
+            position: absolute;
+            left: 0;
+            top: 147px;
+            display: flex;
+            gap: 8px;
+
+            img {
+                display: block;
+                width: 104px;
+                height: 64px;
+                border-radius: 6px;
+                box-shadow: 0 4px 24px rgb(0 0 0 / 12%);
+                animation: sb-features-4-float 4.5s ease-in-out infinite;
+
+                &:nth-child(2) {
+                    animation-delay: -1.5s;
+                }
+
+                &:nth-child(3) {
+                    animation-delay: -3s;
+                }
+            }
+        }
+
+        .link {
+            position: absolute;
+            left: 328px;
+            top: 104px;
+        }
+
+        .doc {
+            position: absolute;
+            left: 408px;
+            top: 0;
+            width: 168px;
+            height: 211px;
+            border-radius: 6px;
+            background: rgb(255 255 255 / 70%);
+
+            // 2px stroke, cyan in the top left corner and gone by the middle of the top and left edge
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 2px;
+                background: linear-gradient(121deg, #28C4FE 0%, rgb(40 196 254 / 0%) 34%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            &-title {
+                position: absolute;
+                left: 35px;
+                top: 16px;
+                font-family: var(--sb-font-1);
+                font-size: 8px;
+                line-height: 20px;
+                color: #000;
+                white-space: nowrap;
+            }
+
+            &-bars {
+                position: absolute;
+                left: 14px;
+                top: 159px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                opacity: 0.8;
+
+                .bar-row {
+                    display: flex;
+                    gap: 4px;
+
+                    i {
+                        display: block;
+                        height: 4px;
+                        border-radius: 4px;
+                        background: rgb(0 0 0 / 8%);
+                    }
+
+                    &:nth-child(1) i:nth-child(1) {
+                        width: 142px;
+                    }
+
+                    &:nth-child(2) i:nth-child(1) {
+                        width: 58px;
+                    }
+
+                    &:nth-child(2) i:nth-child(2) {
+                        width: 80px;
+                    }
+
+                    &:nth-child(3) i:nth-child(1) {
+                        width: 26px;
+                    }
+
+                    &:nth-child(3) i:nth-child(2) {
+                        width: 112px;
+                    }
+
+                    &:nth-child(4) i:nth-child(1) {
+                        width: 114px;
+                    }
+
+                    &:nth-child(4) i:nth-child(2) {
+                        width: 25px;
+                    }
+                }
+            }
+        }
+    }
+
+    /* card-5, tool integrations */
+    &-stage.stage-5 {
+        .blob {
+            position: absolute;
+            top: 118px;
+            width: 148px;
+            height: 148px;
+            border-radius: 50%;
+            background: #28C4FE;
+            filter: blur(72px);
+
+            &-l {
+                left: -94px;
+            }
+
+            &-r {
+                left: 239px;
+            }
+        }
+
+        // two quarter discs make the valley
+        .arch {
+            position: absolute;
+            top: 94px;
+            width: 166px;
+            height: 172px;
+            background: rgb(255 255 255 / 70%);
+            border: 1px solid #fff;
+            box-shadow: 0 -4px 16px rgb(0 0 0 / 4%);
+
+            &-l {
+                left: 0;
+                border-radius: 0 160px 0 0;
+            }
+
+            &-r {
+                left: 164px;
+                border-radius: 160px 0 0 0;
+            }
+        }
+
+        .main-log {
+            position: absolute;
+            left: 130px;
+            top: 170px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #28C4FE 0%, #5641F2 100%);
+            box-shadow: inset 0 4px 4px rgb(255 255 255 / 65%), 0 4px 14px rgb(99 66 245 / 52%), 0 4px 10px rgb(0 0 0 / 25%);
+
+            // 2px stroke inside, nothing at the top and white at the bottom
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 2px;
+                background: linear-gradient(180deg, rgb(255 255 255 / 0%) 0%, #fff 100%);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            .logo-mark {
+                position: relative;
+                filter: drop-shadow(0 4px 2px rgb(0 0 0 / 25%));
+            }
+        }
+
+        // the orbs come out from under the main logo, spread up to their place, drift off at the top and start again
+        .orb-logo {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 3px 6px 12px rgb(0 0 0 / 25%);
+            animation: sb-features-4-emit 6s ease-out infinite;
+
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+
+            // left / top is the place of the orb, --x / --y walk it back to the middle of the main logo
+            &:nth-child(1) {
+                left: 0;
+                top: -19px;
+                --x: 145px;
+                --y: 204px;
+            }
+
+            &:nth-child(2) {
+                left: 68px;
+                top: 1px;
+                --x: 77px;
+                --y: 184px;
+                animation-delay: -1.2s;
+            }
+
+            &:nth-child(3) {
+                left: 24px;
+                top: 51px;
+                --x: 121px;
+                --y: 134px;
+                animation-delay: -2.4s;
+            }
+
+            &:nth-child(4) {
+                left: 95px;
+                top: 78px;
+                --x: 50px;
+                --y: 107px;
+                animation-delay: -3.6s;
+            }
+
+            &:nth-child(5) {
+                left: 133px;
+                top: 16px;
+                --x: 12px;
+                --y: 169px;
+                animation-delay: -4.8s;
+            }
+
+            &:nth-child(6) {
+                left: 181px;
+                top: 51px;
+                --x: -36px;
+                --y: 134px;
+                animation-delay: -0.6s;
+            }
+
+            &:nth-child(7) {
+                left: 153px;
+                top: 114px;
+                --x: -8px;
+                --y: 71px;
+                animation-delay: -1.8s;
+            }
+
+            &:nth-child(8) {
+                left: 238px;
+                top: 62px;
+                --x: -93px;
+                --y: 123px;
+                animation-delay: -3s;
+            }
+
+            &:nth-child(9) {
+                left: 290px;
+                top: 27px;
+                --x: -145px;
+                --y: 158px;
+                animation-delay: -4.2s;
+            }
+
+            &:nth-child(10) {
+                left: 238px;
+                top: -9px;
+                --x: -93px;
+                --y: 194px;
+                animation-delay: -5.4s;
+            }
+        }
+
+        // top logos melt into the card
+        .fade {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 73px;
+            background: linear-gradient(180deg, #fff 0%, rgb(255 255 255 / 0%) 100%);
+            pointer-events: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &-area *,
+        &-area *::before,
+        &-area *::after {
+            animation: none !important;
+        }
+    }
+}
+/*
+    features-4-end
+*/
