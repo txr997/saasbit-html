@@ -423,6 +423,178 @@ function sbTitle3Play() {
 
 
 /*
+	section titles 4 (.wa_title_ani_4, on every .sb-sec-title-4) — the same word cascade for home-4: the words
+	start in the brand violet and settle on the colour the title already has; the gradient words (.has-gd-clr)
+	stay one piece each, a background-clip text does not survive being split, so they rise and sharpen in their turn
+*/
+var sbTitle4Items = [];
+
+function sbTitle4Split() {
+	if (isRtl() || prefersReducedMotion()) return;
+
+	document.querySelectorAll(".wa_title_ani_4").forEach(function (el) {
+		var color = getComputedStyle(el).color;
+		var words = sbHeroWords(el);
+		var grads = Array.prototype.slice.call(el.querySelectorAll(".has-gd-clr"));
+		// words and gradient pieces in reading order, so the stagger runs along the title
+		var pieces = Array.prototype.slice.call(el.querySelectorAll(".sb-split-word, .has-gd-clr"));
+
+		gsap.set(words, {
+			yPercent: 115,
+			rotate: 6,
+			opacity: 0,
+			filter: "blur(10px)",
+			color: "#5641f2",
+			transformOrigin: "0% 100%"
+		});
+		// inline-block so the piece can be moved, it keeps it afterwards (a two word piece never splits over two lines)
+		gsap.set(grads, { display: "inline-block", opacity: 0, y: 40, filter: "blur(10px)" });
+
+		sbTitle4Items.push({ el: el, color: color, words: words, grads: grads, pieces: pieces });
+	});
+}
+
+function sbTitle4Play() {
+	if (isRtl()) return;
+
+	sbTitle4Items.forEach(function (item) {
+		var tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: item.el,
+				start: "top 86%"
+			},
+			onComplete: function () {
+				gsap.set(item.words, { clearProps: "all" });
+				gsap.set(item.grads, { clearProps: "opacity,filter,transform,visibility" });
+			}
+		});
+
+		item.pieces.forEach(function (piece, i) {
+			if (item.grads.indexOf(piece) > -1) {
+				tl.to(piece, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.1, ease: "power4.out" }, i * .07);
+			} else {
+				tl.to(piece, {
+					yPercent: 0,
+					rotate: 0,
+					opacity: 1,
+					filter: "blur(0px)",
+					color: item.color,
+					duration: 1.1,
+					ease: "power4.out"
+				}, i * .07);
+			}
+		});
+	});
+}
+
+
+/*
+	use-case-4 — the two blue corner shapes slide in from their own side once the section scrolls into
+	view (the area clips them, so they come out from behind its edges)
+*/
+function sbUseCase4Shapes() {
+	var area = document.querySelector(".sb-use-case-4-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var left = area.querySelector(".sb-use-case-4-bg-shape.is-left");
+	var right = area.querySelector(".sb-use-case-4-bg-shape.is-right");
+	var shapes = [left, right].filter(Boolean);
+	if (!shapes.length) return;
+
+	var tl = gsap.timeline({
+		defaults: { duration: 1.6, ease: "power3.out" },
+		scrollTrigger: {
+			trigger: area,
+			start: "top 75%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(shapes, { clearProps: "opacity,transform" });
+		}
+	});
+
+	if (left) tl.from(left, { xPercent: -100, opacity: 0 }, 0);
+	if (right) tl.from(right, { xPercent: 100, opacity: 0 }, 0);
+}
+
+
+/*
+	integration-4 — the blue glow at the bottom rises out of the bottom edge once that edge scrolls into view
+	(the area clips it, so it comes up from behind the rounded corners)
+*/
+function sbIntegration4Glow() {
+	var area = document.querySelector(".sb-integration-4-area");
+	var glow = area ? area.querySelector(".sb-integration-4-color-bottom img") : null;
+	if (!glow || prefersReducedMotion()) return;
+
+	gsap.from(glow, {
+		yPercent: 70,
+		opacity: 0,
+		duration: 1.8,
+		ease: "power3.out",
+		scrollTrigger: {
+			trigger: area,
+			start: "bottom 99%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(glow, { clearProps: "opacity,transform" });
+		}
+	});
+}
+
+
+/*
+	footer-4 — the glass ribbons drop in from the top edge of the footer, and the line art in the two
+	corners of the box slides in from its own side (the box clips it); each part has its own trigger
+*/
+function sbFooter4Intro() {
+	var area = document.querySelector(".sb-footer-4-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var ribbons = area.querySelector(".sb-footer-4-bg-img");
+	var box = area.querySelector(".sb-footer-4-box");
+	var left = box ? box.querySelector(".box-bg-1") : null;
+	var right = box ? box.querySelector(".box-bg-2") : null;
+
+	if (ribbons) {
+		gsap.from(ribbons, {
+			y: -120,
+			opacity: 0,
+			duration: 1.8,
+			ease: "power3.out",
+			scrollTrigger: {
+				trigger: area,
+				start: "top 85%",
+				once: true
+			},
+			onComplete: function () {
+				gsap.set(ribbons, { clearProps: "opacity,transform" });
+			}
+		});
+	}
+
+	var shapes = [left, right].filter(Boolean);
+	if (!shapes.length) return;
+
+	var tl = gsap.timeline({
+		defaults: { duration: 1.6, ease: "power3.out" },
+		scrollTrigger: {
+			trigger: box,
+			start: "top 85%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(shapes, { clearProps: "opacity,transform" });
+		}
+	});
+
+	if (left) tl.from(left, { xPercent: -35, opacity: 0 }, 0);
+	if (right) tl.from(right, { xPercent: 35, opacity: 0 }, 0);
+}
+
+
+/*
 	hero-2 — same story as hero-1: parked before the preloader lifts, played right after
 */
 var sbHero2 = null;
@@ -601,6 +773,134 @@ function sbHero3Play() {
 		.to(hero.icons, { opacity: 1, duration: .4, stagger: .15 }, 1.7)
 		.to(hero.iconImgs, { scale: 1, rotate: 0, duration: .8, ease: "back.out(1.7)", stagger: .15 }, 1.7)
 		.to(hero.dashboard, { autoAlpha: 1, y: 0, duration: 1.4, ease: "power4.out" }, 1);
+}
+
+/*
+	hero-4 — parked before the preloader lifts, played right after; the dashboard swings up out of
+	the depth in 3d, then follows the pointer a few degrees on screens that have one
+*/
+var sbHero4 = null;
+
+function sbHero4Park() {
+	if (prefersReducedMotion()) return;
+
+	var title = document.querySelector(".sb-hero-4-title");
+	if (!title) return;
+
+	var blobs = document.querySelectorAll(".sb-hero-4-bg-clr");
+
+	var hero = {
+		pill: document.querySelector(".sb-hero-4-content .sb-subtitle-4"),
+		titleColor: getComputedStyle(title).color,
+		clr: title.querySelector(".has-clr"),
+		disc: document.querySelector(".sb-hero-4-disc"),
+		btns: document.querySelector(".sb-hero-4-content .btn-wrap"),
+		blobs: blobs,
+		blobOpacity: blobs.length ? parseFloat(getComputedStyle(blobs[0]).opacity) : 1,
+		bg: document.querySelectorAll(".sb-hero-4-bg-img, .sb-hero-4-bg-line-bottom, .sb-hero-4-bg-line, .sb-hero-4-bg-shape, .sb-hero-4-bg-dot"),
+		marquee: document.querySelector(".sb-hero-4-marquee"),
+		dashboard: document.querySelector(".sb-hero-4-dashboard"),
+		words: sbHeroWords(title)
+	};
+
+	gsap.set(hero.words, {
+		yPercent: 115,
+		rotate: 6,
+		opacity: 0,
+		filter: "blur(10px)",
+		color: "#5641f2",
+		transformOrigin: "0% 100%"
+	});
+	gsap.set(hero.pill, { opacity: 0, y: 20, clipPath: "inset(0% 50% 0% 50% round 100px)" });
+	// "AI Agents" stays one piece, it needs inline-block to be moved
+	gsap.set(hero.clr, { display: "inline-block", opacity: 0, y: 40, filter: "blur(10px)" });
+	gsap.set([hero.disc, hero.btns], { opacity: 0, y: 28, filter: "blur(6px)" });
+	gsap.set([hero.bg, hero.blobs], { opacity: 0 });
+	gsap.set(hero.marquee, { opacity: 0, y: 28 });
+	gsap.set(hero.dashboard, {
+		autoAlpha: 0,
+		y: 150,
+		z: -320,
+		rotationX: 40,
+		rotationY: -26,
+		scale: .88,
+		transformPerspective: 1600,
+		transformOrigin: "50% 50%"
+	});
+
+	sbHero4 = hero;
+}
+
+function sbHero4Play() {
+	if (!sbHero4) return;
+	var hero = sbHero4;
+	var tilt = window.matchMedia("(hover: hover) and (min-width: 1200px)").matches;
+
+	gsap.timeline({
+		defaults: { ease: "power3.out" },
+		onComplete: function () {
+			gsap.set([hero.pill, hero.clr, hero.disc, hero.btns, hero.bg, hero.blobs, hero.marquee].concat(hero.words), { clearProps: "all" });
+
+			if (tilt) {
+				sbHero4Tilt(hero.dashboard);
+			} else {
+				gsap.set(hero.dashboard, { clearProps: "all" });
+			}
+		}
+	})
+		.to(hero.bg, { opacity: 1, duration: 1.5, ease: "power2.out" }, 0)
+		.to(hero.blobs, { opacity: hero.blobOpacity, duration: 1.8, ease: "power2.out" }, 0)
+		.to(hero.pill, {
+			opacity: 1,
+			y: 0,
+			clipPath: "inset(0% 0% 0% 0% round 100px)",
+			duration: 1
+		}, 0)
+		.to(hero.words, {
+			yPercent: 0,
+			rotate: 0,
+			opacity: 1,
+			filter: "blur(0px)",
+			color: hero.titleColor,
+			duration: 1.1,
+			ease: "power4.out",
+			stagger: .08
+		}, .15)
+		.to(hero.clr, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.1, ease: "power4.out" }, .25)
+		.to(hero.disc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .8)
+		.to(hero.btns, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .95)
+		.to(hero.marquee, { opacity: 1, y: 0, duration: 1 }, 1.2)
+		// the dashboard fades in fast while it is still laid back, then rises and turns to face the screen
+		.to(hero.dashboard, { autoAlpha: 1, duration: .9, ease: "power2.out" }, .35)
+		.to(hero.dashboard, {
+			y: 0,
+			z: 0,
+			rotationX: 0,
+			rotationY: 0,
+			scale: 1,
+			duration: 1.9,
+			ease: "power4.out"
+		}, .35);
+}
+
+// the dashboard leans toward the pointer while it is over the hero box
+function sbHero4Tilt(dashboard) {
+	var box = document.querySelector(".sb-hero-4-box");
+	if (!box || !dashboard) return;
+
+	var rotY = gsap.quickTo(dashboard, "rotationY", { duration: .9, ease: "power3.out" });
+	var rotX = gsap.quickTo(dashboard, "rotationX", { duration: .9, ease: "power3.out" });
+
+	box.addEventListener("pointermove", function (e) {
+		var r = box.getBoundingClientRect();
+		rotY(((e.clientX - r.left) / r.width - .5) * 10);
+		rotX(((e.clientY - r.top) / r.height - .5) * -8);
+	});
+
+	box.addEventListener("pointerleave", function () {
+		rotY(0);
+		rotX(0);
+	});
 }
 
 function sbHeroGlow() {
@@ -1164,6 +1464,42 @@ function sbFaqs2Card() {
 
 
 /*
+	faqs-4 card — the card rises in, its blue backdrop settles, the robot pops up with its shadow
+	spreading under it, then the title, the text and the button follow one by one
+*/
+function sbFaqs4Card() {
+	var card = document.querySelector(".sb-faqs-4-card");
+	if (!card || prefersReducedMotion()) return;
+
+	var q = function (sel) { return card.querySelectorAll(sel); };
+	var btn = card.querySelector(".sb-signup-btn-4");
+	var targets = [card].concat(Array.prototype.slice.call(q(".card-bg, .robot-shadow, .robot, .title, .disc")), btn || []);
+
+	// the button carries an "all" transition for its hover, it would lag behind the tween
+	if (btn) btn.style.transition = "none";
+
+	gsap.timeline({
+		defaults: { duration: 1, ease: "power3.out" },
+		scrollTrigger: {
+			trigger: card,
+			start: "top 85%",
+			once: true
+		},
+		onComplete: function () {
+			if (btn) btn.style.transition = "";
+			gsap.set(targets, { clearProps: "opacity,transform" });
+		}
+	})
+		.from(card, { y: 70, opacity: 0, duration: 1.2 }, 0)
+		.from(q(".card-bg"), { opacity: 0, scale: 1.15, duration: 1.6, ease: "power2.out" }, .15)
+		.from(q(".robot"), { y: 90, scale: .7, rotate: -6, opacity: 0, duration: 1.4, ease: "back.out(1.4)" }, .45)
+		.from(q(".robot-shadow"), { opacity: 0, scaleX: .3, duration: 1.2, ease: "power2.out" }, .8)
+		.from(q(".title, .disc"), { y: 24, opacity: 0, duration: .8, stagger: .12 }, 1)
+		.from(btn, { y: 24, opacity: 0, duration: .8 }, 1.25);
+}
+
+
+/*
 	footer-2 — the title cascades word by word (the two gradient phrases rise as one piece each,
 	splitting them would break their gradient), the logo is wiped in from the left
 */
@@ -1586,6 +1922,7 @@ function sbAppsRing() {
 function afterPreloader() {
 	sbHeroGlow();
 	sbHero3Play();
+	sbHero4Play();
 	sbPartnerTitle();
 	sbFeaturesCard1();
 	sbFeaturesCard2();
@@ -1608,6 +1945,11 @@ function afterPreloader() {
 	sbTitlePlay();
 	sbTitle2Play();
 	sbTitle3Play();
+	sbTitle4Play();
+	sbUseCase4Shapes();
+	sbIntegration4Glow();
+	sbFooter4Intro();
+	sbFaqs4Card();
 }
 
 function afterPageLoad() {
@@ -1633,9 +1975,11 @@ window.addEventListener("load", function () {
 	sbTitleSplit();
 	sbTitle2Split();
 	sbTitle3Split();
+	sbTitle4Split();
 	sbHeroPark();
 	sbHero2Park();
 	sbHero3Park();
+	sbHero4Park();
 
 	if (sbPreloader) {
 		sbPreloader.done();

@@ -1517,11 +1517,19 @@
         z-index: 1;
         pointer-events: none;
 
+        // the float runs on the img (the wrapper already carries a scale on xxl / xl), pinned to the bottom right corner so the cut edges of the png never come into view
         img {
             display: block;
             height: 100%;
             width: auto;
             max-width: none;
+            transform-origin: 100% 100%;
+            animation: sb-hero-4-shape-float 8s ease-in-out infinite;
+            will-change: transform;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
         }
 
         @media #{$xxl,$xl} {
@@ -1556,6 +1564,21 @@
         @media #{$xs} {
             display: none;
         }
+    }
+}
+/* hero-4 shape: endless drift, it swells toward the top left while it slides right and down, then settles back (only ever moves toward the clipped edges, so the png cut never shows) */
+@keyframes sb-hero-4-shape-float {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    35% {
+        transform: translate(30px, 8px) scale(1.05);
+    }
+
+    70% {
+        transform: translate(14px, 28px) scale(1.08);
     }
 }
 /*

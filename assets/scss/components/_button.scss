@@ -495,6 +495,20 @@
     }
 }
 
+// sign up button (header, "Contact Support"): same hover as .sb-pr-btn-4 below, on the 44px black button.
+// The cyan glow rises and the violet one drops, both grow wide enough to cover the button edge to edge, each one owns one half and they melt into each other around the middle line
+.sb-signup-btn-4:hover .bg .glow {
+    &.glow-1 {
+        top: 24px;
+        transform: scale(2.3, 1.5);
+    }
+
+    &.glow-2 {
+        top: -14px;
+        transform: scale(2.3, 1.5);
+    }
+}
+
 // hero-4 buttons, the primary one shares the glow + lip with .sb-signup-btn-4
 .sb-pr-btn-4 {
     height: 50px;
@@ -514,8 +528,23 @@
         }
     }
 
+    // hover: the cyan glow rises from the bottom and the violet one drops from the top, both grow wide enough to cover the button edge to edge.
+    // Each one owns one half and they melt into each other around the middle line, so neither colour wins
+    // (the violet one is painted on top, so the cyan one reaches a little further past the middle to make up for it)
     &:hover {
-        color: #000;
+        color: #fff;
+
+        .bg .glow {
+            &.glow-1 {
+                top: 26px;
+                transform: scale(2.3, 1.5);
+            }
+
+            &.glow-2 {
+                top: -13px;
+                transform: scale(2.3, 1.5);
+            }
+        }
     }
 }
 
@@ -594,10 +623,56 @@
     border-radius: 80px;
     box-shadow: inset 0 0 10px #45ACFF;
     transition: var(--sb-cube-1);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 
+    // two blurred glows, they sit behind the text and stay hidden until hover (the blur would show at the edge, so they also fade)
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        z-index: -1;
+        width: 106px;
+        height: 34px;
+        margin-left: -53px;
+        border-radius: 50%;
+        filter: blur(15px);
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--sb-cube-1);
+    }
+
+    &::before {
+        top: 60px;
+        background: var(--sb-clr-sd-4);
+    }
+
+    &::after {
+        top: -60px;
+        background: var(--sb-clr-pr-4);
+    }
+
+    // hover: same as the primary buttons, the cyan glow rises and the violet one drops, both grow wide enough to cover the button edge to edge,
+    // each one owns one half and they melt into each other around the middle line (the cyan one reaches a bit past it because the violet one is painted on top)
     &:hover {
-        color: #000;
+        color: #fff;
         box-shadow: inset 0 0 20px #45ACFF;
+
+        &::before,
+        &::after {
+            opacity: 1;
+            transform: scale(2.3, 1.5);
+        }
+
+        &::before {
+            top: 28px;
+        }
+
+        &::after {
+            top: -12px;
+        }
     }
 }
 

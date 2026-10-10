@@ -1464,3 +1464,396 @@
 /*
     footer-3-end
 */
+
+/*
+    footer-4-start
+*/
+.sb-footer-4 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        padding: 128px 0 40px;
+        background-color: #F6F7F8;
+
+        @media #{$xxl,$xl,$lg} {
+            padding: 100px 0 40px;
+        }
+
+        @media #{$md,$xs} {
+            padding: 70px 0 24px;
+        }
+    }
+
+    /* the two 1076px blurred circles of the design (cyan right, violet left), drawn as soft radial fades so the page does not carry a 600px blur */
+    &-bg-clr {
+        position: absolute;
+        bottom: 280px;
+        z-index: -1;
+        width: 2200px;
+        height: 2200px;
+        transform: translate(-50%, 50%);
+        pointer-events: none;
+
+        &.is-left {
+            left: 4.84%;
+            background: radial-gradient(closest-side, rgb(86 65 242 / 26%) 0%, rgb(86 65 242 / 22%) 27%, rgb(86 65 242 / 14%) 49%, rgb(86 65 242 / 5%) 73%, rgb(86 65 242 / 0%) 100%);
+        }
+
+        &.is-right {
+            left: 96.7%;
+            background: radial-gradient(closest-side, rgb(40 196 254 / 40%) 0%, rgb(40 196 254 / 34%) 27%, rgb(40 196 254 / 22%) 49%, rgb(40 196 254 / 8%) 73%, rgb(40 196 254 / 0%) 100%);
+        }
+    }
+
+    // glass ribbons across the top
+    &-bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    /*
+        call to action
+    */
+    &-cta {
+        max-width: 751px;
+        margin: 0 auto 100px;
+
+        .sb-sec-title-4 {
+            margin-bottom: 20px;
+            font-weight: 500;
+
+            @media #{$md,$sm,$xs} {
+                br {
+                    display: none;
+                }
+            }
+        }
+
+        .disc {
+            margin-bottom: 32px;
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+
+            @media #{$xs} {
+                gap: 16px;
+            }
+        }
+
+        @media #{$lg} {
+            margin-bottom: 70px;
+        }
+
+        @media #{$md} {
+            margin-bottom: 56px;
+        }
+
+        @media #{$xs} {
+            margin-bottom: 48px;
+        }
+    }
+
+    /*
+        footer box, frosted white card with the line art in both top corners
+    */
+    &-box {
+        position: relative;
+        margin: 0 40px;
+        padding-top: 100px;
+        border-radius: 32px;
+        background: rgb(255 255 255 / 52%);
+        backdrop-filter: blur(32px);
+        overflow: hidden;
+
+        @media #{$lg} {
+            padding-top: 70px;
+        }
+
+        @media #{$md} {
+            margin: 0 24px;
+            padding-top: 56px;
+        }
+
+        @media #{$xs} {
+            margin: 0 12px;
+            padding-top: 40px;
+            border-radius: 24px;
+        }
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .box-bg {
+            position: absolute;
+            top: 0;
+            height: 525px;
+            width: auto;
+            max-width: none;
+            pointer-events: none;
+
+            &.box-bg-1 {
+                left: 0;
+            }
+
+            &.box-bg-2 {
+                right: 0;
+
+                @media #{$xs} {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &-widget {
+        display: flex;
+        justify-content: center;
+        gap: 149px;
+
+        @media #{$xxl} {
+            gap: 100px;
+        }
+
+        @media #{$xl} {
+            gap: 60px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        @media #{$xs} {
+            gap: 40px;
+        }
+    }
+
+    &-about {
+        flex-shrink: 0;
+        width: 430px;
+
+        @media #{$xxl} {
+            width: 400px;
+        }
+
+        @media #{$xl} {
+            width: 340px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .logo {
+            display: block;
+            width: 201px;
+            margin-bottom: 32px;
+
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .disc {
+            margin-bottom: 40px;
+            color: rgb(0 0 0 / 80%);
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        .social {
+            display: flex;
+            gap: 12px;
+
+            .social-link {
+                position: relative;
+                isolation: isolate;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                color: var(--sb-clr-p-4);
+                transition: var(--sb-cube-1);
+
+                // blue > violet fill, fades in on hover and on the active one (gradients can't transition)
+                &::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
+                    border-radius: inherit;
+                    background: linear-gradient(90deg, var(--sb-clr-sd-4) 0%, var(--sb-clr-pr-4) 100%);
+                    opacity: 0;
+                    transition: var(--sb-cube-1);
+                }
+
+                // 2px ring on the inside, violet in the top left and bottom right corner
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    padding: 2px;
+                    border-radius: inherit;
+                    background: linear-gradient(135deg, #6342F5 0%, #fff 34.6%, #fff 66.3%, #6342F5 100%);
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                    pointer-events: none;
+                }
+
+                svg {
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    fill: currentColor;
+                }
+
+                &.twitter svg {
+                    width: 14px;
+                    height: 14px;
+                }
+
+                &:hover,
+                &.is-active {
+                    color: #fff;
+
+                    &::before {
+                        opacity: 1;
+                    }
+
+                    // white corners instead, they light the edge of the fill
+                    &::after {
+                        background: linear-gradient(135deg, #fff 0%, rgb(255 255 255 / 0%) 34.6%, rgb(255 255 255 / 0%) 66.3%, #fff 100%);
+                    }
+                }
+            }
+        }
+    }
+
+    &-menus {
+        display: flex;
+        align-items: flex-start;
+        gap: 100px;
+
+        @media #{$xxl} {
+            gap: 80px;
+        }
+
+        @media #{$xl} {
+            gap: 50px;
+        }
+
+        @media #{$lg,$md} {
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        @media #{$xs} {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 36px 24px;
+        }
+    }
+
+    &-col {
+        .col-title {
+            margin-bottom: 32px;
+            font-family: var(--sb-font-2);
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.2;
+            color: #45ACFF;
+        }
+
+        li + li {
+            margin-top: 14px;
+        }
+
+        a {
+            font-family: var(--sb-font-1);
+            font-size: 18px;
+            line-height: 28px;
+            color: #000;
+            transition: var(--sb-cube-1);
+
+            &:hover {
+                color: var(--sb-clr-pr-4);
+            }
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+    }
+
+    &-bottom {
+        position: relative;
+        z-index: 1;
+        margin-top: 100px;
+        padding: 24px 12px;
+        border-top: 1px solid rgb(0 0 0 / 12%);
+        text-align: center;
+
+        .copyright a {
+            color: var(--sb-clr-pr-4);
+            transition: var(--sb-cube-1);
+
+            &:hover {
+                color: var(--sb-clr-sd-4);
+            }
+        }
+
+        @media #{$lg} {
+            margin-top: 60px;
+        }
+
+        @media #{$md} {
+            margin-top: 48px;
+        }
+
+        @media #{$xs} {
+            margin-top: 40px;
+
+            .copyright {
+                font-size: 15px;
+                line-height: 24px;
+            }
+        }
+    }
+}
+/*
+    footer-4-end
+*/

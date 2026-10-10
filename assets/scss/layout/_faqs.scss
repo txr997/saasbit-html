@@ -610,3 +610,273 @@
 /*
     faqs-3-end
 */
+
+/*
+    faqs-4-start
+*/
+.sb-faqs-4 {
+    &-area {
+        position: relative;
+    }
+
+    // sparkle + arrow shapes, drawn once in the html
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    &-sec-title {
+        max-width: 723px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-4 {
+            margin-bottom: 16px;
+        }
+
+        .sb-sec-title-4 {
+            margin-bottom: 20px;
+        }
+
+        .sec-disc {
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        @media #{$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    // card 428 + accordion 912 on the design, 32px between
+    &-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 428fr) minmax(0, 912fr);
+        gap: 32px;
+        max-width: 1372px;
+        margin: 0 auto;
+
+        @media #{$lg,$md,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 24px;
+        }
+    }
+
+    /*
+        support card
+    */
+    &-card {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 58px 40px 48px;
+        border-radius: 20px;
+        background: #fff;
+        overflow: hidden;
+
+        @media #{$lg,$md,$xs} {
+            order: 2;
+            width: 100%;
+            max-width: 428px;
+            margin: 0 auto;
+        }
+
+        @media #{$xs} {
+            padding: 40px 24px 36px;
+        }
+
+        .card-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        // soft blue pool under the robot
+        .robot-shadow {
+            position: absolute;
+            top: 262px;
+            left: 50%;
+            z-index: -1;
+            width: 122px;
+            height: 30px;
+            margin-left: -61px;
+            border-radius: 50%;
+            background: #08749C;
+            filter: blur(34px);
+            opacity: .32;
+            pointer-events: none;
+        }
+
+        .robot {
+            display: block;
+            width: 333px;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 9px;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .title {
+            margin-bottom: 20px;
+            font-size: 26px;
+            line-height: 30px;
+
+            @media #{$xs} {
+                font-size: 24px;
+            }
+        }
+
+        .disc {
+            max-width: 348px;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    /*
+        accordion
+    */
+    &-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    &-item {
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 4px 16px rgb(0 0 0 / 6%);
+        transition: var(--sb-cube-1);
+
+        .item-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 22px;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            font-family: var(--sb-font-2);
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 28px;
+            color: #000;
+            transition: var(--sb-cube-1);
+
+            @media #{$lg,$md} {
+                font-size: 18px;
+            }
+
+            @media #{$xs} {
+                padding: 16px;
+                font-size: 17px;
+                line-height: 26px;
+            }
+
+            .spark {
+                flex-shrink: 0;
+                display: flex;
+                width: 18px;
+                height: 18px;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    fill: var(--sb-clr-pr-4);
+                }
+            }
+
+            .text {
+                flex: 1;
+                min-width: 0;
+            }
+
+            // arrow chip, the double arrow turns down on the open item
+            .icon {
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                margin-left: 22px;
+                border-radius: 5px;
+                background: #F6F7F8;
+                box-shadow: inset 0 0 4px rgb(69 172 255 / 100%);
+                color: rgb(0 0 0 / 40%);
+                transition: var(--sb-cube-1);
+
+                svg {
+                    display: block;
+                    width: 12px;
+                    height: 12px;
+                    fill: currentColor;
+                    transition: var(--sb-cube-1);
+                }
+
+                @media #{$xs} {
+                    margin-left: 8px;
+                }
+            }
+        }
+
+        .item-body {
+            padding: 0 50px 22px;
+
+            @media #{$xs} {
+                padding: 0 16px 18px 44px;
+            }
+        }
+
+        .item-disc {
+            margin: 0;
+            font-size: 18px;
+            line-height: 28px;
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        &.active {
+            box-shadow: inset 0 0 0 1px var(--sb-clr-sd-4), 0 4px 16px rgb(69 172 255 / 52%);
+
+            .item-title {
+                font-weight: 500;
+
+                .icon {
+                    background: linear-gradient(0deg, var(--sb-clr-sd-4) 0%, var(--sb-clr-pr-4) 100%);
+                    box-shadow: inset 0 0 4px #fff;
+                    color: #fff;
+
+                    svg {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+    }
+}
+/*
+    faqs-4-end
+*/
