@@ -2076,6 +2076,10 @@ input:focus::placeholder, textarea:focus::placeholder {
 .sb-pr-btn-4:hover::before {
   top: 4px;
 }
+.sb-signup-btn-4:hover .bg .glow,
+.sb-pr-btn-4:hover .bg .glow {
+  filter: blur(5px);
+}
 .sb-signup-btn-4:hover .bg .glow.glow-1,
 .sb-pr-btn-4:hover .bg .glow.glow-1 {
   top: 22px;
@@ -2220,6 +2224,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 .sb-sd-btn-4:hover::before, .sb-sd-btn-4:hover::after {
   opacity: 1;
   transform: scale(2.3, 1.5);
+  filter: blur(5px);
 }
 .sb-sd-btn-4:hover::before {
   top: 28px;
