@@ -1584,3 +1584,455 @@
 /*
     hero-4-end
 */
+
+/*
+    hero-5-start
+*/
+// 1 figma px of the 1920 canvas, the whole hero-5 composition is sized with it (--sb-h5-u)
+@function h5($px) {
+    @return calc(#{$px} * var(--sb-h5-u));
+}
+
+// same unit for the background glow, it stays on the section width (the bg pngs do too) in every layout
+@function h5bg($px) {
+    @return calc(#{$px} * var(--sb-h5-bg-u));
+}
+
+.sb-hero-5 {
+    &-area {
+        --sb-h5-u: 1px;
+        --sb-h5-bg-u: 1px;
+        position: relative;
+        z-index: 1;
+        height: h5(1259);
+        background-color: #071727;
+        overflow: hidden;
+
+        // fluid under 1920, 100vw = 1920 units
+        @media (max-width: 1919px) {
+            --sb-h5-u: 0.0520833vw;
+            --sb-h5-bg-u: 0.0520833vw;
+        }
+
+        // stacked from lg down, content first and the composition under it (100vw = 1760 units)
+        @media #{$lg,$md} {
+            --sb-h5-u: 0.0568vw;
+            height: auto;
+        }
+
+        // xs, only the dashboard is left (94vw = dashboard width)
+        @media #{$xs} {
+            --sb-h5-u: 0.0949vw;
+            height: auto;
+        }
+    }
+
+    /* colour under the bottom bands, 5 ellipses on one centre (1080, 1229) tilted 22.74deg with one blur on the group (figma layer blur 300 = css 150) */
+    &-bg-clr {
+        position: absolute;
+        left: h5bg(1080);
+        bottom: h5bg(30);
+        width: 0;
+        height: 0;
+        z-index: 0;
+        filter: blur(h5bg(150));
+        pointer-events: none;
+
+        span {
+            position: absolute;
+            border-radius: 50%;
+            transform: rotate(-22.74deg);
+        }
+
+        &-1 {
+            width: h5bg(2344);
+            height: h5bg(918);
+            left: h5bg(-1172);
+            top: h5bg(-459);
+            background: #FB6514;
+        }
+
+        &-2 {
+            width: h5bg(1917);
+            height: h5bg(752);
+            left: h5bg(-958.5);
+            top: h5bg(-376);
+            background: #FF1E00;
+        }
+
+        &-3 {
+            width: h5bg(1539);
+            height: h5bg(604);
+            left: h5bg(-769.5);
+            top: h5bg(-302);
+            background: #FFA305;
+        }
+
+        &-4 {
+            width: h5bg(1109);
+            height: h5bg(435);
+            left: h5bg(-554.5);
+            top: h5bg(-217.5);
+            background: #FEB434;
+        }
+
+        &-5 {
+            width: h5bg(763);
+            height: h5bg(299);
+            left: h5bg(-381.5);
+            top: h5bg(-149.5);
+            background: #fff;
+        }
+    }
+
+    /* backgrounds, same bands as figma, they follow the section width */
+    &-bg-line-top,
+    &-bg-line-bottom {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        z-index: 0;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-line-top {
+        top: 0;
+    }
+
+    &-bg-line-bottom {
+        bottom: 0;
+    }
+
+    &-bg-light {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: h5bg(705);
+        z-index: 1;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    /* container, holds the text block */
+    &-wrap {
+        position: relative;
+        z-index: 3;
+        padding-top: h5(184);
+
+        @media #{$lg} {
+            padding-top: 150px;
+        }
+
+        @media #{$md} {
+            padding-top: 140px;
+        }
+
+        @media #{$xs} {
+            padding-top: 124px;
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: max(520px, h5(793));
+        margin: 0 auto;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        @media #{$lg,$md} {
+            max-width: 680px;
+        }
+
+        @media #{$xs} {
+            max-width: 100%;
+        }
+    }
+
+    &-title {
+        font-size: max(40px, h5(64));
+        line-height: 1.0625;
+        color: #fff;
+        margin-bottom: max(14px, h5(20));
+        // the line break is the <br>, "Power Your Business With" has to stay on one line
+        white-space: nowrap;
+
+        @media #{$lg,$md,$xs} {
+            white-space: normal;
+        }
+
+        @media #{$lg} {
+            font-size: 52px;
+        }
+
+        @media #{$md} {
+            font-size: 46px;
+        }
+
+        @media #{$xs} {
+            font-size: 34px;
+
+            br {
+                display: none;
+            }
+        }
+
+        @media #{$sm} {
+            font-size: 40px;
+        }
+    }
+
+    &-disc {
+        font-size: max(15px, h5(18));
+        color: rgb(255 255 255 / 80%);
+        margin-bottom: max(24px, h5(32));
+
+        @media #{$lg,$md} {
+            font-size: 17px;
+        }
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    }
+
+    /* composition, a 1920 x 1259 canvas centered in the section, from lg down it falls in the flow under the text */
+    &-stage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: h5(1259);
+        z-index: 2;
+        pointer-events: none;
+
+        @media #{$lg,$md,$xs} {
+            position: relative;
+            height: h5(781);
+            margin-top: 56px;
+        }
+
+        @media #{$md} {
+            margin-top: 44px;
+        }
+
+        @media #{$xs} {
+            height: h5(520);
+            margin-top: 36px;
+        }
+    }
+
+    &-canvas {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: h5(1920);
+        height: h5(1259);
+        margin-left: h5(-960);
+
+        // starts at the Trigger card (y 478), centered on the cards + chart (x 87 to 1767)
+        @media #{$lg,$md} {
+            top: h5(-478);
+            margin-left: h5(-927);
+        }
+
+        // starts at the dashboard (y 684)
+        @media #{$xs} {
+            top: h5(-684);
+        }
+    }
+
+    &-card,
+    &-line,
+    &-dashboard,
+    &-ai-btn,
+    &-integration,
+    &-user {
+        position: absolute;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-card-1 {
+        left: h5(232);
+        top: h5(478);
+        width: h5(332);
+    }
+
+    &-card-2 {
+        left: h5(87);
+        top: h5(730);
+        width: h5(274);
+    }
+
+    &-card-3 {
+        left: h5(415);
+        top: h5(730);
+        width: h5(274);
+    }
+
+    // connector lines + dots between Trigger and the two actions
+    &-line {
+        left: h5(216);
+        top: h5(636);
+        width: h5(346);
+
+        svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+    }
+
+    // glass frame around the dashboard png, the frame is 990 x 674 and the png sits 13 / 12 inside
+    &-dashboard {
+        left: h5(465);
+        top: h5(684);
+        width: h5(990);
+        height: h5(674);
+        border-radius: h5(16);
+        background: rgb(255 255 255 / 8%);
+        backdrop-filter: blur(12px);
+        box-shadow: inset 0 0 0 max(1px, h5(2)) #fff;
+
+        // the png sits 13 / 12 inside, drop shadow like figma, the inner shadow lies over the png
+        &-img {
+            position: absolute;
+            left: h5(13);
+            top: h5(12);
+            width: h5(965);
+            border-radius: h5(12);
+            box-shadow: h5(8) h5(-8) h5(94) rgb(0 0 0 / 55%);
+
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                box-shadow: inset 0px 0px h5(14) rgb(0 0 0 / 45%);
+                pointer-events: none;
+            }
+        }
+    }
+
+    &-ai-btn {
+        left: h5(1348);
+        top: h5(1092);
+        display: flex;
+        align-items: center;
+        gap: h5(12);
+        height: h5(70);
+        padding: h5(6) h5(28) h5(6) h5(6);
+        background: #fff;
+        border-radius: 100px;
+        box-shadow: 12px 12px 22px rgb(0 0 0 / 25%);
+
+        // streak texture, the 2nd fill of the pill in figma, it lies under the inner shadow, the icon and the text
+        img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0px -4px 4px rgb(0 0 0 / 25%);
+            pointer-events: none;
+        }
+
+        .icon,
+        .text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: h5(56);
+            height: h5(56);
+            border-radius: 50%;
+            background: linear-gradient(160deg, #FCB833 0%, #FE662B 100%);
+            box-shadow: inset 0px 0px 4px #fff, 4px 4px 9px rgb(0 0 0 / 33%);
+
+            svg {
+                display: block;
+                width: h5(28);
+                height: h5(28);
+            }
+        }
+
+        .text {
+            font-family: var(--sb-font-2);
+            font-weight: 500;
+            font-size: h5(22);
+            line-height: 1;
+            color: #071727;
+            white-space: nowrap;
+        }
+    }
+
+    // the png carries its own shadow, 28 px of room on each side
+    &-integration {
+        left: h5(277);
+        top: h5(966);
+        width: h5(400);
+    }
+
+    &-user {
+        left: h5(1355);
+        top: h5(538);
+        width: h5(412);
+    }
+
+    // xs keeps the dashboard only
+    @media #{$xs} {
+        &-card,
+        &-line,
+        &-ai-btn,
+        &-integration,
+        &-user {
+            display: none;
+        }
+    }
+}
+/*
+    hero-5-end
+*/

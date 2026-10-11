@@ -510,6 +510,108 @@
     }
 }
 
+// header-5 buttons
+.sb-login-btn-5 {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    transition: var(--sb-cube-1);
+
+    &:hover {
+        color: #FFA305;
+    }
+}
+
+.sb-free-btn-5 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 24px;
+    font-family: var(--sb-font-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    // top layer: solid orange, 0 high until hover
+    background:
+        linear-gradient(#FB6514 0 0) 0 0 / 100% 0 no-repeat,
+        linear-gradient(180deg, #FB6514 0%, #071727 35.8%, #071727 100%) 0 0 / 100% 100% no-repeat;
+    border-radius: 12px;
+    // top highlight + bottom-only stroke (tapers out at the corners)
+    box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -1px 0px rgb(255 255 255 / 32%);
+    transition: var(--sb-cube-1);
+
+    &:hover {
+        color: #fff;
+        // orange wipes down from the top and fills the whole button
+        background-size: 100% 100%, 100% 100%;
+        box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -1px 0px rgb(255 255 255 / 32%), 0px 0px 20px rgb(251 101 20 / 45%);
+    }
+}
+
+// hero-5 buttons
+.sb-pr-btn-5,
+.sb-sd-btn-5 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 52px;
+    padding: 0 24px;
+    font-family: var(--sb-font-2);
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    border-radius: 12px;
+    transition: var(--sb-cube-1);
+
+    .icon {
+        display: inline-flex;
+        flex-shrink: 0;
+
+        svg {
+            display: block;
+        }
+    }
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+.sb-pr-btn-5 {
+    font-weight: 600;
+    background: linear-gradient(255deg, #FFC33B 0%, #FB6514 29.3%, #D93005 54.5%, #D94F04 82%, #FFC33B 100%);
+    // top highlight + bottom glow
+    box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%);
+
+    &:hover {
+        box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), 0px 0px 24px rgb(251 101 20 / 55%);
+    }
+}
+
+.sb-sd-btn-5 {
+    height: 53px;
+    font-weight: 500;
+    // top layer: solid orange, 0 high until hover
+    background:
+        linear-gradient(#FB6514 0 0) 0 0 / 100% 0 no-repeat,
+        linear-gradient(180deg, #071727 6.25%, #071727 27.9%, #35290E 57.2%, #975F03 100%) 0 0 / 100% 100% no-repeat;
+    // top highlight + bottom glow + bottom-only stroke
+    box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), inset 0px -1px 0px rgb(255 255 255 / 32%);
+
+    &:hover {
+        // orange wipes down from the top and fills the whole button
+        background-size: 100% 100%, 100% 100%;
+        box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), inset 0px -1px 0px rgb(255 255 255 / 32%), 0px 0px 24px rgb(251 101 20 / 45%);
+    }
+}
+
 // hero-4 buttons, the primary one shares the glow + lip with .sb-signup-btn-4
 .sb-pr-btn-4 {
     height: 50px;

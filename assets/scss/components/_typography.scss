@@ -41,6 +41,15 @@
     margin-bottom: 0;
 }
 
+.sb-p-5 {
+    font-family: var(--sb-font-1);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--sb-clr-p-5);
+    line-height: 1.555;
+    margin-bottom: 0;
+}
+
 
 .sb-h-1 {
     font-family: var(--sb-font-2);
@@ -79,6 +88,14 @@
     font-family: var(--sb-font-2);
     font-weight: 600;
     color: #000;
+    line-height: 1.153;
+    margin-bottom: 0;
+}
+
+.sb-h-5 {
+    font-family: var(--sb-font-2);
+    font-weight: 600;
+    color: var(--sb-clr-h-5);
     line-height: 1.153;
     margin-bottom: 0;
 }
@@ -313,6 +330,42 @@
     }
 }
 
+.sb-subtitle-5 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    height: 33px;
+    padding: 0 15px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #FFBE4E 0%, rgb(186 77 18 / 0%) 40.4%, rgb(113 50 16 / 0%) 100%);
+
+    // 1px gradient stroke
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(180deg, #713210 0%, #BA4D12 59.6%, #FFBE4E 100%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    &-text {
+        font-family: var(--sb-font-2);
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 24px;
+        color: #fff;
+        margin-bottom: 0;
+    }
+}
+
 
 .sb-sec-title-1 {
     font-family: var(--sb-font-2);
@@ -532,6 +585,37 @@
         -webkit-text-fill-color: transparent;
         
     }
+}
+
+
+.sb-sec-title-5 {
+    font-family: var(--sb-font-2);
+    font-weight: 600;
+    font-size: 52px;
+    line-height: 1.077;
+    color: var(--sb-clr-h-5);
+    margin-bottom: 0;
+
+    @media #{$xl} {
+        font-size: 44px;
+    }
+
+    @media #{$lg} {
+        font-size: 40px;
+    }
+
+    @media #{$md} {
+        font-size: 36px;
+    }
+
+    @media #{$xs} {
+        font-size: 28px;
+    }
+
+    @media #{$sm} {
+        font-size: 32px;
+    }
+
 }
 /*
     typography-end

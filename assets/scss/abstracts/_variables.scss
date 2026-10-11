@@ -10,19 +10,23 @@
   --sb-clr-pr-1: #6342F5;
   --sb-clr-pr-3: #14AE86;
   --sb-clr-pr-4: #5641F2;
+  --sb-clr-pr-5: #D93005;
 
   --sb-clr-sd-1: #E50FF2;
   --sb-clr-sd-4: #28C4FE;
 
   --sb-clr-h-2: #050221;
   --sb-clr-h-3: #031B20;
+  --sb-clr-h-5: #071727;
 
   --sb-clr-p-2: #666474;
   --sb-clr-p-3: #575E60;
   --sb-clr-p-4: #5E6063;
+  --sb-clr-p-5: #444E57;
 
 
-  --sb-clr-gd-4: background: linear-gradient(90deg, #28C4FE 31.73%, #5641F2 100%);
+  --sb-clr-gd-4: linear-gradient(90deg, #28C4FE 31.73%, #5641F2 100%);
+  --sb-clr-gd-5: linear-gradient(265.95deg, #FFC33B 1.87%, #FB6514 30.66%, #D93005 55.37%, #D94F04 82.35%, #FFC33B 100%);
   
   --sb-cube-1: all .4s cubic-bezier(.18,.82,.41,1);
 
