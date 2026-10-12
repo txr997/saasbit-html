@@ -489,6 +489,57 @@ function sbTitle4Play() {
 
 
 /*
+	section titles 5 (.sb-sec-title-5) — the same word cascade for home-5: the words start in the brand
+	orange and settle on the colour the title already has (white on the dark sections)
+*/
+var sbTitle5Items = [];
+
+function sbTitle5Split() {
+	if (isRtl() || prefersReducedMotion()) return;
+
+	document.querySelectorAll(".sb-sec-title-5").forEach(function (el) {
+		var color = getComputedStyle(el).color;
+		var words = sbHeroWords(el);
+
+		gsap.set(words, {
+			yPercent: 115,
+			rotate: 6,
+			opacity: 0,
+			filter: "blur(10px)",
+			color: "#fb6514",
+			transformOrigin: "0% 100%"
+		});
+
+		sbTitle5Items.push({ el: el, words: words, color: color });
+	});
+}
+
+function sbTitle5Play() {
+	if (isRtl()) return;
+
+	sbTitle5Items.forEach(function (item) {
+		gsap.to(item.words, {
+			scrollTrigger: {
+				trigger: item.el,
+				start: "top 86%"
+			},
+			yPercent: 0,
+			rotate: 0,
+			opacity: 1,
+			filter: "blur(0px)",
+			color: item.color,
+			duration: 1.1,
+			ease: "power4.out",
+			stagger: .07,
+			onComplete: function () {
+				gsap.set(item.words, { clearProps: "all" });
+			}
+		});
+	});
+}
+
+
+/*
 	use-case-4 — the two blue corner shapes slide in from their own side once the section scrolls into
 	view (the area clips them, so they come out from behind its edges)
 */
@@ -1001,6 +1052,104 @@ function sbPartnerTitle() {
 		duration: 1.5,
 		ease: "power3.out",
 		scrollTrigger: trigger
+	});
+}
+
+
+/*
+	partner-5 — the orange stroke of each title line keeps running along its path (MotionPath). Both leave
+	the title: the left one runs to the left, turns the corner and climbs up to its dot, the right one runs
+	to the right, turns and climbs up to its dot. The guide path is drawn from the real size of the line,
+	so it is redrawn (and the run restarted) on resize
+*/
+function sbPartner5Line() {
+	var title = document.querySelector(".sb-partner-5-title");
+	if (!title) return;
+
+	var runs = [];
+	var visible = false;
+	var timer;
+	var tl;
+
+	title.querySelectorAll(".sb-partner-5-title-line").forEach(function (line) {
+		runs.push({
+			line: line,
+			left: line.classList.contains("sb-partner-5-title-line-left"),
+			guide: line.querySelector(".sb-partner-5-title-guide"),
+			accent: line.querySelector(".sb-partner-5-title-accent")
+		});
+	});
+
+	// centre line of the 1px border, the same shape as the css (x / y start at the padding box of the line)
+	function draw(run) {
+		var w = run.line.offsetWidth;
+		var h = run.line.offsetHeight;
+		var cs = getComputedStyle(run.line);
+		var r = parseFloat(run.left ? cs.borderBottomLeftRadius : cs.borderBottomRightRadius);
+		var ox = run.line.clientLeft;
+		var d;
+
+		if (run.left) {
+			// from the title (right end) to the left, round the corner, up to the dot
+			d = "M" + (w - ox) + " " + (h - .5) + "H" + (r - ox) + "A" + (r - .5) + " " + (r - .5) + " 0 0 1 " + (.5 - ox) + " " + (h - r) + "V1";
+		} else {
+			// from the title along the line, round the corner, up to the dot
+			d = "M" + (-ox) + " " + (h - .5) + "H" + (w - r - ox) + "A" + (r - .5) + " " + (r - .5) + " 0 0 0 " + (w - .5 - ox) + " " + (h - r) + "V1";
+		}
+
+		run.guide.setAttribute("d", d);
+	}
+
+	function build() {
+		if (tl) tl.kill();
+
+		runs.forEach(function (run) {
+			gsap.killTweensOf(run.accent);
+			gsap.set(run.accent, { clearProps: "all" });
+			draw(run);
+		});
+
+		// still: the stroke rests where the design has it, 32px away from the free end of the line
+		if (prefersReducedMotion()) {
+			runs.forEach(function (run) {
+				gsap.set(run.accent, {
+					x: run.left ? run.line.offsetWidth - run.line.clientLeft - 84 : 32,
+					y: run.line.offsetHeight - 2,
+					opacity: 1
+				});
+			});
+			return;
+		}
+
+		tl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, paused: !visible });
+
+		runs.forEach(function (run) {
+			tl.fromTo(run.accent, { opacity: 0 }, { opacity: 1, duration: .4, ease: "none" }, 0)
+				.to(run.accent, {
+					motionPath: {
+						path: run.guide,
+						align: run.guide,
+						alignOrigin: [1, .5],
+						autoRotate: true
+					},
+					duration: 3.2,
+					ease: "none"
+				}, 0)
+				.to(run.accent, { opacity: 0, duration: .4, ease: "none" }, 2.8);
+		});
+	}
+
+	build();
+
+	// only runs while the title is on screen
+	new IntersectionObserver(function (entries) {
+		visible = entries[0].isIntersecting;
+		if (tl) tl.paused(!visible);
+	}).observe(title);
+
+	window.addEventListener("resize", function () {
+		clearTimeout(timer);
+		timer = setTimeout(build, 200);
 	});
 }
 
@@ -1765,6 +1914,31 @@ function sbPriceToggle() {
 
 
 /*
+	price-5 toggle — swaps the two plans between the monthly and the annual rate
+*/
+function sbPrice5Toggle() {
+	$("#sb-price-5-toggle").on("change", function () {
+		var yearly = $(this).is(":checked");
+
+		$(".sb-price-5-toggle-label.monthly").toggleClass("active", !yearly);
+		$(".sb-price-5-toggle-label.yearly").toggleClass("active", yearly);
+
+		$(".sb-price-5-price").each(function () {
+			var $amount = $(this).find(".amount");
+
+			$amount.text($amount.data(yearly ? "yearly" : "monthly"));
+			$(this).find(".duration").text(yearly ? "/yearly" : "/monthly");
+		});
+	});
+
+	// the labels flip the switch as well
+	$(".sb-price-5-toggle-label").on("click", function () {
+		$("#sb-price-5-toggle").prop("checked", $(this).hasClass("yearly")).trigger("change");
+	});
+}
+
+
+/*
 	price-3 toggle — swaps every card between the monthly and the annual rate
 */
 function sbPrice3Toggle() {
@@ -1924,6 +2098,7 @@ function afterPreloader() {
 	sbHero3Play();
 	sbHero4Play();
 	sbPartnerTitle();
+	sbPartner5Line();
 	sbFeaturesCard1();
 	sbFeaturesCard2();
 	sbFeaturesMenu();
@@ -1946,6 +2121,7 @@ function afterPreloader() {
 	sbTitle2Play();
 	sbTitle3Play();
 	sbTitle4Play();
+	sbTitle5Play();
 	sbUseCase4Shapes();
 	sbIntegration4Glow();
 	sbFooter4Intro();
@@ -1976,6 +2152,7 @@ window.addEventListener("load", function () {
 	sbTitle2Split();
 	sbTitle3Split();
 	sbTitle4Split();
+	sbTitle5Split();
 	sbHeroPark();
 	sbHero2Park();
 	sbHero3Park();
@@ -1998,6 +2175,7 @@ sbTestimonialSlider();
 sbTestimonial3();
 sbPriceToggle();
 sbPrice3Toggle();
+sbPrice5Toggle();
 sbAppsRing();
 
 })(jQuery);

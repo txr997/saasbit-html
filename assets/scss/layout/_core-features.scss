@@ -238,3 +238,824 @@
 /*
     core-features-4-end
 */
+
+/*
+    core-features-5-start
+*/
+// 1 figma px of a step card (1260 wide). Everything in a card is drawn at the figma size and scales with the card
+// width, container query units do that (--sb-cf5-u). From md down the card is a column and the picture part
+// (688 wide in figma) scales with its own width
+@function cf5($px) {
+    @return calc(#{$px} * var(--sb-cf5-u));
+}
+
+// every picture / shape of a card art is laid on the art box at its figma position
+%sb-cf5-layer {
+    position: absolute;
+    display: block;
+    max-width: none;
+    pointer-events: none;
+}
+
+.sb-core-features-5 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding: 128px 0;
+        background-color: #fff;
+        overflow: hidden;
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 90px 0;
+        }
+
+        @media #{$md} {
+            padding: 80px 0;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 60px 0;
+        }
+    }
+
+    /* background grids, the pictures already carry their opacity */
+    &-bg-top,
+    &-bg-bottom {
+        position: absolute;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-top {
+        top: 0;
+    }
+
+    &-bg-bottom {
+        bottom: 0;
+    }
+
+    /* section title, the title itself is the default .sb-sec-title-5 */
+    &-sec-title {
+        max-width: 767px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        // the default text of the pill is white (hero), this section is light
+        .sb-subtitle-5-text {
+            color: var(--sb-clr-h-5);
+        }
+
+        @media #{$sm,$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-title {
+        margin-bottom: 20px;
+
+        @media #{$xs} {
+            margin-bottom: 16px;
+        }
+    }
+
+    &-disc {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+
+        @media #{$md,$sm,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    /* the four steps */
+    &-list {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        max-width: 1260px;
+        margin: 0 auto;
+
+        @media #{$xl,$lg} {
+            gap: 32px;
+        }
+
+        @media #{$md,$sm,$xs} {
+            gap: 24px;
+        }
+    }
+
+    &-card {
+        --sb-cf5-u: calc(100cqw / 1260);
+        position: relative;
+        aspect-ratio: 1260 / 540;
+        border-radius: 28px;
+        overflow: hidden;
+        isolation: isolate;
+        container-type: inline-size;
+
+        @media #{$md,$sm,$xs} {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            aspect-ratio: auto;
+            padding: 16px;
+            border-radius: 24px;
+        }
+    }
+
+    &-card-1,
+    &-card-3 {
+        background-color: #FFF6E9;
+    }
+
+    &-card-2,
+    &-card-4 {
+        background-color: #EBF3FE;
+    }
+
+    // the picture part: 688 x 540, on the left of the steps 1 and 3, on the right of the steps 2 and 4
+    &-art {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: cf5(688);
+        height: cf5(540);
+
+        @media #{$md,$sm,$xs} {
+            --sb-cf5-u: calc(100cqw / 688);
+            position: relative;
+            order: 2;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 688 / 540;
+            container-type: inline-size;
+        }
+    }
+
+    &-card-2 &-art,
+    &-card-4 &-art {
+        left: cf5(572);
+
+        @media #{$md,$sm,$xs} {
+            left: auto;
+        }
+    }
+
+    // the white panel with the number and the text, 544 x 485
+    &-panel {
+        position: absolute;
+        top: cf5(27);
+        width: cf5(544);
+        height: cf5(485);
+        border-radius: cf5(24);
+        background-color: #fff;
+        overflow: hidden;
+        z-index: 1;
+        
+        @media #{$md,$sm,$xs} {
+            position: relative;
+            order: 1;
+            top: auto;
+            width: auto;
+            height: auto;
+            padding: 28px;
+            border-radius: 20px;
+        }
+
+        @media #{$xs} {
+            padding: 24px;
+        }
+    }
+
+    &-card-1 &-panel,
+    &-card-3 &-panel {
+        left: cf5(688);
+
+        @media #{$md,$sm,$xs} {
+            left: auto;
+        }
+    }
+
+    &-card-2 &-panel,
+    &-card-4 &-panel {
+        left: cf5(28);
+
+        @media #{$md,$sm,$xs} {
+            left: auto;
+        }
+    }
+
+    &-panel-dot {
+        position: absolute;
+        top: 0;
+        left: cf5(29);
+        width: cf5(515);
+        height: auto;
+        max-width: none;
+        pointer-events: none;
+
+        @media #{$md,$sm,$xs} {
+            left: auto;
+            right: 0;
+            width: 95%;
+        }
+    }
+
+    // the blue steps use the same picture in luminosity blend, which is a grey one
+    &-card-2 &-panel-dot,
+    &-card-4 &-panel-dot {
+        filter: grayscale(1);
+    }
+
+    &-num {
+        position: absolute;
+        top: cf5(48);
+        left: cf5(48);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: cf5(56);
+        height: cf5(56);
+        border: cf5(4) solid #FFC888;
+        border-radius: cf5(6);
+        background-color: #fff;
+        font-family: var(--sb-font-1);
+        font-size: max(15px, cf5(20));
+        line-height: 1;
+        color: var(--sb-clr-h-5);
+
+        // figma: two inner shadows (60%) on the whole square, so the ring itself gets a darker top / left edge
+        &::after {
+            content: "";
+            position: absolute;
+            inset: cf5(-4);
+            border-radius: inherit;
+            box-shadow: inset 0 cf5(2) cf5(1) rgb(220 163 95 / 60%), inset cf5(-1.25) cf5(1) cf5(1) rgb(220 163 95 / 60%);
+            pointer-events: none;
+        }
+
+        @media #{$md,$sm,$xs} {
+            position: relative;
+            top: auto;
+            left: auto;
+            width: 56px;
+            height: 56px;
+            border-width: 4px;
+            border-radius: 6px;
+            font-size: 20px;
+
+            &::after {
+                inset: -4px;
+                box-shadow: inset 0 2px 1px rgb(220 163 95 / 60%), inset -1.25px 1px 1px rgb(220 163 95 / 60%);
+            }
+        }
+    }
+
+    &-card-2 &-num,
+    &-card-4 &-num {
+        border-color: #98D1FF;
+
+        &::after {
+            box-shadow: inset 0 cf5(2) cf5(1) rgb(69 172 255 / 60%), inset cf5(-1.25) cf5(1) cf5(1) rgb(69 172 255 / 60%);
+
+            @media #{$md,$sm,$xs} {
+                box-shadow: inset 0 2px 1px rgb(69 172 255 / 60%), inset -1.25px 1px 1px rgb(69 172 255 / 60%);
+            }
+        }
+    }
+
+    &-panel-content {
+        position: absolute;
+        bottom: cf5(48);
+        left: cf5(48);
+        width: cf5(448);
+
+        @media #{$md,$sm,$xs} {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            width: auto;
+            margin-top: 56px;
+        }
+    }
+
+    &-panel-title {
+        margin: 0 0 cf5(16);
+        font-family: var(--sb-font-2);
+        font-weight: 500;
+        font-size: max(22px, cf5(32));
+        line-height: max(26px, cf5(36));
+        color: var(--sb-clr-h-5);
+
+        @media #{$md,$sm,$xs} {
+            margin-bottom: 14px;
+            font-size: 30px;
+            line-height: 34px;
+        }
+
+        @media #{$xs} {
+            font-size: 26px;
+            line-height: 30px;
+        }
+    }
+
+    &-panel-disc {
+        margin: 0;
+        font-family: var(--sb-font-1);
+        font-size: max(14px, cf5(18));
+        line-height: max(21px, cf5(28));
+        color: var(--sb-clr-p-5);
+
+        @media #{$md,$sm,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    /* step 1 and 3: the glow behind the white sheet (the same picture for both) */
+    &-glow {
+        @extend %sb-cf5-layer;
+        left: cf5(-27.5);
+        top: cf5(-5);
+        width: cf5(614);
+        height: auto;
+    }
+
+    /* step 1 — choose a workflow */
+    &-box {
+        @extend %sb-cf5-layer;
+        left: cf5(64);
+        top: cf5(64);
+        width: cf5(460);
+        height: auto;
+    }
+
+    &-sms {
+        @extend %sb-cf5-layer;
+        left: cf5(388);
+        top: cf5(-12);
+        width: cf5(245);
+        height: auto;
+    }
+
+    &-star {
+        @extend %sb-cf5-layer;
+        left: cf5(4);
+        top: cf5(349);
+        width: cf5(180);
+        height: auto;
+    }
+
+    &-arrow {
+        @extend %sb-cf5-layer;
+        left: cf5(456);
+        top: cf5(275);
+        width: cf5(65);
+        height: auto;
+    }
+
+    /* step 2 — build your automation: five apps round the logo, a thin line from each one to it */
+    &-wire {
+        @extend %sb-cf5-layer;
+        height: auto;
+
+        &-1 {
+            left: cf5(218);
+            top: cf5(131);
+            width: cf5(115);
+        }
+
+        &-2 {
+            left: cf5(412);
+            top: cf5(139);
+            width: cf5(90);
+        }
+
+        &-3 {
+            left: cf5(420);
+            top: cf5(238);
+            width: cf5(149);
+        }
+
+        &-4 {
+            left: cf5(356);
+            top: cf5(321);
+            width: max(1px, cf5(1));
+        }
+
+        &-5 {
+            left: cf5(154);
+            top: cf5(226);
+            width: cf5(157);
+        }
+    }
+
+    // short blue light that sits on a line
+    &-spark {
+        @extend %sb-cf5-layer;
+        width: cf5(20);
+        height: max(1px, cf5(1));
+        background: linear-gradient(90deg, rgb(5 133 255 / 0%) 0%, #0585FF 50%, rgb(5 133 255 / 0%) 100%);
+
+        &-1 {
+            left: cf5(278);
+            top: cf5(130);
+        }
+
+        &-2 {
+            left: cf5(440);
+            top: cf5(138);
+        }
+
+        &-3 {
+            left: cf5(494);
+            top: cf5(237);
+        }
+
+        &-4 {
+            left: cf5(355);
+            top: cf5(328);
+            width: max(1px, cf5(1));
+            height: cf5(20);
+            background: linear-gradient(180deg, rgb(5 133 255 / 0%) 0%, #0585FF 50%, rgb(5 133 255 / 0%) 100%);
+        }
+
+        &-5 {
+            left: cf5(218);
+            top: cf5(225);
+        }
+    }
+
+    // the dot where a line starts, 6px blue with a white ring and a blue glow
+    &-node {
+        @extend %sb-cf5-layer;
+        width: cf5(6);
+        height: cf5(6);
+        border-radius: 50%;
+        background-color: #0585FF;
+        box-shadow: 0 0 0 cf5(2) #fff, 0 0 cf5(8) cf5(2) rgb(5 133 255 / 55%);
+
+        &-1 {
+            left: cf5(215);
+            top: cf5(128);
+        }
+
+        &-2 {
+            left: cf5(497);
+            top: cf5(135);
+        }
+
+        &-3 {
+            left: cf5(566);
+            top: cf5(288);
+        }
+
+        &-4 {
+            left: cf5(352);
+            top: cf5(366);
+        }
+
+        &-5 {
+            left: cf5(151);
+            top: cf5(287);
+        }
+    }
+
+    &-icon {
+        @extend %sb-cf5-layer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: cf5(100);
+        height: cf5(100);
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 cf5(7) cf5(10) rgb(6 84 191 / 20%), inset 0 0 cf5(6) rgb(0 0 0 / 25%);
+
+        img {
+            display: block;
+            width: cf5(56);
+            height: cf5(56);
+        }
+
+        &-1 {
+            left: cf5(121);
+            top: cf5(74);
+        }
+
+        &-2 {
+            left: cf5(498);
+            top: cf5(80);
+        }
+
+        &-3 {
+            left: cf5(519);
+            top: cf5(290);
+        }
+
+        &-4 {
+            left: cf5(306);
+            top: cf5(367);
+        }
+
+        &-5 {
+            left: cf5(104);
+            top: cf5(290);
+        }
+    }
+
+    // logo orb: light outer disc with a cyan glow top and bottom, blue to violet ring, black core with the white mark
+    &-logo {
+        @extend %sb-cf5-layer;
+        left: cf5(278);
+        top: cf5(168);
+        width: cf5(160);
+        height: cf5(160);
+        border-radius: 50%;
+        background-color: #F6F7F8;
+        box-shadow: 0 0 cf5(30) rgb(40 196 254 / 45%);
+        overflow: hidden;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: cf5(52);
+            width: cf5(56);
+            height: cf5(56);
+            border-radius: 50%;
+            background-color: #28C4FE;
+            filter: blur(cf5(14));
+        }
+
+        &::before {
+            top: cf5(-17);
+        }
+
+        &::after {
+            top: cf5(134);
+        }
+
+        .ring {
+            position: absolute;
+            inset: cf5(12);
+            border-radius: 50%;
+            background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+        }
+
+        .core {
+            position: absolute;
+            inset: cf5(23.5);
+            border-radius: 50%;
+            background-color: #000;
+            overflow: hidden;
+
+            // blue light on the top and bottom edge of the core
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                left: cf5(27);
+                width: cf5(60);
+                height: cf5(60);
+                border-radius: 50%;
+                background: linear-gradient(90deg, #28C4FE 0%, #5641F2 100%);
+                filter: blur(cf5(14));
+            }
+
+            &::before {
+                top: cf5(-32);
+            }
+
+            &::after {
+                top: cf5(89);
+            }
+
+            // (not .mark, bootstrap paints that class yellow)
+            .glyph {
+                position: absolute;
+                top: cf5(25);
+                left: cf5(25.5);
+                width: cf5(62);
+                height: auto;
+            }
+        }
+    }
+
+    /* step 3 — launch & automate */
+    &-sheet {
+        @extend %sb-cf5-layer;
+        left: cf5(98);
+        top: cf5(64);
+        width: cf5(460);
+        height: cf5(412);
+        border-radius: cf5(24);
+        background-color: #fff;
+        box-shadow: inset 0 0 cf5(12) rgb(0 0 0 / 12%), 0 0 cf5(32) rgb(0 0 0 / 12%);
+    }
+
+    &-rocket {
+        @extend %sb-cf5-layer;
+        left: cf5(-6);
+        top: cf5(258);
+        width: cf5(177);
+        height: auto;
+    }
+
+    &-ready {
+        @extend %sb-cf5-layer;
+        left: cf5(98);
+        top: cf5(132);
+        width: cf5(460);
+        margin: 0;
+        font-family: var(--sb-font-2);
+        font-weight: 500;
+        font-size: max(16px, cf5(24));
+        line-height: cf5(36);
+        text-align: center;
+        color: var(--sb-clr-h-5);
+    }
+
+    &-curve {
+        @extend %sb-cf5-layer;
+        left: cf5(179);
+        top: cf5(145);
+        width: cf5(300);
+        height: auto;
+    }
+
+    // orange light on the left end of the button, a white pill with an orange edge inside
+    &-launch {
+        @extend %sb-cf5-layer;
+        left: cf5(172);
+        top: cf5(221);
+        width: cf5(313);
+        height: cf5(56);
+        padding: cf5(6) cf5(8);
+        border-radius: 50px;
+        background: linear-gradient(90deg, #FB6514 0%, #FFA305 22%, rgb(254 180 52 / 35%) 48%, #fff 75%);
+        box-shadow: 0 cf5(6) cf5(20) rgb(0 0 0 / 20%);
+
+        .inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: cf5(12);
+            height: 100%;
+            border: 1px solid transparent;
+            border-radius: 50px;
+            background:
+                linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(90deg, #FB6514 0%, #FFB347 40%, #FFD9A8 100%) border-box;
+        }
+
+        .icon {
+            flex-shrink: 0;
+            width: cf5(28);
+            height: cf5(28);
+        }
+
+        .text {
+            font-family: var(--sb-font-1);
+            font-size: max(11px, cf5(14));
+            line-height: 1.7;
+            color: var(--sb-clr-h-5);
+            white-space: nowrap;
+        }
+    }
+
+    // trigger -> ai agent -> action
+    &-steps {
+        @extend %sb-cf5-layer;
+        display: flex;
+        align-items: center;
+        gap: cf5(10);
+        left: cf5(135);
+        top: cf5(372);
+    }
+
+    &-step {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        gap: cf5(8);
+        padding: cf5(14) cf5(22);
+        border-radius: cf5(6);
+        background-color: #fff;
+        box-shadow: 0 cf5(4) cf5(16) rgb(166 106 4 / 32%);
+
+        .icon {
+            flex-shrink: 0;
+            width: cf5(28);
+            height: cf5(28);
+        }
+
+        .text {
+            font-family: var(--sb-font-2);
+            font-weight: 500;
+            font-size: max(10px, cf5(14));
+            line-height: 1.4;
+            letter-spacing: 0.01em;
+            color: #000;
+            white-space: nowrap;
+        }
+    }
+
+    &-steps .arrow {
+        flex-shrink: 0;
+        width: cf5(30);
+        height: auto;
+    }
+
+    /* step 4 — five circles round the middle of the charts, the charts */
+    &-ring {
+        @extend %sb-cf5-layer;
+        border: 1px solid rgb(7 23 39 / 8%);
+        border-radius: 50%;
+        background-color: rgb(217 217 217 / 8%);
+
+        &-1 {
+            left: cf5(-18);
+            top: cf5(-45);
+            width: cf5(670);
+            height: cf5(670);
+        }
+
+        &-2 {
+            left: cf5(64.5);
+            top: cf5(37.5);
+            width: cf5(505);
+            height: cf5(505);
+        }
+
+        &-3 {
+            left: cf5(143.5);
+            top: cf5(116.5);
+            width: cf5(347);
+            height: cf5(347);
+        }
+
+        &-4 {
+            left: cf5(211.5);
+            top: cf5(184.5);
+            width: cf5(211);
+            height: cf5(211);
+        }
+
+        &-5 {
+            left: cf5(271);
+            top: cf5(244);
+            width: cf5(92);
+            height: cf5(92);
+        }
+    }
+
+    &-graph-2 {
+        @extend %sb-cf5-layer;
+        left: cf5(58);
+        top: cf5(184);
+        width: cf5(467);
+        height: auto;
+    }
+
+    &-bars {
+        @extend %sb-cf5-layer;
+        left: cf5(387);
+        top: cf5(338);
+        width: cf5(219);
+        height: auto;
+    }
+
+    &-graph-1 {
+        @extend %sb-cf5-layer;
+        left: cf5(238);
+        top: cf5(34);
+        width: cf5(409);
+        height: auto;
+    }
+}
+/*
+    core-features-5-end
+*/

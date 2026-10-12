@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../abstracts/variables' as *;
 
 /*
@@ -3367,4 +3368,940 @@
 }
 /*
     features-4-end
+*/
+
+/*
+    features-5-start
+*/
+// 1 figma px of a card. The art of every card is drawn at the figma size (692 wide for the two wide cards,
+// 456 for the three narrow ones) and scales with the card width, container query units do that (--sb-f5-u)
+@function f5($px) {
+    @return calc(#{$px} * var(--sb-f5-u));
+}
+
+// puts $count dots / icons of $size on a ring of $radius, one every 360 / $count degrees, clockwise from the top
+// (the first one is turned by $offset). The classes are -{$prefix}1, -{$prefix}2 ... and the position is in
+// figma px from the top left of the ring box
+@mixin f5-orbit-items($prefix, $count, $radius, $size, $offset: 0deg) {
+    @for $i from 1 through $count {
+        $angle: (360deg / $count) * ($i - 1) + $offset;
+
+        &-#{$prefix}#{$i} {
+            left: f5($radius + $radius * math.sin($angle) - $size * 0.5);
+            top: f5($radius - $radius * math.cos($angle) - $size * 0.5);
+            width: f5($size);
+            height: f5($size);
+        }
+    }
+}
+
+// every picture / shape of a card art is laid on the card at its figma position
+%sb-f5-layer {
+    position: absolute;
+    display: block;
+    max-width: none;
+    pointer-events: none;
+}
+
+.sb-features-5 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding: 128px 0;
+        background-color: #010912;
+        overflow: hidden;
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 90px 0;
+        }
+
+        @media #{$md} {
+            padding: 80px 0;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 60px 0;
+        }
+    }
+
+    // glyph sprite for the integration icons
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* background, the pictures already carry their opacity */
+    &-bg-line,
+    &-bg-light,
+    &-bg-shape {
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+
+        img {
+            display: block;
+            max-width: none;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-line {
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &-bg-light {
+        top: 0;
+        left: calc(50% - 230px);
+        width: 992px;
+
+        @media #{$lg,$md} {
+            left: calc(50% - 200px);
+            width: 760px;
+        }
+
+        @media #{$sm,$xs} {
+            left: calc(50% - 160px);
+            width: 560px;
+        }
+    }
+
+    &-bg-shape {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    /* section title */
+    &-sec-title {
+        max-width: 721px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        @media #{$sm,$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    // on the default title (.sb-sec-title-5: size, weight, line height and the word reveal) only the colour changes, the section is dark
+    &-title {
+        margin-bottom: 20px;
+        color: #fff;
+
+        @media #{$xs} {
+            margin-bottom: 16px;
+
+            br {
+                display: none;
+            }
+        }
+    }
+
+    &-disc {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: #fff;
+        opacity: 0.8;
+
+        @media #{$md,$sm,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    /* cards: 6 columns, two wide ones (3 columns = 692) over three narrow ones (2 columns = 456) */
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 16px;
+
+        @media #{$md,$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+    }
+
+    &-card {
+        --sb-f5-u: calc(100cqw / 456);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        grid-column: span 2;
+        border-radius: 16px;
+        background-color: #0D141E;
+        overflow: hidden;
+        isolation: isolate;
+        container-type: inline-size;
+
+        // 1px edge over everything
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%);
+            pointer-events: none;
+        }
+
+        @media #{$md,$sm,$xs} {
+            grid-column: auto;
+        }
+    }
+
+    &-card-1,
+    &-card-2 {
+        --sb-f5-u: calc(100cqw / 692);
+        grid-column: span 3;
+
+        @media #{$md,$sm,$xs} {
+            grid-column: auto;
+        }
+    }
+
+    // the picture part keeps the figma ratio (400 high where the text starts), the layers sit on the card
+    &-art {
+        aspect-ratio: 456 / 400;
+    }
+
+    &-card-1 &-art,
+    &-card-2 &-art {
+        aspect-ratio: 692 / 400;
+    }
+
+    &-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 32px 40px;
+
+        @media #{$xs} {
+            padding: 0 24px 32px;
+        }
+    }
+
+    &-card-1 &-content,
+    &-card-2 &-content {
+        padding-left: 40px;
+        padding-right: 40px;
+
+        @media #{$xs} {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
+
+    &-card-title {
+        margin: 0 0 12px;
+        font-family: var(--sb-font-2);
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 28px;
+        color: #fff;
+
+        @media #{$xs} {
+            font-size: 20px;
+            line-height: 26px;
+        }
+    }
+
+    &-card-disc {
+        margin: 0;
+        font-family: var(--sb-font-1);
+        font-size: 16px;
+        line-height: 24px;
+        color: #fff;
+        opacity: 0.8;
+    }
+
+    /* white light on the bottom edge (ellipse 333x51 / 487x102, layer blur 64 = css 32) */
+    &-glow-bottom {
+        @extend %sb-f5-layer;
+        left: f5(62);
+        bottom: f5(-34);
+        width: f5(333);
+        height: f5(51);
+        border-radius: 50%;
+        background-color: #fff;
+        opacity: 0.32;
+        filter: blur(f5(32));
+    }
+
+    &-card-1 &-glow-bottom {
+        left: f5(89);
+        bottom: f5(-74);
+        width: f5(487);
+        height: f5(102);
+    }
+
+    &-card-2 &-glow-bottom {
+        left: f5(103);
+        bottom: f5(-74);
+        width: f5(487);
+        height: f5(102);
+    }
+
+    /* card 1 — visual workflow builder */
+    &-glow-top {
+        @extend %sb-f5-layer;
+        left: f5(-14);
+        top: 0;
+        width: f5(720);
+        height: f5(45);
+        border-radius: 50%;
+        background-color: #FB6514;
+        opacity: 0.72;
+        filter: blur(f5(32));
+    }
+
+    // the pictures end inside the card, they fade out at their lower edge so no straight line shows
+    &-c1-bg {
+        @extend %sb-f5-layer;
+        left: 0;
+        top: 0;
+        width: f5(692);
+        height: auto;
+        mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+    }
+
+    // the two side cards fade out downward
+    &-c1-mini {
+        @extend %sb-f5-layer;
+        top: f5(249);
+        width: f5(163);
+        height: f5(97);
+        border-radius: f5(10);
+        background: linear-gradient(180deg, rgb(255 255 255 / 10%) 0%, rgb(255 255 255 / 0%) 100%);
+        box-shadow: inset 0 1px 0 rgb(255 190 78 / 40%), inset 1px 0 0 rgb(255 255 255 / 6%), inset -1px 0 0 rgb(255 255 255 / 6%);
+
+        &-left {
+            left: f5(40);
+        }
+
+        &-right {
+            left: f5(489);
+        }
+    }
+
+    // line from the trigger card down to the side card, ends on a dot
+    &-c1-line {
+        @extend %sb-f5-layer;
+        top: f5(188);
+        width: f5(100);
+        height: f5(66);
+        overflow: visible;
+
+        &-left {
+            left: f5(110);
+        }
+
+        &-right {
+            left: f5(483);
+        }
+    }
+
+    &-c1-trigger {
+        @extend %sb-f5-layer;
+        left: f5(209);
+        top: f5(117);
+        width: f5(274);
+        height: auto;
+    }
+
+    // orange ring around a dark pill
+    &-c1-search {
+        @extend %sb-f5-layer;
+        left: f5(113);
+        top: f5(20);
+        width: f5(457);
+        height: f5(56);
+        padding: f5(6) f5(8);
+        border-radius: 50px;
+        // the ring is a conic gradient, a bright orange part runs round the pill (--sb-f5-ring is turned by the keyframes)
+        background: conic-gradient(from var(--sb-f5-ring), #FFAE5C 0deg, #E8742A 70deg, #7D4720 150deg, #4A3326 220deg, #7D4720 290deg, #FFAE5C 360deg);
+        box-shadow: inset 0 0 0 1px rgb(255 190 78 / 55%), 0 0 f5(40) rgb(251 101 20 / 28%);
+        animation: sb-features-5-ring 4s linear infinite;
+
+        .inner {
+            display: flex;
+            align-items: center;
+            gap: f5(12);
+            height: 100%;
+            padding: 0 f5(8);
+            border-radius: 50px;
+            background-color: #0D141E;
+        }
+
+        .avatar {
+            flex-shrink: 0;
+            width: f5(28);
+            height: f5(28);
+            border-radius: 50%;
+            background: linear-gradient(260deg, #FCB833 0%, #236DCD 26.9%, #6DDB1A 43.3%, #C8E00C 67.8%, #FE662B 100%);
+            box-shadow: inset 0 0 f5(13) #fff;
+        }
+
+        .text {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
+            font-family: var(--sb-font-1);
+            font-size: max(11px, f5(14));
+            line-height: 1.5;
+            color: #fff;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .send {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: f5(28);
+            height: f5(28);
+            border: 1px solid transparent;
+            border-radius: 50%;
+            background:
+                linear-gradient(180deg, #553320 0%, #0D141E 100%) padding-box,
+                linear-gradient(180deg, #0D141E 0%, #553320 100%) border-box;
+            box-shadow: 2px 4px 13px rgb(0 0 0 / 25%);
+
+            svg {
+                display: block;
+                width: f5(12);
+                height: f5(12);
+            }
+        }
+    }
+
+    /* card 2 — real-time analytics */
+    // the picture has a step in its opacity at 332 (the edge of the figma group), fade it out before that
+    &-c2-bg {
+        @extend %sb-f5-layer;
+        left: 0;
+        top: 0;
+        width: f5(692);
+        height: auto;
+        mask-image: linear-gradient(180deg, #000 0%, #000 60%, transparent 80%);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 60%, transparent 80%);
+    }
+
+    &-c2-graph-1 {
+        @extend %sb-f5-layer;
+        left: f5(28);
+        top: f5(38);
+        width: f5(402);
+        height: auto;
+    }
+
+    &-c2-graph-2 {
+        @extend %sb-f5-layer;
+        left: f5(380);
+        top: f5(182);
+        width: f5(272);
+        height: auto;
+    }
+
+    /* card 3 — seamless integrations */
+    &-c3-bg {
+        @extend %sb-f5-layer;
+        left: f5(-107);
+        top: f5(-35);
+        width: f5(636);
+        height: f5(424);
+        object-fit: cover;
+        opacity: 0.52;
+        // the picture is more yellow than figma's brown-orange glow
+        filter: hue-rotate(-15deg);
+        mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+        -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    }
+
+    &-c3-logo {
+        @extend %sb-f5-layer;
+        left: f5(183);
+        top: f5(273);
+        width: f5(91);
+        height: auto;
+    }
+
+    &-c3-arc {
+        @extend %sb-f5-layer;
+        left: 0;
+        top: f5(92);
+        width: f5(456);
+        height: auto;
+        // the two legs of the arc fade out instead of ending on a straight cut
+        mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 60%);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 60%);
+    }
+
+    // orbits: a fixed frame, the ring turns inside it and carries its dots and icons
+    // (--sb-f5-turn: seconds for one round, --sb-f5-way / --sb-f5-back: direction of the ring / of its icons).
+    // The frame is the ring box plus 60 on every side (room for the icons that sit half outside the ring) and it fades
+    // out between 330 and 392 of the card, so nothing of an orbit runs over the text
+    &-c3-orbit {
+        @extend %sb-f5-layer;
+        --sb-f5-way: normal;
+        --sb-f5-back: reverse;
+
+        &-1 {
+            --sb-f5-line: 0.1;
+            --sb-f5-turn: 24s;
+            left: f5(78);
+            top: f5(183);
+            width: f5(301);
+            height: f5(301);
+            mask-image: linear-gradient(180deg, #000 f5(147), transparent f5(209));
+            -webkit-mask-image: linear-gradient(180deg, #000 f5(147), transparent f5(209));
+        }
+
+        &-2 {
+            --sb-f5-line: 0.24;
+            --sb-f5-turn: 30s;
+            --sb-f5-way: reverse;
+            --sb-f5-back: normal;
+            left: f5(20);
+            top: f5(125);
+            width: f5(417);
+            height: f5(417);
+            mask-image: linear-gradient(180deg, #000 f5(205), transparent f5(267));
+            -webkit-mask-image: linear-gradient(180deg, #000 f5(205), transparent f5(267));
+        }
+
+        &-3 {
+            --sb-f5-line: 0.24;
+            --sb-f5-turn: 40s;
+            left: f5(-108);
+            top: f5(-18);
+            width: f5(672);
+            height: f5(672);
+            mask-image: linear-gradient(180deg, #000 f5(348), transparent f5(410));
+            -webkit-mask-image: linear-gradient(180deg, #000 f5(348), transparent f5(410));
+        }
+    }
+
+    // thin orbit line, turns with everything that sits on it
+    &-c3-ring {
+        position: absolute;
+        inset: f5(60);
+        animation: sb-features-5-orbit var(--sb-f5-turn) linear infinite var(--sb-f5-way);
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            opacity: var(--sb-f5-line);
+        }
+    }
+
+    // dots and icons are placed on the ring box (the orbit frame), not on the card, evenly round the ring.
+    // -o1..9: big ring (9 dots, between the icons), -n1..6: middle ring (6 dots)
+    &-c3-dot {
+        @extend %sb-f5-layer;
+        border-radius: 50%;
+        background: radial-gradient(circle, #FEB83E 0%, #fff 100%);
+        opacity: 0.8;
+
+        @include f5-orbit-items("o", 9, 276, 8, 20deg);
+        @include f5-orbit-items("n", 6, 148.5, 6, 30deg);
+    }
+
+    // glass ball: faint white fill, white light on the top edge, orange glow under the bottom edge
+    &-icon {
+        @extend %sb-f5-layer;
+        border-radius: 50%;
+        background-color: rgb(255 255 255 / 8%);
+        backdrop-filter: blur(8px);
+        box-shadow: inset 0 f5(4) f5(4) #fff, inset 0 f5(-4) f5(4) rgb(255 255 255 / 25%);
+        overflow: hidden;
+        // the ring turns, the ball turns back so the glyph stays upright
+        animation: sb-features-5-orbit var(--sb-f5-turn) linear infinite var(--sb-f5-back);
+
+        // figma: a lens of orange (y 42-50 of 48) blurred by 5, only its top edge reaches inside the ball
+        &::before {
+            content: "";
+            position: absolute;
+            top: 80%;
+            left: -10.4%;
+            width: 120.8%;
+            height: 20%;
+            border-radius: 50%;
+            background-color: #FB6514;
+            filter: blur(f5(5));
+        }
+
+        svg {
+            position: absolute;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        // -o1..9: big ring (48), -n1..6: middle ring (32), the first one of each sits on top
+        @include f5-orbit-items("o", 9, 276, 48);
+        @include f5-orbit-items("n", 6, 148.5, 32);
+    }
+
+    /* card 4 — ai-powered agents */
+    &-c4-bg {
+        @extend %sb-f5-layer;
+        left: 0;
+        top: 0;
+        width: f5(456);
+        height: auto;
+        mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 92%);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 92%);
+    }
+
+    &-c4-window {
+        @extend %sb-f5-layer;
+        left: f5(32);
+        top: f5(32);
+        width: f5(392);
+        height: f5(309);
+        border-radius: f5(10);
+        overflow: hidden;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-c4-chat {
+        @extend %sb-f5-layer;
+        left: f5(43);
+        top: f5(44);
+        width: f5(232);
+        height: auto;
+    }
+
+    &-c4-dots {
+        @extend %sb-f5-layer;
+        display: flex;
+        gap: f5(4);
+        left: f5(57);
+        top: f5(58);
+
+        i {
+            display: block;
+            width: f5(8);
+            height: f5(8);
+            border-radius: 50%;
+
+            &:nth-child(1) {
+                background-color: #FF5900;
+            }
+
+            &:nth-child(2) {
+                background-color: #FFA305;
+            }
+
+            &:nth-child(3) {
+                background-color: #27A953;
+            }
+        }
+    }
+
+    // the messages of the chat: a window under the title bar of the chat box (232x249 at 43 / 80) with a column of
+    // messages in it that climbs one message (38 + 16 gap) at a time. The 4 messages are there twice, so after 4 steps
+    // the column jumps back to the start and nobody sees it. Both ends of the window fade out.
+    &-c4-feed {
+        @extend %sb-f5-layer;
+        left: f5(43);
+        top: f5(80);
+        width: f5(232);
+        height: f5(249);
+        overflow: hidden;
+        mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 68%, transparent 100%);
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 68%, transparent 100%);
+    }
+
+    &-c4-track {
+        display: flex;
+        flex-direction: column;
+        gap: f5(16);
+        padding: f5(19) 0 0 f5(16);
+        animation: sb-features-5-chat 8s cubic-bezier(0.18, 0.82, 0.41, 1) infinite;
+    }
+
+    &-c4-row {
+        display: block;
+        flex-shrink: 0;
+        max-width: none;
+        height: auto;
+
+        &-1 {
+            width: f5(200);
+        }
+
+        // the two robot avatars are silver in figma, the picture is teal
+        &-2 {
+            width: f5(156);
+            filter: grayscale(1) brightness(1.5);
+        }
+
+        &-3 {
+            width: f5(200);
+        }
+
+        &-4 {
+            width: f5(156);
+            filter: grayscale(1);
+        }
+    }
+
+    &-c4-robot {
+        @extend %sb-f5-layer;
+        left: f5(259);
+        top: f5(104);
+        width: f5(163);
+        height: auto;
+    }
+
+    /* card 5 — work together, stay in sync */
+    &-c5-light {
+        @extend %sb-f5-layer;
+        left: f5(52);
+        top: 0;
+        width: f5(353);
+        height: auto;
+        // the picture is on black, screen drops the black
+        mix-blend-mode: screen;
+        filter: brightness(1.25);
+    }
+
+    &-c5-logo {
+        @extend %sb-f5-layer;
+        left: f5(123.5);
+        top: f5(158);
+        width: f5(209);
+        height: auto;
+    }
+
+    &-c5-bg {
+        @extend %sb-f5-layer;
+        left: 0;
+        top: 0;
+        width: f5(456);
+        height: auto;
+        filter: brightness(1.2);
+        mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+    }
+
+    // dotted connectors, each one starts on a role chip and ends on the logo
+    &-c5-line {
+        @extend %sb-f5-layer;
+        height: auto;
+
+        &-l1 {
+            left: f5(98);
+            top: f5(66);
+            width: f5(75);
+        }
+
+        &-l2 {
+            left: f5(92);
+            top: f5(144);
+            width: f5(80);
+        }
+
+        &-l3 {
+            left: f5(112);
+            top: f5(225);
+            width: f5(61);
+        }
+
+        &-r1 {
+            left: f5(283);
+            top: f5(66);
+            width: f5(76);
+        }
+
+        &-r2 {
+            left: f5(284);
+            top: f5(144);
+            width: f5(81);
+        }
+
+        &-r3 {
+            left: f5(283);
+            top: f5(225);
+            width: f5(62);
+        }
+    }
+
+    &-c5-dot {
+        @extend %sb-f5-layer;
+        top: f5(253);
+        width: f5(4);
+        height: f5(4);
+        border-radius: 50%;
+        background: linear-gradient(135deg, #FCB833 0%, #FE662B 100%);
+
+        &-left {
+            left: f5(170);
+        }
+
+        &-right {
+            left: f5(282);
+        }
+    }
+
+    // role chip: the left ones hang off the left edge (anchored by their right end), the right ones off the right edge
+    &-chip {
+        @extend %sb-f5-layer;
+        display: inline-flex;
+        align-items: center;
+        gap: f5(6);
+        padding: f5(4) f5(12) f5(4) f5(4);
+        border-radius: 100px;
+        background-color: rgb(255 255 255 / 3%);
+        box-shadow: inset 0 0 f5(4) rgb(255 255 255 / 55%), f5(3) f5(4) f5(8) rgb(0 0 0 / 25%);
+        white-space: nowrap;
+
+        .avatar {
+            flex-shrink: 0;
+            width: f5(24);
+            height: f5(24);
+            border-radius: 50%;
+            background-color: #D9D9D9;
+        }
+
+        .name {
+            font-family: var(--sb-font-1);
+            font-size: max(8px, f5(10));
+            line-height: 1.2;
+            color: rgb(255 255 255 / 60%);
+        }
+
+        &-l1,
+        &-l2,
+        &-l3 {
+            transform: translateX(-100%);
+        }
+
+        &-l1 {
+            left: f5(101);
+            top: f5(52);
+        }
+
+        &-l2 {
+            left: f5(95);
+            top: f5(127);
+        }
+
+        &-l3 {
+            left: f5(114);
+            top: f5(211);
+        }
+
+        &-r1 {
+            left: f5(356);
+            top: f5(52);
+        }
+
+        &-r2 {
+            left: f5(363);
+            top: f5(127);
+        }
+
+        &-r3 {
+            left: f5(343);
+            top: f5(211);
+        }
+    }
+
+    &-btn {
+        margin-top: 48px;
+        text-align: center;
+
+        @media #{$sm,$xs} {
+            margin-top: 36px;
+        }
+    }
+}
+
+// angle of the search ring in card 1, a registered property so the gradient can be animated
+@property --sb-f5-ring {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes sb-features-5-ring {
+    to {
+        --sb-f5-ring: 360deg;
+    }
+}
+
+// card 3: a ring turns once round, its icons turn the other way by the same amount (see the icon rule)
+@keyframes sb-features-5-orbit {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// card 4: the chat climbs one message (38 + 16 gap = 54) every 2s, 4 messages make one round
+@keyframes sb-features-5-chat {
+    0%,
+    20% {
+        transform: translateY(0);
+    }
+
+    25%,
+    45% {
+        transform: translateY(calc(-54 * var(--sb-f5-u)));
+    }
+
+    50%,
+    70% {
+        transform: translateY(calc(-108 * var(--sb-f5-u)));
+    }
+
+    75%,
+    95% {
+        transform: translateY(calc(-162 * var(--sb-f5-u)));
+    }
+
+    100% {
+        transform: translateY(calc(-216 * var(--sb-f5-u)));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sb-features-5-c1-search,
+    .sb-features-5-c3-ring,
+    .sb-features-5-icon,
+    .sb-features-5-c4-track {
+        animation: none;
+    }
+}
+/*
+    features-5-end
 */

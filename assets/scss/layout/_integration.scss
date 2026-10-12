@@ -1291,3 +1291,488 @@ $sb-in3-ghosts: (
 /*
     integration-4-end
 */
+
+/*
+    integration-5-start
+*/
+// 1 figma px of the 1920 canvas, the whole composition is sized with it (--sb-in5-u)
+@function in5($px) {
+    @return calc(#{$px} * var(--sb-in5-u));
+}
+
+// under 1400 the text sits above the artwork, the artwork keeps the 1920 canvas but only shows the part from the first app (x 262) to the right edge
+$in5-stack: "(max-width: 1399px)";
+
+// a picture of the artwork: left / top / width on the 1920 canvas
+@mixin in5-pic($left, $top, $width) {
+    left: in5($left);
+    top: in5($top);
+    width: in5($width);
+}
+
+// an app: left / top, the glow colour over the top edge and the two glow colours (left, right) over the bottom edge
+@mixin in5-app($left, $top, $glow-top, $glow-left, $glow-right) {
+    left: in5($left);
+    top: in5($top);
+    --sb-in5-glow-top: #{$glow-top};
+    --sb-in5-glow-left: #{$glow-left};
+    --sb-in5-glow-right: #{$glow-right};
+}
+
+// an app with its line turns a little around the end of the line (under the logo), the app drifts up and down and the line stays on the logo
+// four angles on uneven steps (it comes back to the first one), so the drift never looks like a regular swing
+@keyframes sb-integration-5-sway {
+    0%,
+    100% {
+        rotate: var(--sb-in5-a);
+    }
+
+    18% {
+        rotate: var(--sb-in5-b);
+    }
+
+    47% {
+        rotate: var(--sb-in5-c);
+    }
+
+    71% {
+        rotate: var(--sb-in5-d);
+    }
+}
+
+// a pair: its four angles, how long one round takes and where in the round it starts, every pair has its own so they never move together
+@mixin in5-sway($a, $b, $c, $d, $time, $delay) {
+    --sb-in5-a: #{$a};
+    --sb-in5-b: #{$b};
+    --sb-in5-c: #{$c};
+    --sb-in5-d: #{$d};
+    animation-duration: $time;
+    animation-delay: $delay;
+}
+
+.sb-integration-5 {
+    &-area {
+        --sb-in5-u: 0.0520833vw;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        background-color: #010912;
+
+        // the artwork keeps its size on very wide screens
+        @media (min-width: 2560px) {
+            --sb-in5-u: 1.3333px;
+        }
+
+        // stacked, 100vw = 1658 units (x 262 to 1920 of the canvas)
+        @media #{$in5-stack} {
+            --sb-in5-u: 0.0603vw;
+            padding-top: 110px;
+        }
+
+        @media #{$lg} {
+            padding-top: 90px;
+        }
+
+        @media #{$md} {
+            padding-top: 80px;
+        }
+
+        @media #{$xs} {
+            padding-top: 64px;
+        }
+
+        // on a phone the blobs on the far right are cropped, so the apps stay readable
+        @media (max-width: 575px) {
+            --sb-in5-u: 0.0775vw;
+        }
+    }
+
+    /* background, a soft colour wash that only lightens the dark section */
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: 1;
+        mix-blend-mode: lighten;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &-stage {
+        position: relative;
+        z-index: 1;
+        width: in5(1920);
+        height: in5(1105);
+        margin: 0 auto;
+
+        @media #{$in5-stack} {
+            width: auto;
+            height: auto;
+        }
+    }
+
+    /* section title + text + button */
+    &-content {
+        position: absolute;
+        left: in5(637);
+        top: in5(128);
+        z-index: 2;
+        width: in5(842);
+
+        @media #{$in5-stack} {
+            position: relative;
+            left: auto;
+            top: auto;
+            width: auto;
+            padding: 0 40px;
+        }
+
+        @media #{$lg} {
+            padding: 0 32px;
+        }
+
+        @media #{$md} {
+            padding: 0 24px;
+        }
+
+        @media #{$xs} {
+            padding: 0 20px;
+        }
+    }
+
+    &-sec-title {
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+    }
+
+    // on the default title (.sb-sec-title-5: size, weight, line height and the word reveal) only the colour changes, the section is dark
+    &-title {
+        color: #fff;
+
+        @media #{$xs} {
+            br {
+                display: none;
+            }
+        }
+    }
+
+    &-info {
+        width: max(#{in5(512)}, 380px);
+        margin: in5(40) 0 0 in5(330);
+
+        @media #{$in5-stack} {
+            width: auto;
+            max-width: 512px;
+            margin: 24px 0 0;
+        }
+    }
+
+    &-disc {
+        margin: 0 0 32px;
+        font-size: 18px;
+        line-height: 28px;
+        color: #fff;
+        opacity: 0.8;
+
+        @media #{$xs} {
+            margin-bottom: 24px;
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    // the dark button of the hero (.sb-sd-btn-5) with a solid navy base, the orange wipe on hover stays
+    &-btn {
+        height: 52px;
+        font-weight: 600;
+        background:
+            linear-gradient(#FB6514 0 0) 0 0 / 100% 0 no-repeat,
+            linear-gradient(#071727 0 0) 0 0 / 100% 100% no-repeat;
+        box-shadow: inset 0px 4px 4px rgb(255 255 255 / 40%), inset 0px -4px 15px rgb(255 255 255 / 20%);
+
+        &:hover {
+            background-size: 100% 100%, 100% 100%;
+            box-shadow: inset 0px 4px 4px rgb(255 255 255 / 40%), inset 0px -4px 15px rgb(255 255 255 / 20%), 0px 0px 24px rgb(251 101 20 / 45%);
+        }
+    }
+
+    /* artwork: on desktop it is the stage itself, stacked it is a window (cropped at the first app) under the text */
+    &-art {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+
+        @media #{$in5-stack} {
+            position: relative;
+            inset: auto;
+            height: in5(855);
+            margin-top: 48px;
+            overflow: hidden;
+        }
+    }
+
+    &-canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: in5(1920);
+        height: in5(1105);
+
+        @media #{$in5-stack} {
+            left: in5(-262);
+            top: in5(-250);
+        }
+    }
+
+    &-pair {
+        position: absolute;
+        inset: 0;
+        transform-origin: in5(1168) in5(658);
+        animation: sb-integration-5-sway 5s ease-in-out infinite;
+        will-change: rotate;
+
+        &-1 {
+            @include in5-sway(-2.2deg, 2.6deg, -0.8deg, 1.9deg, 5.2s, 0s);
+        }
+
+        &-2 {
+            @include in5-sway(1.9deg, -2.4deg, 1.3deg, -1deg, 6.1s, -2.1s);
+        }
+
+        &-3 {
+            @include in5-sway(-1.3deg, 2.2deg, -2.6deg, 0.6deg, 5.6s, -4s);
+        }
+
+        &-4 {
+            @include in5-sway(2.4deg, -1.1deg, 1.8deg, -2.2deg, 6.6s, -1.3s);
+        }
+
+        &-5 {
+            @include in5-sway(-2.1deg, 1.4deg, -0.6deg, 2.4deg, 5.4s, -3.4s);
+        }
+
+        &-6 {
+            @include in5-sway(1.4deg, -2.6deg, 0.8deg, -1.6deg, 6.3s, -0.7s);
+        }
+
+        &-7 {
+            @include in5-sway(-2.4deg, 1deg, -1.8deg, 2.1deg, 5.8s, -2.8s);
+        }
+    }
+
+    &-blob-line,
+    &-blob-glow,
+    &-line {
+        position: absolute;
+        display: block;
+        max-width: none;
+        height: auto;
+    }
+
+    // the pictures stop at the right edge of the canvas, like the frame does
+    &-blob-line-1 {
+        @include in5-pic(1168, 380, 752);
+    }
+
+    &-blob-line-2 {
+        @include in5-pic(1151, 230, 769);
+    }
+
+    &-blob-line-3 {
+        @include in5-pic(1156, 597, 764);
+    }
+
+    &-blob-glow-1 {
+        @include in5-pic(1712, 560, 346);
+    }
+
+    &-blob-glow-2 {
+        @include in5-pic(1708, 108, 305);
+    }
+
+    &-blob-glow-3 {
+        @include in5-pic(1691, 743, 388);
+    }
+
+    // lines 2 to 5 carry 8px of their own glow around them, the others get a faint one
+    &-line-1 {
+        @include in5-pic(451, 343, 718);
+    }
+
+    &-line-2 {
+        @include in5-pic(310, 426, 867);
+    }
+
+    &-line-3 {
+        @include in5-pic(470, 536, 706);
+    }
+
+    &-line-4 {
+        @include in5-pic(390, 649, 788);
+    }
+
+    &-line-5 {
+        @include in5-pic(522, 650, 654);
+    }
+
+    &-line-6 {
+        @include in5-pic(439, 657, 731);
+    }
+
+    &-line-7 {
+        @include in5-pic(546, 657, 623);
+    }
+
+    &-line-1,
+    &-line-6,
+    &-line-7 {
+        filter: drop-shadow(0 0 in5(4) rgb(255 255 255 / 20%));
+    }
+
+    /* apps, a glass bubble with a colour glow over its top and bottom edge */
+    &-icon {
+        position: absolute;
+        width: in5(80);
+        height: in5(80);
+        overflow: hidden;
+        border-radius: 50%;
+        // solid, the line starts under the bubble and must not show through (figma: white 9% over a 12 blur)
+        background: #1A1C24;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.65;
+            background:
+                radial-gradient(ellipse in5(60) in5(32) at 50% in5(-12.5), var(--sb-in5-glow-top) 0%, transparent 100%),
+                radial-gradient(ellipse in5(36) in5(32) at 30% in5(73.5), var(--sb-in5-glow-left) 0%, transparent 100%),
+                radial-gradient(ellipse in5(36) in5(32) at 70% in5(73.5), var(--sb-in5-glow-right) 0%, transparent 100%);
+        }
+
+        img {
+            position: absolute;
+            left: in5(22);
+            top: in5(22);
+            width: in5(36);
+            height: auto;
+        }
+
+        // white inner shadow along the top edge
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: inset 0 in5(4) in5(4) rgb(255 255 255 / 25%);
+        }
+    }
+
+    &-icon-1 {
+        @include in5-app(387, 303, #36C6FF, #0DC46E, #FDCB02);
+    }
+
+    &-icon-2 {
+        @include in5-app(262, 394, #FF4340, #FF7B57, #FF7B57);
+    }
+
+    &-icon-3 {
+        @include in5-app(426, 504, #FEBD00, #0086FF, #0086FF);
+    }
+
+    &-icon-4 {
+        @include in5-app(355, 618, #0BFF8C, #00FF87, #FDCB02);
+    }
+
+    &-icon-5 {
+        @include in5-app(469, 726, #36C6FF, #00B2FF, #0223FD);
+    }
+
+    &-icon-6 {
+        @include in5-app(376, 854, #FDCB02, #FF3D00, #FF3D00);
+    }
+
+    &-icon-7 {
+        @include in5-app(487, 937, #36C6FF, #0DC46E, #FDCB02);
+    }
+
+    /* main logo: soft halo, a ring that fades from orange to white, a dark gap and the orange disc with the mark */
+    &-logo {
+        position: absolute;
+        left: in5(1097);
+        top: in5(562);
+        width: in5(191);
+        height: in5(191);
+
+        &-halo,
+        &-ring,
+        &-dark,
+        &-disc {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        &-halo {
+            left: 50%;
+            top: 50%;
+            width: in5(250);
+            height: in5(250);
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgb(222 196 184 / 70%) 0%, rgb(178 136 124 / 50%) 38%, rgb(130 96 130 / 28%) 56%, transparent 72%);
+            filter: blur(in5(8));
+        }
+
+        &-ring {
+            left: in5(18);
+            top: in5(22);
+            width: in5(152);
+            height: in5(152);
+            background: linear-gradient(180deg, #FFA305 0%, rgb(255 255 255 / 45%) 55%, rgb(255 255 255 / 30%) 100%);
+        }
+
+        &-dark {
+            left: in5(26);
+            top: in5(30);
+            width: in5(136);
+            height: in5(136);
+            background: #071727;
+        }
+
+        &-disc {
+            left: in5(34);
+            top: in5(38);
+            width: in5(120);
+            height: in5(120);
+            background: linear-gradient(260deg, #FCB833 0%, #FE662B 100%);
+            // figma: white inner glow 21 + orange drop shadow 0 / 6 / 14
+            box-shadow: inset 0 0 in5(21) rgb(255 255 255 / 55%), 0 in5(6) in5(14) #E3732A;
+        }
+
+        // the png carries its own shadow (83x84, the mark itself is 67x68)
+        &-mark {
+            position: absolute;
+            left: in5(53);
+            top: in5(60);
+            width: in5(83);
+            max-width: none;
+            height: auto;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &-pair {
+            animation: none;
+        }
+    }
+}
+/*
+    integration-5-end
+*/

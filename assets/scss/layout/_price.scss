@@ -1546,3 +1546,539 @@
 /*
     price-4-end
 */
+
+/*
+    price-5-start
+*/
+.sb-price-5 {
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding: 128px 0;
+        background-color: #F6F7F8;
+        overflow: hidden;
+
+        > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 90px 0;
+        }
+
+        @media #{$md} {
+            padding: 80px 0;
+        }
+
+        @media #{$sm,$xs} {
+            padding: 60px 0;
+        }
+    }
+
+    // icon sprite (sparkle for the lists, arrow for the buttons)
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* background streaks, the pictures already carry their opacity */
+    &-bg-top,
+    &-bg-bottom {
+        position: absolute;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-top {
+        top: 0;
+    }
+
+    &-bg-bottom {
+        bottom: 0;
+    }
+
+    /* section title, the title itself is the default .sb-sec-title-5 */
+    &-sec-title {
+        max-width: 711px;
+        margin: 0 auto 48px;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        // the default text of the pill is white (hero), this section is light
+        .sb-subtitle-5-text {
+            color: var(--sb-clr-h-5);
+        }
+
+        @media #{$sm,$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-title {
+        margin-bottom: 20px;
+
+        @media #{$xs} {
+            margin-bottom: 16px;
+        }
+    }
+
+    &-disc {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+
+        @media #{$md,$sm,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    &-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 1194px;
+        margin: 0 auto;
+    }
+
+    /* the two plans, 492 and 692 wide in figma, one under the other from lg down */
+    &-cards {
+        display: flex;
+        gap: 10px;
+
+        @media #{$lg,$md,$sm,$xs} {
+            flex-direction: column;
+        }
+    }
+
+    &-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        padding: 20px 20px 24px;
+        border-radius: 24px;
+        background-color: #fff;
+
+        @media #{$xs} {
+            padding: 12px 12px 20px;
+            border-radius: 20px;
+        }
+    }
+
+    &-card-1 {
+        flex: 492 1 0;
+    }
+
+    &-card-2 {
+        flex: 692 1 0;
+    }
+
+    /* plan box: name, price, text and the button */
+    &-hero {
+        display: flex;
+        flex-direction: column;
+        min-height: 256px;
+        padding: 24px;
+        border: 1px solid rgb(7 23 39 / 12%);
+        border-radius: 16px;
+        background-color: #F2F4F6;
+
+        @media #{$xs} {
+            padding: 20px 16px;
+        }
+    }
+
+    &-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px 16px;
+    }
+
+    &-plan {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &-plan-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        border: 5px solid #E9E9E9;
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+    &-plan-name {
+        margin: 0;
+        font-family: var(--sb-font-2);
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 28px;
+        color: var(--sb-clr-h-5);
+    }
+
+    &-price {
+        display: flex;
+        align-items: baseline;
+        font-family: var(--sb-font-2);
+        color: var(--sb-clr-h-5);
+
+        .currency,
+        .amount {
+            font-weight: 500;
+            font-size: 40px;
+            line-height: 32px;
+
+            @media #{$xs} {
+                font-size: 34px;
+            }
+        }
+
+        .duration {
+            margin-left: 2px;
+            font-size: 18px;
+            line-height: 28px;
+            color: var(--sb-clr-p-5);
+            opacity: 0.8;
+        }
+    }
+
+    &-hero-disc {
+        margin: 24px 0 0;
+        font-family: var(--sb-font-1);
+        font-size: 17px;
+        line-height: 28px;
+        color: var(--sb-clr-p-5);
+    }
+
+    &-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 52px;
+        margin-top: auto;
+        border-radius: 12px;
+        background: linear-gradient(100deg, #FE662B 0%, #FCB833 100%);
+        box-shadow: 0 3px 4px rgb(0 0 0 / 15%), 0 2px 3px rgb(0 0 0 / 30%), inset 0 -3px 0 rgb(0 0 0 / 16%), inset 0 2px 2px rgb(255 255 255 / 80%);
+        font-family: var(--sb-font-2);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #fff;
+        transition: var(--sb-cube-1);
+
+        // keeps the 24px the box has above the button when the text is short
+        @media #{$xs} {
+            margin-top: 24px;
+        }
+
+        .icon {
+            display: block;
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            color: #fff;
+            filter: brightness(1.06);
+        }
+    }
+
+    /* what's included */
+    &-info {
+        margin-top: 32px;
+        padding: 0 4px;
+
+        @media #{$xs} {
+            margin-top: 24px;
+            padding: 0 2px;
+        }
+    }
+
+    &-info-title {
+        margin: 0 0 24px;
+        font-family: var(--sb-font-1);
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 28px;
+        color: var(--sb-clr-h-5);
+        opacity: 0.6;
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--sb-font-1);
+            font-size: 18px;
+            line-height: 28px;
+            color: var(--sb-clr-h-5);
+        }
+
+        .icon {
+            display: block;
+            flex-shrink: 0;
+        }
+
+        @media #{$xs} {
+            li {
+                font-size: 16px;
+            }
+        }
+    }
+
+    // plan 2: the title and the proof box on the left, the list on the right (288 wide)
+    &-info-split {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        min-height: 264px;
+        padding-right: 8px;
+
+        .sb-price-5-info-title {
+            margin-bottom: 0;
+        }
+
+        .sb-price-5-list {
+            flex: 0 0 288px;
+            max-width: 100%;
+        }
+
+        // one column: title, list, then the box
+        @media #{$sm,$xs} {
+            flex-direction: column;
+            min-height: 0;
+            padding-right: 4px;
+
+            .sb-price-5-list {
+                flex-basis: auto;
+                order: 1;
+            }
+        }
+    }
+
+    &-info-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 24px;
+
+        // its children take part in the column of the split, so the list can sit between them
+        @media #{$sm,$xs} {
+            display: contents;
+        }
+    }
+
+    &-info-split .sb-price-5-proof {
+        @media #{$sm,$xs} {
+            order: 2;
+        }
+    }
+
+    /* "they just purchase this plan": light streaks round the edge, the middle stays clear */
+    &-proof {
+        position: relative;
+        width: 284px;
+        max-width: 100%;
+        height: 126px;
+        border-radius: 10px;
+        background-color: #F2F4F6;
+        overflow: hidden;
+
+        .streak {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            mask-image: radial-gradient(ellipse 70% 75% at 50% 55%, transparent 30%, #000 100%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 55%, transparent 30%, #000 100%);
+        }
+
+        // inner shadow of the box
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 12px rgb(0 0 0 / 12%);
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            height: 100%;
+            padding: 0 24px;
+        }
+
+        .avatars {
+            display: flex;
+
+            img {
+                flex-shrink: 0;
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
+                box-shadow: 0 0 0 3px #F4F5F7;
+                object-fit: cover;
+
+                & + img {
+                    margin-left: -12.5px;
+                }
+            }
+        }
+
+        .text {
+            margin: 0;
+            font-family: var(--sb-font-2);
+            font-size: 18px;
+            line-height: 28px;
+            color: var(--sb-clr-h-5);
+            white-space: nowrap;
+
+            span {
+                color: #FB6514;
+            }
+        }
+    }
+
+    /* billing bar */
+    &-bar {
+        padding: 6px;
+        border-radius: 12px;
+        background-color: #fff;
+    }
+
+    &-bar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px 24px;
+        min-height: 68px;
+        padding: 0 24px;
+        border-radius: 8px;
+        background-color: #F2F4F6;
+
+        @media #{$sm,$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 16px 20px;
+        }
+    }
+
+    &-bar-text {
+        margin: 0;
+        font-family: var(--sb-font-1);
+        font-size: 18px;
+        line-height: 28px;
+        color: var(--sb-clr-p-5);
+
+        @media #{$xs} {
+            font-size: 16px;
+        }
+    }
+
+    &-toggle {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    &-toggle-label {
+        font-family: var(--sb-font-2);
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 28px;
+        color: var(--sb-clr-p-5);
+        cursor: pointer;
+        transition: var(--sb-cube-1);
+
+        &.active {
+            font-weight: 500;
+            color: var(--sb-clr-h-5);
+        }
+    }
+
+    // 64 x 36 pill with a soft raised edge, the orange knob (26) slides 28 to the right
+    &-switch {
+        position: relative;
+        display: block;
+        width: 64px;
+        height: 36px;
+        margin: 0;
+        border-radius: 100px;
+        background-color: #F4F4F4;
+        box-shadow: 0 0 0 0.5px rgb(0 0 0 / 10%), 4px 4px 7px -3px rgb(0 0 0 / 30%), 2px 2px 3px -2px rgb(0 0 0 / 22%), inset -1px -1px 1px rgb(0 0 0 / 10%), inset 1px 1px 1px #fff;
+        cursor: pointer;
+
+        input {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .knob {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: #FB6514;
+            box-shadow: 4px 4px 12px rgb(251 101 20 / 50%);
+            transition: transform 0.35s cubic-bezier(0.18, 0.82, 0.41, 1);
+        }
+
+        input:checked + .knob {
+            transform: translateX(28px);
+        }
+    }
+}
+/*
+    price-5-end
+*/
