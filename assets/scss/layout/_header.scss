@@ -76,6 +76,17 @@
         }
     }
 
+    // the page the visitor is on (inner pages mark their menu item with .active)
+    &-menu {
+        .sb-main-navigation {
+            .navbar-nav {
+                li:is(.active) > a {
+                    color: var(--sb-clr-sd-1);
+                }
+            }
+        }
+    }
+
     &-action-link {
         display: flex;
         align-items: center;

@@ -552,14 +552,10 @@ $sb-cta-5-stars: (
         &-2 {
             top: 0;
             left: 0;
-            width: 356px;
+            width: auto;
 
-            @media #{$lg,$md} {
-                width: 280px;
-            }
-
-            @media #{$xs} {
-                width: 180px;
+            @media #{$lg,$md,$xs} {
+                display: none;
             }
         }
 

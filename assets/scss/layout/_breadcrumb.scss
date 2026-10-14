@@ -1,0 +1,185 @@
+@use '../abstracts/variables' as *;
+
+/*
+    breadcrumb-1-start
+*/
+.sb-breadcrumb-1 {
+    /* the header floats over the top of the area, so the padding clears it (98px tall at xl and up, about 88px below) */
+    &-area {
+        position: relative;
+        z-index: 1;
+        padding: 190px 0 90px;
+
+        @media #{$xl} {
+            padding: 180px 0 80px;
+        }
+
+        @media #{$lg} {
+            padding: 160px 0 70px;
+        }
+
+        @media #{$md} {
+            padding: 150px 0 60px;
+        }
+
+        @media #{$xs} {
+            padding: 130px 0 50px;
+        }
+    }
+
+    /* the blue curtains and the grid of the hero, cropped to the banner and faded out towards its bottom edge */
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+        -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+        mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bg-clr {
+            object-position: center top;
+            opacity: .7;
+        }
+
+        .bg-line {
+            object-position: left top;
+        }
+
+        /* violet haze rising from the bottom edge */
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(50% 90% at 50% 100%, rgb(99 66 245 / 40%) 0%, rgb(99 66 245 / 0%) 100%);
+        }
+    }
+
+    &-content {
+        position: relative;
+        text-align: center;
+    }
+
+    &-title {
+        margin-bottom: 24px;
+        font-size: 56px;
+        line-height: 1.1;
+
+        @media #{$xl} {
+            font-size: 52px;
+        }
+
+        @media #{$lg} {
+            font-size: 48px;
+        }
+
+        @media #{$md} {
+            font-size: 44px;
+        }
+
+        @media #{$xs} {
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        @media #{$sm} {
+            font-size: 40px;
+        }
+    }
+
+    /* the trail is a glass pill, with the same running light as the pills of the hero (sb-subtitle-1) */
+    &-list {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 0;
+        padding: 8px 22px;
+        overflow: hidden;
+        list-style: none;
+        border-radius: 100px;
+        border: 1px solid rgb(255 255 255 / 20%);
+        background: rgb(255 255 255 / 6%);
+        backdrop-filter: blur(8px);
+
+        @media #{$xs} {
+            gap: 10px;
+            padding: 7px 18px;
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 30%;
+            height: 1px;
+            z-index: -2;
+            background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, #fff 50%, rgb(0 0 0 / 0%) 100%);
+            animation: sb-subtitle-1 10s ease-in-out infinite;
+        }
+
+        &::before {
+            top: 0;
+        }
+
+        &::after {
+            bottom: 0;
+            animation-delay: 2s;
+        }
+
+        li {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--sb-font-1);
+            font-size: 16px;
+            line-height: 24px;
+            color: rgb(255 255 255 / 80%);
+
+            @media #{$xs} {
+                gap: 10px;
+            }
+
+            a {
+                transition: var(--sb-cube-1);
+
+                &:hover {
+                    color: var(--sb-clr-sd-1);
+                }
+            }
+
+            /* chevron between two items */
+            + li::before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-top: 1.5px solid currentColor;
+                border-right: 1.5px solid currentColor;
+                transform: rotate(45deg);
+                opacity: .6;
+            }
+
+            &:is(.active) {
+                font-weight: 500;
+                color: #fff;
+            }
+        }
+    }
+}
+
+/*
+    breadcrumb-1-end
+*/
