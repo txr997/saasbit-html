@@ -584,30 +584,64 @@
     }
 }
 
+// the colour inside .sb-pr-btn-5 keeps glowing: two wide soft lights slide through the button in opposite directions,
+// left and right on one clock and up and down on another, so they wander all over the inside and never leave it.
+// The lights are taller than the button, so their position can move up and down. The hover stops them
+@keyframes sb-pr-btn-5-glow-x {
+    0% {
+        background-position-x: 0%, 100%, 0;
+    }
+
+    100% {
+        background-position-x: 100%, 0%, 0;
+    }
+}
+
+@keyframes sb-pr-btn-5-glow-y {
+    0% {
+        background-position-y: 0%, 100%, 0;
+    }
+
+    100% {
+        background-position-y: 100%, 0%, 0;
+    }
+}
+
 .sb-pr-btn-5 {
     font-weight: 600;
-    background: linear-gradient(255deg, #FFC33B 0%, #FB6514 29.3%, #D93005 54.5%, #D94F04 82%, #FFC33B 100%);
+    background:
+        radial-gradient(closest-side, rgb(255 208 70 / 85%), rgb(255 165 35 / 42%) 55%, rgb(255 165 35 / 0%)) 0% 0% / 140px 84px no-repeat,
+        radial-gradient(closest-side, rgb(255 150 50 / 80%), rgb(255 110 30 / 36%) 55%, rgb(255 110 30 / 0%)) 100% 100% / 170px 92px no-repeat,
+        linear-gradient(255deg, #FFC33B 0%, #FB6514 29.3%, #D93005 54.5%, #D94F04 82%, #FFC33B 100%) 0 0 / 100% 100% no-repeat;
     // top highlight + bottom glow
     box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%);
+    animation: sb-pr-btn-5-glow-x 2s ease-in-out infinite alternate, sb-pr-btn-5-glow-y 2.4s ease-in-out infinite alternate;
 
+    // the lights stand still where they are
     &:hover {
         box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), 0px 0px 24px rgb(251 101 20 / 55%);
+        animation-play-state: paused;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
     }
 }
 
 .sb-sd-btn-5 {
     height: 53px;
     font-weight: 500;
-    // top layer: solid orange, 0 high until hover
+    // top layer: the orange glow, 0 high on the bottom edge until hover. It is twice as tall as the button when it is open and
+    // fades out in its upper half, so the front of the rise is soft and the button ends up completely orange
     background:
-        linear-gradient(#FB6514 0 0) 0 0 / 100% 0 no-repeat,
+        linear-gradient(0deg, #FB6514 0%, #FB6514 50%, rgb(251 101 20 / 0%) 100%) 0 100% / 100% 0 no-repeat,
         linear-gradient(180deg, #071727 6.25%, #071727 27.9%, #35290E 57.2%, #975F03 100%) 0 0 / 100% 100% no-repeat;
     // top highlight + bottom glow + bottom-only stroke
     box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), inset 0px -1px 0px rgb(255 255 255 / 32%);
 
     &:hover {
-        // orange wipes down from the top and fills the whole button
-        background-size: 100% 100%, 100% 100%;
+        // the bottom glow rises and fills the whole button
+        background-size: 100% 200%, 100% 100%;
         box-shadow: inset 0px 4px 4px rgb(255 255 255 / 75%), inset 0px -4px 15px rgb(255 255 255 / 35%), inset 0px -1px 0px rgb(255 255 255 / 32%), 0px 0px 24px rgb(251 101 20 / 45%);
     }
 }

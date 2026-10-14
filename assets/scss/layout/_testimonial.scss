@@ -1663,3 +1663,485 @@
 /*
     testimonial-4-end
 */
+
+/*
+    testimonial-5-start
+*/
+.sb-testimonial-5 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+    }
+
+    // star shape, drawn once in the html
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* orange glow behind the columns, lives inside the wrap so it is cut at the edge of the box; 1359 x 999 on the design, 42px above the box */
+    &-bg-clr {
+        position: absolute;
+        top: -42px;
+        left: 50%;
+        z-index: -1;
+        width: 1359px;
+        height: 999px;
+        transform: translateX(-50%);
+        pointer-events: none;
+
+        // the blur melts the hard edges of the picture into the section color
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            object-fit: cover;
+            filter: blur(60px);
+        }
+
+        @media #{$md} {
+            width: 1100px;
+            height: 809px;
+        }
+
+        @media #{$xs} {
+            top: 20px;
+            width: 780px;
+            height: 573px;
+        }
+    }
+
+    /* orange streaks in the top corners, the pictures already carry their opacity */
+    &-bg-shape {
+        position: absolute;
+        top: 0;
+        z-index: 3;
+        width: 686px;
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        &-1 {
+            left: 0;
+        }
+
+        &-2 {
+            right: 0;
+        }
+
+        @media #{$xs} {
+            width: 360px;
+        }
+    }
+
+    &-sec-title {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 793px;
+        margin: 0 auto 48px;
+        text-align: center;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        // the default text of the pill is white (hero), this section is light
+        .sb-subtitle-5-text {
+            color: var(--sb-clr-h-5);
+        }
+
+        @media #{$xs} {
+            margin-bottom: 36px;
+        }
+    }
+
+    &-title {
+        margin-bottom: 20px;
+
+        @media #{$xs} {
+            margin-bottom: 16px;
+        }
+    }
+
+    &-disc {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: var(--sb-clr-h-5);
+        opacity: .8;
+
+        @media #{$md,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    /*
+        three frosted columns of cards, the marquee js runs each one up or down
+    */
+    &-wrap {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: minmax(0, 1fr);
+        gap: 14px;
+        height: 880px;
+        overflow: hidden;
+        // own stacking context, so the glow (z-index -1) stays behind the columns but inside the box
+        isolation: isolate;
+
+        @media #{$xxl} {
+            height: 840px;
+        }
+
+        @media #{$xl} {
+            height: 780px;
+        }
+
+        /* third column drops out, two columns stay */
+        @media #{$lg,$md} {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            height: 760px;
+        }
+
+        @media #{$md} {
+            height: 700px;
+        }
+
+        /* single column, as wide as one column of the design */
+        @media #{$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            max-width: 456px;
+            height: 640px;
+            margin: 0 auto;
+        }
+
+        /* cards fade out into the section color at the top and bottom */
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 224px;
+            pointer-events: none;
+            z-index: 2;
+
+            @media #{$lg,$md} {
+                height: 160px;
+            }
+
+            @media #{$xs} {
+                height: 120px;
+            }
+        }
+
+        &::before {
+            top: 0;
+            background: linear-gradient(180deg, rgb(246 247 248 / 90%) 0%, rgb(246 247 248 / 0%) 100%);
+        }
+
+        &::after {
+            bottom: 0;
+            background: linear-gradient(0deg, rgb(246 247 248 / 90%) 0%, rgb(246 247 248 / 0%) 100%);
+        }
+
+        .item-row {
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            border: 1px solid #fff;
+            background-color: rgb(255 255 255 / 28%);
+
+            @media #{$xl} {
+                padding: 0 16px;
+            }
+
+            @media #{$xs} {
+                padding: 0 16px;
+            }
+
+            /* each column starts at its own point of the loop, like the design */
+            .item-inner {
+                flex-shrink: 0;
+                margin-top: -348px;
+            }
+
+            /* middle column runs top to bottom, so its two copies are lifted one loop (half of the stack) above the window */
+            &:nth-child(2) {
+                .item-inner {
+                    margin-top: -478px;
+                    transform: translateY(-50%);
+                }
+
+                @media #{$xs} {
+                    display: none;
+                }
+            }
+
+            &:nth-child(3) {
+                .item-inner {
+                    margin-top: -268px;
+                }
+
+                @media #{$lg,$md,$xs} {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &-item {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        /* padding (not margin) so the marquee loop height includes the gap after the last card */
+        padding-bottom: 20px;
+        will-change: transform;
+
+        &-single {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 40px;
+            background-color: #F6F7F8;
+            border-radius: 10px;
+
+            @media #{$xxl} {
+                padding: 36px;
+            }
+
+            @media #{$xl} {
+                padding: 28px;
+            }
+
+            @media #{$lg} {
+                padding: 36px;
+            }
+
+            @media #{$md} {
+                padding: 28px;
+            }
+
+            @media #{$xs} {
+                padding: 24px;
+            }
+
+            @media #{$sm} {
+                padding: 32px;
+            }
+
+            .rating {
+                display: flex;
+                gap: 2px;
+
+                svg {
+                    display: block;
+                    width: 18px;
+                    height: 18px;
+                    fill: #FA9145;
+                }
+            }
+
+            .comment {
+                min-height: 140px;
+                font-family: var(--sb-font-2);
+                font-size: 18px;
+                line-height: 28px;
+                color: var(--sb-clr-h-5);
+
+                @media #{$xl} {
+                    min-height: 0;
+                    font-size: 17px;
+                    line-height: 27px;
+                }
+
+                @media #{$lg} {
+                    min-height: 0;
+                }
+
+                @media #{$md,$xs} {
+                    min-height: 0;
+                    font-size: 16px;
+                    line-height: 26px;
+                }
+            }
+
+            .author {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 16px;
+
+                &-img {
+                    flex-shrink: 0;
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                    box-shadow: 0 0 0 3px #fff;
+
+                    @media #{$xs} {
+                        width: 48px;
+                        height: 48px;
+                    }
+                }
+
+                &-info {
+                    min-width: 0;
+                }
+
+                &-name {
+                    font-size: 18px;
+                    line-height: 28px;
+
+                    @media #{$xs} {
+                        font-size: 16px;
+                        line-height: 24px;
+                    }
+                }
+
+                &-bio {
+                    font-family: var(--sb-font-2);
+                    font-size: 15px;
+                    line-height: 22px;
+                    color: var(--sb-clr-h-5);
+                    opacity: .6;
+
+                    @media #{$xs} {
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+        bottom bar: line of text with the rating on the left, the button on the right
+    */
+    &-bottom {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px 32px;
+        margin-top: 16px;
+
+        @media #{$md} {
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 28px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 28px;
+        }
+
+        &-info {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+
+            @media #{$md} {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            @media #{$xs} {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+
+        &-disc {
+            margin: 0;
+            font-size: 18px;
+            line-height: 30px;
+            color: var(--sb-clr-h-5);
+            white-space: nowrap;
+
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 26px;
+                text-align: center;
+                white-space: normal;
+            }
+        }
+
+        &-rating {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            // 36px chip, the svg carries its own stroke and shadow
+            .item-icon {
+                flex-shrink: 0;
+                width: 36px;
+                height: 36px;
+
+                svg {
+                    display: block;
+                    max-width: none;
+                    margin: -7px 0 0 -9px;
+                }
+            }
+
+            .rating-top {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                height: 12px;
+            }
+
+            .rating-icon {
+                display: flex;
+                gap: 2px;
+                margin: 0;
+
+                svg {
+                    display: block;
+                    width: 12px;
+                    height: 12px;
+                    fill: #FB6514;
+                }
+            }
+
+            .rating-point {
+                font-family: var(--sb-font-1);
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 12px;
+                color: var(--sb-clr-h-5);
+            }
+
+            .rating-text {
+                margin-top: 8px;
+                font-size: 14px;
+                line-height: 10px;
+                color: var(--sb-clr-h-5);
+                opacity: .8;
+            }
+        }
+
+        // the orange button is .sb-pr-btn-5
+        &-btn {
+            flex-shrink: 0;
+        }
+    }
+}
+/*
+    testimonial-5-end
+*/

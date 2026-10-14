@@ -311,3 +311,43 @@
 /*
     preloader-4-end
 */
+
+/*
+    preloader-5-start
+    preloader-1 in the home 5 colours, the layout and the script stay the same:
+    <div class="sb-preloader-1 sb-preloader-5">
+*/
+.sb-preloader-1.sb-preloader-5 {
+    /* the same navy as the hero, so the panel lifts off it without a colour jump */
+    background-color: #071727;
+
+    /* glow behind the counter */
+    &::before {
+        background: radial-gradient(closest-side, rgb(251 101 20 / 40%), rgb(255 163 5 / 10%) 55%, rgb(7 23 39 / 0%));
+    }
+
+    .curve {
+        fill: #071727;
+    }
+
+    .top .label::before {
+        background: #FB6514;
+    }
+
+    .words .word span {
+        color: #FB6514;
+    }
+
+    /* image only, the shorthand would drop the text clip */
+    .counter .percent {
+        background-image: linear-gradient(135deg, #FFC33B, #FB6514 55%, #D93005);
+    }
+
+    .bar span {
+        background: linear-gradient(90deg, #FFC33B, #FB6514 55%, #D93005);
+    }
+}
+
+/*
+    preloader-5-end
+*/

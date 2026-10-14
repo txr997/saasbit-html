@@ -1790,6 +1790,8 @@
         font-size: 16px;
         line-height: 24px;
         color: #fff;
+        position: relative;
+        z-index: 1;
         transition: var(--sb-cube-1);
 
         // keeps the 24px the box has above the button when the text is short
@@ -1802,9 +1804,25 @@
             flex-shrink: 0;
         }
 
+        // hover colour, a deeper orange faded in over the button (with the same inner highlight + lip, they would be covered otherwise)
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(100deg, #E9531A 0%, #F0A117 100%);
+            box-shadow: inset 0 -3px 0 rgb(0 0 0 / 16%), inset 0 2px 2px rgb(255 255 255 / 80%);
+            opacity: 0;
+            z-index: -1;
+            transition: var(--sb-cube-1);
+        }
+
         &:hover {
             color: #fff;
-            filter: brightness(1.06);
+
+            &::after {
+                opacity: 1;
+            }
         }
     }
 

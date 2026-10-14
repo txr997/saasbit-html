@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use '../abstracts/variables' as *;
 
 /* 
@@ -1593,6 +1594,139 @@
     @return calc(#{$px} * var(--sb-h5-u));
 }
 
+// hero-5 integration card: the tools (x, how far into the fall they are at the start) and the sparkles (x, size, delay, duration, sideways travel) of the design,
+// every number is a figma px of the card, the card sits at 305 / 994 on the 1920 canvas
+$sb-h5-tools: (
+    (114, 0.064),
+    (174, 0.204),
+    (72, 0.325),
+    (123, 0.427),
+    (225, 0.446),
+    (164, 0.611),
+    (91, 0.720),
+    (196, 0.873)
+);
+
+$sb-h5-sparks: (
+    (199, 2, -1.64, 3.2, -19),
+    (117, 2, -1.37, 4.2, 22),
+    (122, 2, -2.54, 5.2, 19),
+    (145, 2, -2.04, 3.7, 8),
+    (274, 2, -2, 4.7, -57),
+    (28, 2, -2.09, 3.2, 66),
+    (249, 2, -2.97, 4.2, -44),
+    (112, 2, -3.68, 5.2, 24),
+    (64, 2, -2.17, 3.7, 48),
+    (12, 2, -2.55, 4.7, 74),
+    (285, 2, -2.07, 3.2, -62),
+    (168, 2, -2.4, 4.2, -4),
+    (297, 2, -2.4, 5.2, -68),
+    (165, 1.5, -1.42, 3.7, -2),
+    (41, 2, -2.44, 4.7, 60),
+    (263, 2, -1.88, 3.2, -51),
+    (125, 2, -2.46, 4.2, 18),
+    (60, 2, -3.3, 5.2, 50),
+    (8, 2, -2.2, 3.7, 76),
+    (281, 2, -3.24, 4.7, -60),
+    (126, 2, -0.92, 3.2, 17),
+    (150, 1.5, -2.12, 4.2, 5),
+    (279, 2, -1.88, 5.2, -59),
+    (292, 2, -1.21, 3.7, -66),
+    (84, 1.5, -2.13, 4.7, 38),
+    (193, 1.5, -2.32, 3.2, -16),
+    (174, 1.5, -2.52, 4.2, -7),
+    (314, 1, -3.39, 5.2, -77),
+    (201, 1.5, -2.7, 3.7, -20),
+    (85, 1, -3.27, 4.7, 38),
+    (301, 1.5, -2.72, 3.2, -70),
+    (196, 1.5, -2.74, 4.2, -18),
+    (81, 1, -3.19, 5.2, 40),
+    (61, 1, -2.09, 3.7, 50),
+    (283, 1, -2.95, 4.7, -61),
+    (138, 1, -1.74, 3.2, 11),
+    (267, 1, -1.78, 4.2, -53),
+    (231, 1, -2, 5.2, -35),
+    (167, 1.5, -1.64, 3.7, -3),
+    (307, 1, -2.44, 4.7, -73),
+    (282, 1, -1.64, 3.2, -61),
+    (193, 1.5, -1.14, 4.2, -16),
+    (147, 1, -4.34, 5.2, 7),
+    (121, 1.5, -2.78, 3.7, 20),
+    (250, 1, -3.85, 4.7, -45),
+    (44, 1, -2.19, 3.2, 58),
+    (164, 1, -3.04, 4.2, -2),
+    (304, 1.5, -3.99, 5.2, -72),
+    (192, 1, -1.3, 3.7, -16),
+    (201, 1, -1.41, 4.7, -20),
+    (180, 1, -1.64, 3.2, -10),
+    (25, 1, -1.86, 4.2, 68),
+    (247, 1, -2.7, 5.2, -43),
+    (108, 1, -1.92, 3.7, 26),
+    (128, 1, -2.98, 4.7, 16),
+    (263, 1.5, -1.12, 3.2, -51),
+    (182, 1.5, -2.28, 4.2, -11),
+    (73, 1.5, -2.62, 5.2, 44),
+    (286, 1.5, -2.74, 3.7, -63),
+    (151, 2, -1.47, 4.7, 5),
+    (219, 2, -1.39, 3.2, -29),
+    (97, 2, -1.61, 4.2, 32),
+    (43, 1.5, -3.88, 5.2, 59)
+);
+
+$sb-h5-beam: (
+    (0, 262, #FB6514),
+    (36, 190, #FFA305),
+    (63, 135, #FFCD78),
+    (90, 81, #FFEDCD),
+    (109, 39, #FFFFFF),
+    (126, 17, #FFFFFF, 4)
+);
+
+@keyframes sb-hero-5-tool {
+    to {
+        transform: translateY(#{h5(157)});
+    }
+}
+
+// the sparkles come in over the top edge of the card, fall faster and faster and fade out at the mouth of the box. The sideways move is quick
+// at first and then slows down, so the two moves together bend the path in towards the box
+@keyframes sb-hero-5-spark-y {
+    to {
+        transform: translateY(#{h5(122)});
+    }
+}
+
+@keyframes sb-hero-5-spark-x {
+    to {
+        translate: var(--sb-h5-dx) 0;
+    }
+}
+
+@keyframes sb-hero-5-spark-fade {
+    0% {
+        opacity: 0;
+    }
+
+    12%,
+    78% {
+        opacity: .9;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes sb-hero-5-bg-glow {
+    from {
+        opacity: var(--sb-h5-glow-o0, .8);
+    }
+
+    to {
+        opacity: var(--sb-h5-glow-o1, 1);
+    }
+}
+
 // same unit for the background glow, it stays on the section width (the bg pngs do too) in every layout
 @function h5bg($px) {
     @return calc(#{$px} * var(--sb-h5-bg-u));
@@ -1638,10 +1772,13 @@
         filter: blur(h5bg(150));
         pointer-events: none;
 
+        // every colour breathes on its own clock, only its opacity moves (the size stays): the lighter the ellipse the stronger it fades in and out,
+        // so the glow keeps rolling from the middle outwards
         span {
             position: absolute;
             border-radius: 50%;
             transform: rotate(-22.74deg);
+            animation: sb-hero-5-bg-glow 5s ease-in-out infinite alternate;
         }
 
         &-1 {
@@ -1650,6 +1787,9 @@
             left: h5bg(-1172);
             top: h5bg(-459);
             background: #FB6514;
+            --sb-h5-glow-o0: .2;
+            --sb-h5-glow-o1: 1;
+            animation-duration: 6s;
         }
 
         &-2 {
@@ -1658,6 +1798,10 @@
             left: h5bg(-958.5);
             top: h5bg(-376);
             background: #FF1E00;
+            --sb-h5-glow-o0: .05;
+            --sb-h5-glow-o1: 1;
+            animation-duration: 4.6s;
+            animation-delay: -1.5s;
         }
 
         &-3 {
@@ -1666,6 +1810,10 @@
             left: h5bg(-769.5);
             top: h5bg(-302);
             background: #FFA305;
+            --sb-h5-glow-o0: .05;
+            --sb-h5-glow-o1: 1;
+            animation-duration: 4s;
+            animation-delay: -2.4s;
         }
 
         &-4 {
@@ -1674,6 +1822,10 @@
             left: h5bg(-554.5);
             top: h5bg(-217.5);
             background: #FEB434;
+            --sb-h5-glow-o0: 0;
+            --sb-h5-glow-o1: 1;
+            animation-duration: 3.4s;
+            animation-delay: -.8s;
         }
 
         &-5 {
@@ -1682,6 +1834,16 @@
             left: h5bg(-381.5);
             top: h5bg(-149.5);
             background: #fff;
+            --sb-h5-glow-o0: 0;
+            --sb-h5-glow-o1: .9;
+            animation-duration: 3.2s;
+            animation-delay: -2.2s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            span {
+                animation: none;
+            }
         }
     }
 
@@ -2009,11 +2171,152 @@
         }
     }
 
-    // the png carries its own shadow, 28 px of room on each side
+    // automation integration card, built from the figma layers (the png is gone): white card, the orange light shaft, sparkles, the tools falling
+    // into the open box and its title. The tools come in from above the card and the front of the box covers them, so the loop never shows a seam
     &-integration {
-        left: h5(277);
-        top: h5(966);
-        width: h5(400);
+        left: h5(305);
+        top: h5(994);
+        width: h5(320);
+        height: h5(235);
+        border-radius: h5(12);
+        background: #fff;
+        box-shadow: h5(12) h5(12) h5(40) rgb(0 0 0 / 48%);
+        overflow: hidden;
+
+        > span,
+        > svg,
+        .tools,
+        .dots {
+            position: absolute;
+        }
+
+        // the orange to white wash on the top part of the card
+        .top-clr {
+            left: h5(2);
+            top: h5(2);
+            width: h5(316);
+            height: h5(151);
+            border-radius: h5(10) h5(10) 0 0;
+            background: linear-gradient(180deg, #FEB54E 0%, #fff 100%);
+        }
+
+        // figma layer blur 25 = css 12
+        .beam {
+            left: h5(29);
+            top: 0;
+            width: h5(262);
+            height: h5(101);
+            filter: blur(h5(12));
+
+            i {
+                position: absolute;
+                top: 0;
+                height: 100%;
+            }
+
+            @each $item in $sb-h5-beam {
+                i:nth-child(#{list.index($sb-h5-beam, $item)}) {
+                    left: h5(list.nth($item, 1));
+                    width: h5(list.nth($item, 2));
+                    background: list.nth($item, 3);
+
+                    @if list.length($item) > 3 {
+                        filter: blur(h5(list.nth($item, 4)));
+                    }
+                }
+            }
+        }
+
+        .dots,
+        .tools {
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .dots span {
+            position: absolute;
+            top: h5(-6);
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0;
+            animation: sb-hero-5-spark-y 4s cubic-bezier(.5, 0, .9, .7) infinite, sb-hero-5-spark-x 4s cubic-bezier(.1, .6, .4, 1) infinite, sb-hero-5-spark-fade 4s linear infinite;
+        }
+
+        @for $i from 1 through list.length($sb-h5-sparks) {
+            $s: list.nth($sb-h5-sparks, $i);
+
+            .dots span:nth-child(#{$i}) {
+                --sb-h5-dx: #{h5(list.nth($s, 5))};
+                left: h5(list.nth($s, 1));
+                width: h5(list.nth($s, 2));
+                height: h5(list.nth($s, 2));
+                animation-delay: #{list.nth($s, 3)}s;
+                animation-duration: #{list.nth($s, 4)}s;
+            }
+        }
+
+        // gold tile with a glossy top and a soft bottom, 32 x 32
+        .tool {
+            position: absolute;
+            top: h5(-40);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: h5(32);
+            height: h5(32);
+            border-radius: h5(12);
+            background: linear-gradient(180deg, #FBD336 0%, #F45C09 100%);
+            box-shadow: h5(4) h5(4) h5(10) rgb(0 0 0 / 32%), inset 0 h5(4) h5(4) rgb(255 255 255 / 70%), inset 0 h5(-4) h5(4) rgb(0 0 0 / 25%);
+            animation: sb-hero-5-tool 7.5s linear infinite;
+
+            svg {
+                display: block;
+                width: h5(14);
+                height: h5(14);
+                overflow: visible;
+                fill: #fff;
+                filter: drop-shadow(0 h5(4) h5(4) rgb(0 0 0 / 25%));
+            }
+        }
+
+        @for $i from 1 through list.length($sb-h5-tools) {
+            $t: list.nth($sb-h5-tools, $i);
+
+            .tool:nth-child(#{$i}) {
+                left: h5(list.nth($t, 1));
+                animation-delay: #{-1 * list.nth($t, 2) * 7.5}s;
+            }
+        }
+
+        // the open box, 291 x 141 at 14 / 72 of the card
+        .box {
+            left: h5(14);
+            top: h5(72);
+            width: h5(291);
+            height: auto;
+        }
+
+        .title {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: h5(19);
+            margin: 0;
+            font-family: var(--sb-font-2);
+            font-weight: 500;
+            font-size: h5(20);
+            line-height: h5(28);
+            text-align: center;
+            color: #071727;
+        }
+
+        // no motion: the tools and the sparkles stand where the design has them
+        @media (prefers-reduced-motion: reduce) {
+            .tool,
+            .dots span {
+                animation-play-state: paused;
+            }
+        }
     }
 
     &-user {

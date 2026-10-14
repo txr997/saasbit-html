@@ -596,6 +596,79 @@ function sbIntegration4Glow() {
 
 
 /*
+	integration-5 — once the artwork scrolls into view the three colour-blob lines draw themselves from the logo
+	out to the right edge (a wipe along the line), and the glow at the end of each one lights up as the line reaches it
+*/
+function sbIntegration5Blobs() {
+	var art = document.querySelector(".sb-integration-5-art");
+	if (!art || prefersReducedMotion()) return;
+
+	var tl = gsap.timeline({
+		scrollTrigger: {
+			trigger: art,
+			start: "top 70%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(art.querySelectorAll(".sb-integration-5-blob-line, .sb-integration-5-blob-glow"), { clearProps: "clipPath,opacity,transform" });
+		}
+	});
+
+	[1, 2, 3].forEach(function (n, i) {
+		var line = art.querySelector(".sb-integration-5-blob-line-" + n);
+		var glow = art.querySelector(".sb-integration-5-blob-glow-" + n);
+		var at = i * .35;
+
+		if (line) tl.from(line, { clipPath: "inset(0 100% 0 0)", duration: 1.8, ease: "power2.inOut" }, at);
+		if (glow) tl.from(glow, { opacity: 0, scale: .85, duration: 1.4, ease: "power2.out" }, at + 1.2);
+	});
+}
+
+
+/*
+	cta-5 — the glass shapes slide in from their own corner (the card clips them) and the astronaut flies in
+	from the bottom right once the card scrolls into view; then he keeps floating, a slow drift with a small
+	tilt, and only while the card is on screen
+*/
+function sbCta5Intro() {
+	var wrap = document.querySelector(".sb-cta-5-wrap");
+	if (!wrap || prefersReducedMotion()) return;
+
+	var shapeLeft = wrap.querySelector(".sb-cta-5-shape-2");
+	var shapeRight = wrap.querySelector(".sb-cta-5-shape-1");
+	var man = wrap.querySelector(".sb-cta-5-man");
+	var float;
+
+	var tl = gsap.timeline({
+		defaults: { ease: "power3.out" },
+		scrollTrigger: {
+			trigger: wrap,
+			start: "top 85%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set([shapeLeft, shapeRight, man].filter(Boolean), { clearProps: "opacity,transform" });
+			if (man) startFloat();
+		}
+	});
+
+	if (shapeLeft) tl.from(shapeLeft, { xPercent: -40, yPercent: -40, opacity: 0, duration: 1.6 }, 0);
+	if (shapeRight) tl.from(shapeRight, { xPercent: 40, yPercent: -40, opacity: 0, duration: 1.6 }, .1);
+	if (man) tl.from(man, { xPercent: 35, yPercent: 35, rotate: 8, opacity: 0, duration: 1.8 }, .3);
+
+	// the float stops while the card is off screen
+	function startFloat() {
+		float = gsap.timeline({ repeat: -1, yoyo: true, defaults: { duration: 3.2, ease: "sine.inOut" } });
+		float.to(man, { y: -18, rotate: -2.5, x: 6 }, 0);
+
+		new IntersectionObserver(function (entries) {
+			float.paused(!entries[0].isIntersecting);
+		}).observe(wrap);
+	}
+}
+
+
+/*
 	footer-4 — the glass ribbons drop in from the top edge of the footer, and the line art in the two
 	corners of the box slides in from its own side (the box clips it); each part has its own trigger
 */
@@ -954,6 +1027,114 @@ function sbHero4Tilt(dashboard) {
 	});
 }
 
+/*
+	hero-5 — parked before the preloader lifts, played right after: the background comes up, the pill opens, the title words climb in
+	from the brand orange, then the composition builds itself: the dashboard rises, the three workflow cards drop in while the connector
+	line draws itself and its dots pop, and the integration box, the user chart and the AI button slide in from their sides
+*/
+var sbHero5 = null;
+
+function sbHero5Park() {
+	if (prefersReducedMotion()) return;
+
+	var title = document.querySelector(".sb-hero-5-title");
+	if (!title) return;
+
+	var line = document.querySelector(".sb-hero-5-line");
+	var strokes = line ? Array.prototype.slice.call(line.querySelectorAll("path")) : [];
+
+	var hero = {
+		pill: document.querySelector(".sb-hero-5-content .sb-subtitle-5"),
+		titleColor: getComputedStyle(title).color,
+		disc: document.querySelector(".sb-hero-5-disc"),
+		btns: document.querySelector(".sb-hero-5-content .btn-wrap"),
+		bg: document.querySelectorAll(".sb-hero-5-bg-clr, .sb-hero-5-bg-line-top, .sb-hero-5-bg-line-bottom"),
+		// the light in the top right corner comes on a little after the rest of the background
+		light: document.querySelector(".sb-hero-5-bg-light"),
+		dashboard: document.querySelector(".sb-hero-5-dashboard"),
+		cards: [".sb-hero-5-card-1", ".sb-hero-5-card-2", ".sb-hero-5-card-3"].map(function (sel) {
+			return document.querySelector(sel);
+		}),
+		strokes: strokes,
+		dots: line ? line.querySelectorAll("circle") : [],
+		integration: document.querySelector(".sb-hero-5-integration"),
+		user: document.querySelector(".sb-hero-5-user"),
+		ai: document.querySelector(".sb-hero-5-ai-btn"),
+		words: sbHeroWords(title)
+	};
+
+	gsap.set(hero.words, {
+		yPercent: 115,
+		rotate: 6,
+		opacity: 0,
+		filter: "blur(10px)",
+		color: "#FB6514",
+		transformOrigin: "0% 100%"
+	});
+	gsap.set(hero.pill, { opacity: 0, y: 20, clipPath: "inset(0% 50% 0% 50% round 100px)" });
+	gsap.set([hero.disc, hero.btns], { opacity: 0, y: 28, filter: "blur(6px)" });
+	gsap.set([hero.bg, hero.light], { opacity: 0 });
+	gsap.set(hero.dashboard, { autoAlpha: 0, y: 110, scale: .94, transformOrigin: "50% 100%" });
+	gsap.set(hero.cards, { autoAlpha: 0, y: -36, scale: .9 });
+	gsap.set(hero.dots, { scale: 0, opacity: 0, transformOrigin: "50% 50%" });
+	gsap.set(hero.integration, { autoAlpha: 0, x: -60, y: 50 });
+	gsap.set(hero.user, { autoAlpha: 0, x: 70, y: 30 });
+	gsap.set(hero.ai, { autoAlpha: 0, x: 50, scale: .85 });
+
+	// the connector line is drawn by its dash, a hidden svg (xs) can not be measured, it just stays plain
+	hero.strokes = strokes.filter(function (path) {
+		try {
+			var len = path.getTotalLength();
+			gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+			return true;
+		} catch (e) {
+			return false;
+		}
+	});
+
+	sbHero5 = hero;
+}
+
+function sbHero5Play() {
+	if (!sbHero5) return;
+	var hero = sbHero5;
+
+	gsap.timeline({
+		defaults: { ease: "power3.out" },
+		onComplete: function () {
+			gsap.set([hero.pill, hero.disc, hero.btns, hero.bg, hero.light, hero.dashboard, hero.cards, hero.strokes, hero.dots, hero.integration, hero.user, hero.ai].concat(hero.words), { clearProps: "all" });
+		}
+	})
+		.to(hero.bg, { opacity: 1, duration: 1.5, ease: "power2.out" }, 0)
+		.to(hero.light, { opacity: 1, duration: 1.8, ease: "power2.inOut" }, 1.3)
+		.to(hero.pill, {
+			opacity: 1,
+			y: 0,
+			clipPath: "inset(0% 0% 0% 0% round 100px)",
+			duration: 1
+		}, 0)
+		.to(hero.words, {
+			yPercent: 0,
+			rotate: 0,
+			opacity: 1,
+			filter: "blur(0px)",
+			color: hero.titleColor,
+			duration: 1.1,
+			ease: "power4.out",
+			stagger: .08
+		}, .15)
+		.to(hero.disc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .8)
+		.to(hero.btns, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }, .95)
+		// the dashboard rises first, the rest of the composition builds around it
+		.to(hero.dashboard, { autoAlpha: 1, y: 0, scale: 1, duration: 1.6, ease: "power4.out" }, .6)
+		.to(hero.cards, { autoAlpha: 1, y: 0, scale: 1, duration: .9, stagger: .15, ease: "back.out(1.5)" }, 1.1)
+		.to(hero.strokes, { strokeDashoffset: 0, duration: 1.1, stagger: .1, ease: "power2.inOut" }, 1.45)
+		.to(hero.dots, { scale: 1, opacity: 1, duration: .5, stagger: .18, ease: "back.out(2.2)" }, 1.6)
+		.to(hero.integration, { autoAlpha: 1, x: 0, y: 0, duration: 1.2, ease: "power4.out" }, 1.35)
+		.to(hero.user, { autoAlpha: 1, x: 0, y: 0, duration: 1.2, ease: "power4.out" }, 1.45)
+		.to(hero.ai, { autoAlpha: 1, x: 0, scale: 1, duration: 1, ease: "back.out(1.4)" }, 1.75);
+}
+
 function sbHeroGlow() {
 	gsap.fromTo(".sb-hero-1-bg-clr img, .sb-hero-1-bg-clr-3 img", {
 		scaleX: 1,
@@ -1223,6 +1404,321 @@ function sbFeaturesCard2() {
 		.to(el.badge1, { scale: 1, opacity: 1, duration: .7, ease: "back.out(1.7)" }, "-=.3")
 		.to(el.line, { "--a": "100deg", duration: 1.3, ease: "sine.inOut" }, "<")
 		.to(el.badges, { scale: 1, opacity: 1, duration: .7, ease: "back.out(1.7)" }, "-=.15");
+}
+
+/*
+	features-5 — every card tells its own little story when it reaches the lower part of the screen: its layers come in one after the other
+	(card 1: the trigger card, then the two lines draw themselves and end on their dots, then the two side cards, the search pill last;
+	card 2: the chart wipes in, the task badge pops; card 3: the logo, the three orbits and then their icons; card 4: the chat window, the
+	messages one by one, the robot; card 5: the logo, the connectors, the role chips) and the title and the text close it.
+	The timelines are built as soon as the page is ready (the from() tweens hide the layers right away), each one plays once
+*/
+function sbFeatures5Cards() {
+	var cards = document.querySelectorAll(".sb-features-5-card");
+	if (!cards.length || prefersReducedMotion()) return;
+
+	// the layers of a card, by class
+	function layer(card, sel) {
+		return card.querySelectorAll(".sb-features-5-" + sel);
+	}
+
+	// a stroke that is drawn by its dash
+	function dashed(paths) {
+		var lens = [];
+
+		Array.prototype.forEach.call(paths, function (path) {
+			var len = 0;
+
+			try {
+				len = path.getTotalLength();
+			} catch (e) {}
+
+			lens.push(len);
+			if (len) gsap.set(path, { strokeDasharray: len });
+		});
+
+		return lens;
+	}
+
+	var stories = {
+		// visual workflow builder: trigger, then the lines, then the side cards
+		1: function (card, tl) {
+			var glows = card.querySelectorAll(".sb-features-5-glow-bottom, .sb-features-5-glow-top, .sb-features-5-c1-bg");
+			var paths = card.querySelectorAll(".sb-features-5-c1-line path");
+			var lens = dashed(paths);
+
+			// the lines are only 8% bright on the design, while they are drawn they are brighter so the draw can be seen, then they settle
+			gsap.set(paths, { opacity: .7 });
+
+			tl.from(glows, { opacity: 0, duration: .9, ease: "power2.out" }, 0)
+				.from(layer(card, "c1-trigger"), { opacity: 0, y: 50, scale: .92, duration: 1, ease: "power3.out" }, .25)
+				.from(paths, {
+					strokeDashoffset: function (i) {
+						return lens[i];
+					},
+					duration: .9,
+					ease: "power2.inOut"
+				}, 1)
+				.to(paths, {
+					opacity: function (i, path) {
+						return parseFloat(path.getAttribute("opacity")) || .08;
+					},
+					duration: .7,
+					ease: "power2.out"
+				}, 1.85)
+				.from(card.querySelectorAll(".sb-features-5-c1-line rect"), { opacity: 0, duration: .5 }, 1.3)
+				.from(card.querySelectorAll(".sb-features-5-c1-line circle"), {
+					scale: 0,
+					opacity: 0,
+					transformOrigin: "50% 50%",
+					duration: .5,
+					ease: "back.out(2.4)"
+				}, 1.7)
+				.from(layer(card, "c1-mini"), { opacity: 0, y: 34, duration: .9, stagger: .15, ease: "power3.out" }, 1.8)
+				.from(layer(card, "c1-search"), { opacity: 0, y: -18, scale: .95, duration: .9, ease: "power3.out" }, 2.15);
+
+			return 2.35;
+		},
+
+		// real-time analytics: the chart wipes in from the left, the task badge pops in
+		2: function (card, tl) {
+			var graph = layer(card, "c2-graph-1");
+
+			tl.from(card.querySelectorAll(".sb-features-5-glow-bottom, .sb-features-5-c2-bg"), { opacity: 0, duration: .9, ease: "power2.out" }, 0)
+				.from(graph, { opacity: 0, y: 36, scale: .96, duration: 1.2, ease: "power3.out" }, .2)
+				.fromTo(graph, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.3, ease: "power2.inOut" }, .2)
+				.from(layer(card, "c2-graph-2"), { opacity: 0, x: 46, y: 24, scale: .9, duration: 1, ease: "back.out(1.4)" }, 1.1);
+
+			return 1.6;
+		},
+
+		// seamless integrations: the logo, the orbits from the inside out, then the icons and the dots that sit on them
+		3: function (card, tl) {
+			tl.from(card.querySelectorAll(".sb-features-5-glow-bottom, .sb-features-5-c3-bg"), { opacity: 0, duration: .9, ease: "power2.out" }, 0)
+				.from(layer(card, "c3-logo"), { opacity: 0, scale: .4, transformOrigin: "50% 50%", duration: .9, ease: "back.out(1.7)" }, .2)
+				.from(layer(card, "c3-orbit-1"), { opacity: 0, scale: .55, transformOrigin: "50% 50%", duration: 1, ease: "power3.out" }, .6)
+				.from(layer(card, "c3-orbit-2"), { opacity: 0, scale: .55, transformOrigin: "50% 50%", duration: 1, ease: "power3.out" }, .85)
+				.from(layer(card, "c3-arc"), { opacity: 0, duration: .9, ease: "power2.out" }, .9)
+				.from(layer(card, "c3-orbit-3"), { opacity: 0, scale: .55, transformOrigin: "50% 50%", duration: 1.1, ease: "power3.out" }, 1.1)
+				// only the opacity: the rings and the icons turn all the time with their own css animation
+				.from(layer(card, "icon"), { opacity: 0, duration: .5, stagger: .07 }, 1.2)
+				.from(layer(card, "c3-dot"), { opacity: 0, duration: .5, stagger: .03 }, 1.3);
+
+			return 2;
+		},
+
+		// ai-powered agents: the window, the chat box on it, the three dots, the messages one by one, the robot
+		4: function (card, tl) {
+			tl.from(card.querySelectorAll(".sb-features-5-glow-bottom, .sb-features-5-c4-bg"), { opacity: 0, duration: .9, ease: "power2.out" }, 0)
+				.from(layer(card, "c4-window"), { opacity: 0, y: 30, scale: .96, duration: 1, ease: "power3.out" }, .15)
+				.from(layer(card, "c4-chat"), { opacity: 0, y: 22, scale: .96, duration: .9, ease: "power3.out" }, .55)
+				.from(card.querySelectorAll(".sb-features-5-c4-dots i"), {
+					scale: 0,
+					opacity: 0,
+					transformOrigin: "50% 50%",
+					duration: .4,
+					stagger: .1,
+					ease: "back.out(2.4)"
+				}, .9)
+				.from(layer(card, "c4-feed"), { opacity: 0, duration: .6 }, 1)
+				.from(layer(card, "c4-row"), { opacity: 0, x: -18, duration: .7, stagger: .16, ease: "power3.out" }, 1.05)
+				.from(layer(card, "c4-robot"), { opacity: 0, x: 46, y: 24, scale: .88, duration: 1, ease: "back.out(1.5)" }, 1.6);
+
+			return 2;
+		},
+
+		// work together: the logo, the connectors grow outwards, the role chips and the two dots
+		5: function (card, tl) {
+			var left = card.querySelectorAll(".sb-features-5-c5-line-l1, .sb-features-5-c5-line-l2, .sb-features-5-c5-line-l3");
+			var right = card.querySelectorAll(".sb-features-5-c5-line-r1, .sb-features-5-c5-line-r2, .sb-features-5-c5-line-r3");
+			// the chips come in pairs, one of each side, top to bottom
+			var chips = ["l1", "r1", "l2", "r2", "l3", "r3"].map(function (key) {
+				return card.querySelector(".sb-features-5-chip-" + key);
+			});
+
+			tl.from(card.querySelectorAll(".sb-features-5-glow-bottom, .sb-features-5-c5-light, .sb-features-5-c5-bg"), { opacity: 0, duration: 1, ease: "power2.out" }, 0)
+				.from(layer(card, "c5-logo"), { opacity: 0, scale: .5, transformOrigin: "50% 50%", duration: .9, ease: "back.out(1.6)" }, .2)
+				.fromTo(left, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .8, stagger: .12, ease: "power2.inOut" }, .75)
+				.fromTo(right, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .8, stagger: .12, ease: "power2.inOut" }, .75)
+				.from(chips, { opacity: 0, filter: "blur(6px)", duration: .7, stagger: .09, ease: "power2.out" }, 1.2)
+				.from(layer(card, "c5-dot"), { opacity: 0, scale: 0, transformOrigin: "50% 50%", duration: .5, stagger: .1, ease: "back.out(2.4)" }, 1.6);
+
+			return 2;
+		}
+	};
+
+	Array.prototype.forEach.call(cards, function (card) {
+		var key = (card.className.match(/sb-features-5-card-(\d)/) || [])[1];
+		if (!stories[key]) return;
+
+		var tl = gsap.timeline({
+			paused: true,
+			onComplete: function () {
+				// everything is back on its css, the rings and the chat go on turning with their own animation
+				var targets = [];
+
+				tl.getChildren().forEach(function (tween) {
+					targets = targets.concat(tween.targets());
+				});
+
+				gsap.set(targets, { clearProps: "all" });
+			}
+		});
+
+		var end = stories[key](card, tl);
+
+		// the title and the text close the story
+		tl.from(card.querySelectorAll(".sb-features-5-card-title, .sb-features-5-card-disc"), {
+			opacity: 0,
+			y: 22,
+			duration: .8,
+			stagger: .12,
+			ease: "power3.out"
+		}, end);
+
+		ScrollTrigger.create({
+			trigger: card,
+			start: "top 80%",
+			once: true,
+			onEnter: function () {
+				tl.play();
+			}
+		});
+	});
+}
+
+/*
+	core-features-5 — the four steps tell their story when each one reaches the lower part of the screen. The white panel slides in from its
+	own side and its number, title and text follow; the picture builds up layer by layer (step 1: the box, the message, the star, the arrow;
+	step 2: the logo, then the five lines grow outwards and every app pops in at its end; step 3: the sheet, its title and flow, the button,
+	the rocket; step 4: the five circles from the inside out, then the charts). Timelines are built at once (from() hides the layers), play once
+*/
+function sbCoreFeatures5Cards() {
+	var cards = document.querySelectorAll(".sb-core-features-5-card");
+	if (!cards.length || prefersReducedMotion()) return;
+
+	// from md down a step is a column, so the panel comes from below instead of from the side
+	var column = window.matchMedia("(max-width: 991px)").matches;
+
+	function layer(card, sel) {
+		return card.querySelectorAll(".sb-core-features-5-" + sel);
+	}
+
+	function one(card, sel) {
+		return card.querySelector(".sb-core-features-5-" + sel);
+	}
+
+	// the panel: it slides in from its side (steps 1 and 3 have it on the right, 2 and 4 on the left), then number, title and text
+	function panel(card, tl, side) {
+		tl.from(one(card, "panel"), column ? { opacity: 0, y: 44, duration: 1, ease: "power3.out" } : { opacity: 0, x: side * 60, duration: 1, ease: "power3.out" }, .1)
+			.from(one(card, "panel-dot"), { opacity: 0, duration: 1 }, .3)
+			.from(one(card, "num"), { opacity: 0, scale: .4, rotate: -20, duration: .7, ease: "back.out(1.8)" }, .5)
+			.from(card.querySelectorAll(".sb-core-features-5-panel-title, .sb-core-features-5-panel-disc"), {
+				opacity: 0,
+				y: 24,
+				duration: .8,
+				stagger: .12,
+				ease: "power3.out"
+			}, .65);
+	}
+
+	var stories = {
+		// choose a workflow
+		1: function (card, tl) {
+			panel(card, tl, 1);
+
+			tl.from(one(card, "glow"), { opacity: 0, duration: 1, ease: "power2.out" }, 0)
+				.from(one(card, "box"), { opacity: 0, y: 50, scale: .92, duration: 1, ease: "power3.out" }, .25)
+				.from(one(card, "sms"), { opacity: 0, x: 24, y: -24, scale: .85, duration: .9, ease: "back.out(1.6)" }, .85)
+				.from(one(card, "star"), { opacity: 0, scale: .3, rotate: -30, duration: .8, ease: "back.out(1.8)" }, 1.15)
+				.from(one(card, "arrow"), { opacity: 0, x: -30, duration: .7, ease: "power3.out" }, 1.45);
+		},
+
+		// build your automation: the logo, the lines grow outwards from it, every app pops in at the end of its line
+		2: function (card, tl) {
+			panel(card, tl, -1);
+
+			// every line is revealed from the logo outwards: 1 and 5 run to the left, 2 and 3 to the right, 4 downwards
+			var wipe = {
+				1: "inset(0% 0% 0% 100%)",
+				2: "inset(0% 100% 0% 0%)",
+				3: "inset(0% 100% 0% 0%)",
+				4: "inset(0% 0% 100% 0%)",
+				5: "inset(0% 0% 0% 100%)"
+			};
+
+			tl.from(one(card, "logo"), { opacity: 0, scale: .5, duration: .9, ease: "back.out(1.6)" }, .2);
+
+			[1, 2, 3, 4, 5].forEach(function (n, i) {
+				var at = .75 + i * .2;
+
+				tl.fromTo(one(card, "wire-" + n), { clipPath: wipe[n] }, { clipPath: "inset(0% 0% 0% 0%)", duration: .7, ease: "power2.inOut" }, at)
+					.from(one(card, "icon-" + n), { opacity: 0, scale: .3, duration: .6, ease: "back.out(2)" }, at + .45)
+					.from(one(card, "node-" + n), { opacity: 0, scale: 0, duration: .4, ease: "back.out(2.4)" }, at + .55)
+					.from(one(card, "spark-" + n), { opacity: 0, duration: .5 }, at + .7);
+			});
+		},
+
+		// launch and automate: the sheet, the title and the flow under it, the button, then the rocket takes off
+		3: function (card, tl) {
+			panel(card, tl, 1);
+
+			tl.from(one(card, "glow"), { opacity: 0, duration: 1, ease: "power2.out" }, 0)
+				.from(one(card, "sheet"), { opacity: 0, y: 40, scale: .95, duration: 1, ease: "power3.out" }, .2)
+				.from(one(card, "ready"), { opacity: 0, y: 16, duration: .7, ease: "power3.out" }, .65)
+				.fromTo(one(card, "curve"), { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .8, ease: "power2.inOut" }, .8)
+				// trigger, the arrow, the ai agent, the arrow, the action
+				.from(card.querySelectorAll(".sb-core-features-5-steps > *"), { opacity: 0, y: 16, duration: .6, stagger: .14, ease: "power3.out" }, 1.05)
+				.from(one(card, "launch"), { opacity: 0, y: 20, scale: .9, duration: .8, ease: "back.out(1.5)" }, 1.85)
+				.from(one(card, "rocket"), { opacity: 0, x: -60, y: 70, rotate: -10, scale: .8, duration: 1.1, ease: "power3.out" }, 2.1);
+		},
+
+		// charts: the circles open from the inside out, then the line chart, the bars and the big chart
+		4: function (card, tl) {
+			panel(card, tl, -1);
+
+			var rings = [5, 4, 3, 2, 1].map(function (n) {
+				return one(card, "ring-" + n);
+			});
+
+			tl.from(rings, { opacity: 0, scale: .5, duration: .9, stagger: .12, ease: "power3.out" }, .15)
+				.fromTo(one(card, "graph-2"), { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.2, ease: "power2.inOut" }, .8)
+				.from(one(card, "graph-2"), { opacity: 0, duration: .6 }, .8)
+				// the bars grow up from their base
+				.fromTo(one(card, "bars"), { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "power2.out" }, 1.4)
+				.from(one(card, "graph-1"), { opacity: 0, x: 40, scale: .92, duration: 1, ease: "power3.out" }, 1.8);
+		}
+	};
+
+	Array.prototype.forEach.call(cards, function (card) {
+		var key = (card.className.match(/sb-core-features-5-card-(\d)/) || [])[1];
+		if (!stories[key]) return;
+
+		var tl = gsap.timeline({
+			paused: true,
+			onComplete: function () {
+				// everything is back on its css
+				var targets = [];
+
+				tl.getChildren().forEach(function (tween) {
+					targets = targets.concat(tween.targets());
+				});
+
+				gsap.set(targets, { clearProps: "all" });
+			}
+		});
+
+		stories[key](card, tl);
+
+		ScrollTrigger.create({
+			trigger: card,
+			start: "top 75%",
+			once: true,
+			onEnter: function () {
+				tl.play();
+			}
+		});
+	});
 }
 
 // card-5 — the active menu item jumps to a random other item every 2s while on screen
@@ -1546,6 +2042,31 @@ function sbFooter3BigTitle() {
 		},
 		onComplete: function () {
 			gsap.set(title, { clearProps: "opacity,transform,clipPath" });
+		}
+	});
+}
+
+
+/*
+	footer-5 logo — the big word rises into place: wiped in bottom-up while it slides up and fades in
+*/
+function sbFooter5Logo() {
+	var logo = document.querySelector(".sb-footer-5-brand .logo");
+	if (!logo || prefersReducedMotion()) return;
+
+	gsap.from(logo, {
+		y: 60,
+		opacity: 0,
+		clipPath: "inset(100% 0% 0% 0%)",
+		duration: 1.6,
+		ease: "power3.out",
+		scrollTrigger: {
+			trigger: logo,
+			start: "top 95%",
+			once: true
+		},
+		onComplete: function () {
+			gsap.set(logo, { clearProps: "opacity,transform,clipPath" });
 		}
 	});
 }
@@ -2091,12 +2612,87 @@ function sbAppsRing() {
 
 
 /*
+	home-5 smooth scroll — the css animations that never end (spins, sways, glows, shooting stars) wait while their section is
+	off screen, and the ones the main thread has to repaint every frame (the header stroke, the rings, the button glow: they animate
+	a custom property or a background-position, not a transform) also rest while the page is scrolling, so they never compete with the
+	scroll. They are only paused, not changed: every one carries on from where it stopped
+*/
+function sbHome5Perf() {
+	if (!document.body.classList.contains("sb-home-5") || !document.documentElement.getAnimations) return;
+
+	// what the compositor can run alone, everything else is repainted by the main thread
+	var smooth = ["offset", "computedOffset", "easing", "composite", "transform", "opacity", "translate", "rotate", "scale"];
+	var scrolling = false;
+	var timer;
+	var groups = [];
+
+	function collect(group) {
+		group.items = group.el.getAnimations({ subtree: true }).filter(function (anim) {
+			return anim.effect && anim.effect.getComputedTiming().iterations === Infinity;
+		}).map(function (anim) {
+			return {
+				anim: anim,
+				heavy: anim.effect.getKeyframes().some(function (frame) {
+					return Object.keys(frame).some(function (key) { return smooth.indexOf(key) === -1; });
+				})
+			};
+		});
+	}
+
+	function apply(group, onlyHeavy) {
+		group.items.forEach(function (item) {
+			if (onlyHeavy && !item.heavy) return;
+
+			var target = item.anim.effect.target;
+
+			if (!group.visible || (item.heavy && scrolling)) {
+				item.anim.pause();
+			// an animation the css itself holds (the hovered button glow) stays held
+			} else if (!target || getComputedStyle(target, item.anim.effect.pseudoElement).animationPlayState.indexOf("paused") === -1) {
+				item.anim.play();
+			}
+		});
+	}
+
+	document.querySelectorAll("[class*=\"-5-area\"]").forEach(function (el) {
+		var group = { el: el, items: [], visible: true };
+
+		groups.push(group);
+		collect(group);
+
+		// the header is always on screen, only the scroll rest applies to it
+		if (el.tagName === "HEADER") return;
+
+		new IntersectionObserver(function (entries) {
+			group.visible = entries[0].isIntersecting;
+			collect(group);
+			apply(group);
+		}, { rootMargin: "300px 0px" }).observe(el);
+	});
+
+	window.addEventListener("scroll", function () {
+		if (!scrolling) {
+			scrolling = true;
+			groups.forEach(function (group) { apply(group, true); });
+		}
+
+		clearTimeout(timer);
+		timer = setTimeout(function () {
+			scrolling = false;
+			groups.forEach(function (group) { apply(group, true); });
+		}, 150);
+	}, { passive: true });
+}
+
+
+/*
 	page lifecycle
 */
 function afterPreloader() {
 	sbHeroGlow();
 	sbHero3Play();
 	sbHero4Play();
+	sbHero5Play();
 	sbPartnerTitle();
 	sbPartner5Line();
 	sbFeaturesCard1();
@@ -2104,10 +2700,13 @@ function afterPreloader() {
 	sbFeaturesMenu();
 	sbFeatures2Panels();
 	sbFeatures3();
+	sbFeatures5Cards();
+	sbCoreFeatures5Cards();
 	sbIntegration3Swap();
 	sbTestimonial3Author();
 	sbFooter3Social();
 	sbFooter3BigTitle();
+	sbFooter5Logo();
 	sbAbout2Parallax();
 	sbCta2Intro();
 	sbFaqs2Card();
@@ -2124,8 +2723,11 @@ function afterPreloader() {
 	sbTitle5Play();
 	sbUseCase4Shapes();
 	sbIntegration4Glow();
+	sbIntegration5Blobs();
+	sbCta5Intro();
 	sbFooter4Intro();
 	sbFaqs4Card();
+	sbHome5Perf();
 }
 
 function afterPageLoad() {
@@ -2157,6 +2759,7 @@ window.addEventListener("load", function () {
 	sbHero2Park();
 	sbHero3Park();
 	sbHero4Park();
+	sbHero5Park();
 
 	if (sbPreloader) {
 		sbPreloader.done();

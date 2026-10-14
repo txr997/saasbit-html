@@ -880,3 +880,374 @@
 /*
     faqs-4-end
 */
+
+/*
+    faqs-5-start
+*/
+.sb-faqs-5 {
+    &-area {
+        position: relative;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    // sparkle + double arrow shapes, drawn once in the html
+    &-symbols {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    // orange glow and the faint grid at the top centre, the pictures already carry their own fade
+    &-bg-color,
+    &-bg-line {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 0;
+        transform: translateX(-50%);
+        pointer-events: none;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &-bg-color {
+        width: 820px;
+    }
+
+    &-bg-line {
+        width: 1143px;
+    }
+
+    // title 512 + accordion 760 on the design, 128 between; title on top, contact box pinned to the bottom of the left side
+    &-wrap {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 512fr) minmax(0, 760fr);
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "title accordion"
+            "contact accordion";
+        column-gap: 128px;
+        max-width: 1400px;
+        margin: 0 auto;
+
+        @media #{$xxl} {
+            column-gap: 90px;
+        }
+
+        @media #{$xl} {
+            column-gap: 64px;
+        }
+
+        @media #{$lg} {
+            column-gap: 40px;
+        }
+
+        @media #{$md,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto;
+            grid-template-areas:
+                "title"
+                "accordion"
+                "contact";
+            row-gap: 40px;
+        }
+
+        @media #{$xs} {
+            row-gap: 32px;
+        }
+    }
+
+    /*
+        section title
+    */
+    &-sec-title {
+        grid-area: title;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 512px;
+
+        .sb-subtitle-5 {
+            margin-bottom: 16px;
+        }
+
+        // the default text of the pill is white (hero), this section is light
+        .sb-subtitle-5-text {
+            color: var(--sb-clr-h-5);
+        }
+    }
+
+    &-title {
+        margin-bottom: 20px;
+
+        @media #{$xs} {
+            margin-bottom: 16px;
+        }
+    }
+
+    &-disc {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: var(--sb-clr-h-5);
+        opacity: .8;
+
+        @media #{$md,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    /*
+        still have questions box, the faint AI sparkles sit behind its top left corner
+    */
+    &-contact {
+        position: relative;
+        isolation: isolate;
+        grid-area: contact;
+        align-self: end;
+        max-width: 366px;
+        margin-left: 2px;
+
+        .star {
+            position: absolute;
+            top: -55px;
+            left: -30px;
+            z-index: -1;
+            width: 107px;
+            height: 129px;
+            opacity: .08;
+            pointer-events: none;
+
+            @media #{$md,$xs} {
+                left: -12px;
+            }
+        }
+
+        .title {
+            margin-bottom: 12px;
+            font-size: 22px;
+            line-height: 28px;
+        }
+
+        .disc {
+            margin-bottom: 24px;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    &-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 48px;
+        padding: 0 20px;
+        border-radius: 12px;
+        font-family: var(--sb-font-2);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #fff;
+        background: linear-gradient(94deg, #FFC33B 0%, #FB6514 29.3%, #D93005 54.5%, #D94F04 82%, #FFC33B 100%);
+        // white lip, top highlight, bottom glow, then the three orange drops
+        box-shadow: inset 0 0 0 2px #fff, inset 0 4px 4px rgb(255 255 255 / 75%), inset 0 -4px 15px rgb(255 255 255 / 35%), 0 3.7px 4.8px rgb(251 101 20 / 15%), 0 10.3px 13.4px rgb(251 101 20 / 22%), 0 24.7px 32.3px rgb(251 101 20 / 19%);
+        transition: var(--sb-cube-1);
+
+        .icon {
+            display: inline-flex;
+            flex-shrink: 0;
+
+            svg {
+                display: block;
+            }
+        }
+
+        &:hover {
+            color: #fff;
+            box-shadow: inset 0 0 0 2px #fff, inset 0 4px 4px rgb(255 255 255 / 75%), inset 0 -4px 15px rgb(255 255 255 / 35%), 0 3.7px 4.8px rgb(251 101 20 / 15%), 0 10.3px 13.4px rgb(251 101 20 / 22%), 0 24.7px 32.3px rgb(251 101 20 / 19%), 0 0 24px rgb(251 101 20 / 45%);
+        }
+    }
+
+    /*
+        accordion
+    */
+    &-accordion {
+        grid-area: accordion;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 49px;
+
+        @media #{$md,$xs} {
+            margin-top: 0;
+        }
+    }
+
+    &-item {
+        position: relative;
+        isolation: isolate;
+        border-radius: 8px;
+
+        // card face, grey when closed
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            background: #F2F4F6;
+            pointer-events: none;
+        }
+
+        // soft orange glow behind the open card
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            border-radius: 8px;
+            background: linear-gradient(100deg, #FCB833 0%, #FE662B 100%);
+            filter: blur(14px);
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--sb-cube-1);
+        }
+
+        .item-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px 18px 18px 24px;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            font-family: var(--sb-font-2);
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 28px;
+            color: var(--sb-clr-h-5);
+            transition: var(--sb-cube-1);
+
+            @media #{$xs} {
+                padding: 14px 14px 14px 16px;
+                font-size: 17px;
+                line-height: 26px;
+            }
+
+            .spark {
+                flex-shrink: 0;
+                display: flex;
+                width: 18px;
+                height: 18px;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    fill: #FB6514;
+                }
+            }
+
+            .text {
+                flex: 1;
+                min-width: 0;
+            }
+
+            // arrow chip, the double arrow turns down and turns orange on the open item
+            .icon {
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                margin-left: 22px;
+                border-radius: 5px;
+                background: #fff;
+                box-shadow: 4px 6px 10px rgb(0 0 0 / 0%), inset 0 0 4px rgb(0 0 0 / 12%);
+                color: rgb(2 2 36 / 40%);
+                transition: var(--sb-cube-1);
+
+                svg {
+                    display: block;
+                    width: 12px;
+                    height: 12px;
+                    fill: currentColor;
+                    transition: var(--sb-cube-1);
+                }
+
+                @media #{$xs} {
+                    margin-left: 6px;
+                }
+            }
+        }
+
+        .item-body {
+            padding: 0 52px 18px;
+
+            @media #{$xl,$lg,$md} {
+                padding-right: 40px;
+            }
+
+            @media #{$xs} {
+                padding: 0 16px 16px 44px;
+            }
+        }
+
+        .item-disc {
+            margin: 0;
+            font-size: 16px;
+            line-height: 24px;
+
+            @media #{$xs} {
+                font-size: 15px;
+                line-height: 24px;
+            }
+        }
+
+        // open card: white face with the orange stroke
+        &.active {
+            &::before {
+                background:
+                    linear-gradient(#fff 0 0) padding-box,
+                    linear-gradient(100deg, #FCB833 0%, #FE662B 100%) border-box;
+            }
+
+            &::after {
+                opacity: .32;
+            }
+
+            .item-title {
+                padding-bottom: 16px;
+                font-weight: 500;
+
+                @media #{$xs} {
+                    padding-bottom: 12px;
+                }
+
+                .icon {
+                    box-shadow: 4px 6px 10px rgb(0 0 0 / 16%), inset 0 0 12px #FB6514;
+                    color: #FB6514;
+
+                    svg {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+    }
+}
+/*
+    faqs-5-end
+*/

@@ -38,6 +38,20 @@
 
 .sb-home-5 {
     background-color: #F2F4F6;
+
+    @media #{$over,$xxxl,$xxl} {
+        &::-webkit-scrollbar-thumb {
+            background: var(--sb-clr-pr-5);
+        }
+    }
+
+    .wa-back-to-top {
+        background-color: var(--sb-clr-pr-5);
+
+        &:hover svg * {
+            fill: var(--sb-clr-pr-5);
+        }
+    }
 }
 
 
